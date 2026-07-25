@@ -1,7 +1,18 @@
 aid: covatic
 name: Covatic
-description: Covatic is a company surfaced as a portfolio company of techstars and added to the API Evangelist
-  network as a stub for enrichment. This profile is a lead awaiting the enrichment pipeline.
+description: >-
+  Covatic is a UK-based, B Corp certified advertising technology company providing
+  privacy-preserving audience intelligence and addressability for media owners,
+  broadcasters, publishers, and advertisers. Its platform uses on-device (edge)
+  processing to build audience segments and demographic cohorts without third-party
+  cookies, shared user IDs, or personal data leaving the device. Products include
+  Covatic Sense for individual-level connected TV (CTV) addressability and
+  attribution, a next-generation audience DMP for enrichment, clean-room data
+  sharing, retargeting and attribution, plus audio, podcast, and smart-speaker
+  targeting. Covatic integrates via the Covatic Tag (no-code tag manager), the
+  Covatic SDK (on-device processing), and a server-to-server Covatic API, with
+  a Google Ad Manager publishing path and client data stored in EU, AU, or US
+  regions to meet local requirements.
 url: https://raw.githubusercontent.com/api-evangelist/covatic/refs/heads/main/apis.yml
 x-type: company
 x-source: vc-portfolio
@@ -9,11 +20,32 @@ x-backed-by:
 - techstars
 x-tier: stub
 x-tier-reason: portfolio-lead
+accessModel:
+  pricing: unknown
+  onboarding: unknown
+  trial: false
+  try_now: false
+  public: false
+  label: Unknown
+  confidence: low
+  source: []
+  generated: '2026-07-22'
+  method: derived
+image: https://covatic.com/wp-content/uploads/2025/07/covatic_favicon-1-300x300.png
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-17'
+modified: '2026-07-18'
 tags:
 - Company
+- Advertising Technology
+- AdTech
+- Audience Intelligence
+- Data Management Platform
+- Connected TV
+- Privacy
+- On-Device Processing
+- Attribution
+- Audio
 apis: []
 maintainers:
 - FN: Kin Lane
@@ -21,5 +53,30 @@ maintainers:
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: DomainSecurity
+  url: security/covatic-domain-security.yml
+- type: LLMsTxt
+  url: llms/covatic-llms.txt
 - type: Website
   url: https://covatic.com/
+- type: Documentation
+  url: https://docs.covatic.com/
+- type: Login
+  url: https://platform.covatic.io/sign-in
+- type: Support
+  url: https://covatic.com/help-faq/
+- type: Blog
+  url: https://covatic.com/insights/
+- type: PrivacyPolicy
+  url: https://covatic.com/privacy-policy/
+- type: TermsOfService
+  url: https://covatic.com/terms-and-conditions/
+- type: About
+  url: https://covatic.com/about/
+- type: LinkedIn
+  url: https://www.linkedin.com/company/covatic/
+x-enrichment:
+  date: '2026-07-19'
+  status: backfilled
+  pass: local-v1
+  note: backfilled from .gitignore signal + verified work evidence

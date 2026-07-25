@@ -1,0 +1,37 @@
+# Covatic
+
+> Covatic is a UK-based, B Corp certified advertising technology company providing privacy-preserving audience intelligence and addressability for media owners, broadcasters, publishers, and advertisers. Its platform uses on-device (edge) processing to build audience segments and demographic cohorts without third-party cookies, shared user IDs, or personal data leaving the device.
+
+Covatic delivers "ID-less targeting, without ID-loss." Client data is stored in EU, AU, or US regions per client requirements. Integration is available three ways: the Covatic Tag (no-code tag manager), the Covatic SDK (on-device processing), and a server-to-server Covatic API. Developer documentation is gated behind a login.
+
+Note: No public OpenAPI/API specification, SDK registry package, or open developer portal was discovered on the provider's public surface as of 2026-07-18. This file is generated from the API Evangelist catalog profile.
+
+## Products
+
+- [Covatic Sense](https://covatic.com/product/): Individual-level addressability and attribution for connected TV (CTV), processed inside the set-top box using Wi-Fi presence detection to form anonymous household cohorts.
+- [Audience Solutions (DMP)](https://covatic.com/product/): Next-generation data management platform for audience enrichment, clean-room data sharing, retargeting, attribution, and audience extension (Target / Activate / Attribute).
+- [Audio & Podcast](https://covatic.com/product/): Smart-speaker and audio advertising targeting.
+
+## Docs
+
+- [Product overview](https://covatic.com/product/)
+- [Technical architecture](https://covatic.com/technical/)
+- [Developer documentation (gated)](https://docs.covatic.com/)
+- [Help & FAQs](https://covatic.com/help-faq/)
+- [Platform login](https://platform.covatic.io/sign-in)
+
+## Company
+
+- [About](https://covatic.com/about/)
+- [Insights / Blog](https://covatic.com/insights/)
+- [Contact / Request a demo](https://covatic.com/contact/)
+- [LinkedIn](https://www.linkedin.com/company/covatic/)
+
+## Legal
+
+- [Privacy Policy](https://covatic.com/privacy-policy/)
+- [Terms and Conditions](https://covatic.com/terms-and-conditions/)
+
+## API Evangelist
+
+- [APIs.json profile](https://raw.githubusercontent.com/api-evangelist/covatic/refs/heads/main/apis.yml)

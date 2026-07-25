@@ -1,0 +1,14 @@
+{
+  "repo": "covatic",
+  "feeds": [
+    {
+      "source": "https://covatic.com/help-faq/",
+      "feed_url": "https://covatic.com/help-faq/",
+      "title": "",
+      "saved": 0,
+      "method": "none"
+    }
+  ],
+  "post_count": 0,
+  "fetched": "2026-07-20T13:31:34Z"
+}
