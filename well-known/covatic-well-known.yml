@@ -1,0 +1,131 @@
+generated: '2026-08-12'
+method: probed
+source: live unauthenticated HTTP probes of every Covatic host named in apis.yml
+summary: >-
+  Covatic serves NO /.well-known/ document from any host it controls. Every canonical
+  path was probed on covatic.com, docs.covatic.io, platform.covatic.io and the
+  Audience Builder API host, and every one either 404s or is answered by a
+  single-page-app catch-all that returns the same 1,193-byte HTML shell for any path
+  (platform.covatic.io). The only real discovery document reachable for Covatic is the
+  OpenID Connect configuration of its AWS Cognito user pool, which is served by AWS on
+  amazonaws.com rather than by Covatic on a covatic domain. Because of that, NO
+  `WellKnown` / `APICatalog` / `SecurityTxt` pointer is emitted in apis.yml: the
+  pointer would assert that the provider serves the surface itself, and it does not.
+probes:
+- host: covatic.com
+  results:
+  - path: /.well-known/security.txt
+    status: 404
+    note: nginx 404, 146 bytes
+    file: null
+  - path: /.well-known/openid-configuration
+    status: 404
+    note: WordPress "Page not found" HTML
+    file: null
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+    file: null
+  - path: /.well-known/api-catalog
+    status: 404
+    file: null
+  - path: /.well-known/ai-plugin.json
+    status: 404
+    file: null
+  - path: /.well-known/agent-card.json
+    status: 404
+    file: null
+  - path: /.well-known/agent.json
+    status: 404
+    file: null
+  - path: /llms.txt
+    status: 404
+    file: null
+- host: platform.covatic.io
+  spa_catch_all: true
+  results:
+  - path: /.well-known/security.txt
+    status: 200
+    note: >-
+      NOT a document. The Vite/React SPA answers 200 with the identical 1,193-byte
+      index.html shell for every path, including paths that cannot exist. Treated as a
+      miss per the pipeline's SPA-catch-all rule.
+    file: null
+  - path: /.well-known/agent-card.json
+    status: 200
+    note: SPA HTML shell, not an AgentCard. Treated as a miss.
+    file: null
+  - path: /.well-known/agent.json
+    status: 200
+    note: SPA HTML shell, not an AgentCard. Treated as a miss.
+    file: null
+  - path: /.well-known/openid-configuration
+    status: 200
+    note: SPA HTML shell, not an OIDC document. Treated as a miss.
+    file: null
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    note: SPA HTML shell. Treated as a miss.
+    file: null
+  - path: /.well-known/api-catalog
+    status: 200
+    note: SPA HTML shell. Treated as a miss.
+    file: null
+  - path: /llms.txt
+    status: 200
+    note: SPA HTML shell. Treated as a miss.
+    file: null
+- host: prodaudiencebuilderapi.covatic.io
+  results:
+  - path: /.well-known/security.txt
+    status: 404
+    note: '{"detail":"Not Found"} — FastAPI'
+    file: null
+  - path: /.well-known/openid-configuration
+    status: 404
+    file: null
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+    file: null
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+    file: null
+  - path: /.well-known/api-catalog
+    status: 404
+    file: null
+  - path: /.well-known/ai-plugin.json
+    status: 404
+    file: null
+  - path: /.well-known/agent-card.json
+    status: 404
+    file: null
+  - path: /.well-known/agent.json
+    status: 404
+    file: null
+- host: docs.covatic.io
+  results:
+  - path: /llms.txt
+    status: 403
+    note: Wiki.js returns "Unauthorized" for every unauthenticated path.
+    file: null
+  - path: /sitemap.xml
+    status: 404
+    file: null
+off_host_hits:
+- name: OpenID Connect discovery (AWS Cognito user pool)
+  url: https://cognito-idp.eu-west-2.amazonaws.com/eu-west-2_mQWqhJueg/.well-known/openid-configuration
+  status: 200
+  content_type: application/json
+  file: well-known/covatic-openid-configuration.json
+  host_owner: amazonaws.com (AWS-hosted Cognito tenant belonging to Covatic)
+  why_not_a_pointer: >-
+    Real, parseable OIDC metadata for Covatic's own identity tenant — the pool id
+    eu-west-2_mQWqhJueg and the Cognito hosted-UI domain `clienttoolsapi` were read out
+    of Covatic's own platform bundle at platform.covatic.io, and the API root replies
+    "Welcome to Covatic client tools." But AWS serves this document, not Covatic, so it
+    does not satisfy a `WellKnown` claim about Covatic's hosts. It IS used as the
+    evidence base for authentication/ and scopes/.
+gaps_for_the_provider:
+- Serve /.well-known/security.txt on covatic.com (RFC 9116) naming a security contact.
+- Serve /.well-known/api-catalog (RFC 9727) pointing at the Audience Builder OpenAPI.
+- Stop the platform.covatic.io SPA from answering 200 for unknown paths; a soft-200
+  catch-all makes every automated discovery check unreliable against that host.

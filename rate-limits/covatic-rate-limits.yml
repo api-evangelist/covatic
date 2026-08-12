@@ -1,0 +1,53 @@
+generated: '2026-08-12'
+method: probed
+source: >-
+  live unauthenticated responses from https://prodaudiencebuilderapi.covatic.io +
+  full crawl of covatic.com (page sitemap, 2026-08-12)
+limit_count: 0
+summary: >-
+  Covatic publishes no rate limits for the Audience Builder API, and the API returns no
+  rate-limit headers. An honest zero: both the docs surface and the wire were checked.
+documented_limits: []
+response_headers:
+  observed: []
+  checked_for:
+  - X-RateLimit-Limit
+  - X-RateLimit-Remaining
+  - X-RateLimit-Reset
+  - RateLimit-Limit
+  - RateLimit-Remaining
+  - RateLimit-Reset
+  - RateLimit-Policy
+  - Retry-After
+  note: >-
+    Responses from the API host carry only date, content-type, content-length, server
+    (uvicorn) and, on 405, allow. No rate-limit family, no Retry-After, no request id.
+status_on_exhaustion:
+  documented: false
+  observed: null
+  note: >-
+    429 is not declared on any of the 89 operations and was not observed. Only 422 is
+    declared as an error response anywhere in the contract.
+probes:
+- url: https://prodaudiencebuilderapi.covatic.io/
+  status: 200
+  headers_returned: [date, content-type, content-length, server]
+- url: https://prodaudiencebuilderapi.covatic.io/api/v1/campaigns/
+  status: 401
+  headers_returned: [date, content-type, content-length, server]
+- url: https://covatic.com/page-sitemap.xml
+  status: 200
+  note: No pricing, plans, limits or developer-terms page exists on the site.
+- url: https://docs.covatic.io/
+  status: 403
+  note: >-
+    The only real developer documentation is login-gated, so a published limit could
+    exist behind the wall. Nothing public states one.
+gaps_for_the_provider:
+- Publish rate limits and return RateLimit-Limit / RateLimit-Remaining / RateLimit-Reset
+  (RFC 9331 draft family) plus Retry-After on 429. Without a runtime signal an agent
+  cannot back off; it can only fail.
+- Declare 429 in the OpenAPI.
+cross_links:
+  conventions: conventions/covatic-conventions.yml
+  plans: plans/covatic-plans-pricing.yml

@@ -1,0 +1,95 @@
+generated: '2026-08-12'
+method: probed
+source: >-
+  openapi/covatic-audience-builder-openapi.yml (securitySchemes) +
+  https://cognito-idp.eu-west-2.amazonaws.com/eu-west-2_mQWqhJueg/.well-known/openid-configuration (HTTP 200) +
+  live 401 challenge from https://prodaudiencebuilderapi.covatic.io/api/v1/campaigns/
+summary:
+  types:
+  - http
+  - openIdConnect
+  primary: HTTP Bearer token — an AWS Cognito (OIDC) ID/access JWT.
+  public_signup: false
+  note: >-
+    The Covatic Audience Builder API declares exactly one security scheme, HTTP Bearer.
+    The spec does not say where the token comes from; the platform SPA does. Covatic's
+    client platform authenticates against an AWS Cognito user pool in eu-west-2
+    (London) using amazon-cognito-identity-js, and sends the resulting JWT as
+    `Authorization: Bearer <token>`. Accounts are provisioned by Covatic — there is no
+    public sign-up, and users are created through the API's own
+    /api/v1/user/create-users-with-roles and /api/v1/user/resend-invite operations.
+schemes:
+- name: HTTPBearer
+  type: http
+  scheme: bearer
+  in: header
+  header: Authorization
+  applied_to_operations: 88
+  unauthenticated_operations: 1
+  unauthenticated_note: Only GET / (the service banner) is public.
+  sources:
+  - openapi/covatic-audience-builder-openapi.yml
+- name: CognitoOIDC
+  type: openIdConnect
+  method: probed
+  issuer: https://cognito-idp.eu-west-2.amazonaws.com/eu-west-2_mQWqhJueg
+  openid_configuration: well-known/covatic-openid-configuration.json
+  region: eu-west-2
+  user_pool_id: eu-west-2_mQWqhJueg
+  hosted_ui_domain: clienttoolsapi.auth.eu-west-2.amazoncognito.com
+  authorization_endpoint: https://clienttoolsapi.auth.eu-west-2.amazoncognito.com/oauth2/authorize
+  token_endpoint: https://clienttoolsapi.auth.eu-west-2.amazoncognito.com/oauth2/token
+  userinfo_endpoint: https://clienttoolsapi.auth.eu-west-2.amazoncognito.com/oauth2/userInfo
+  revocation_endpoint: https://clienttoolsapi.auth.eu-west-2.amazoncognito.com/oauth2/revoke
+  end_session_endpoint: https://clienttoolsapi.auth.eu-west-2.amazoncognito.com/logout
+  jwks_uri: https://cognito-idp.eu-west-2.amazonaws.com/eu-west-2_mQWqhJueg/.well-known/jwks.json
+  id_token_signing_alg_values_supported:
+  - RS256
+  response_types_supported:
+  - code
+  - token
+  token_endpoint_auth_methods_supported:
+  - client_secret_basic
+  - client_secret_post
+  scopes_supported:
+  - openid
+  - email
+  - phone
+  - profile
+  sources:
+  - https://cognito-idp.eu-west-2.amazonaws.com/eu-west-2_mQWqhJueg/.well-known/openid-configuration
+  note: >-
+    Discovered from the public JavaScript bundle Covatic serves at
+    platform.covatic.io/assets/App-DtRW1Itl.js, which constructs a CognitoUserPool with
+    UserPoolId eu-west-2_mQWqhJueg. The Cognito hosted-UI domain is `clienttoolsapi`,
+    which matches the API root banner "Welcome to Covatic client tools." The SPA client
+    id is public browser configuration and is deliberately not recorded here.
+challenge_observed:
+  url: https://prodaudiencebuilderapi.covatic.io/api/v1/campaigns/
+  http_status: 401
+  body: '{"detail":"Not authenticated"}'
+  www_authenticate: null
+  note: >-
+    FastAPI's HTTPBearer returns a bare 401 JSON body with NO WWW-Authenticate header,
+    so an agent gets no machine-readable pointer to the token endpoint from the 401
+    itself. Adding `WWW-Authenticate: Bearer` (RFC 6750) or an
+    /.well-known/oauth-protected-resource document (RFC 9728) would close that gap.
+authorization_model:
+  multi_tenant: true
+  tenant_parameter: client_id
+  note: >-
+    Most operations accept a `client_id` query parameter (34 operations) and users are
+    associated with one or more companies/clients; /api/v1/user/clients lists them and
+    /api/v1/user/clients/default/{default_client_id} sets the active tenant. Roles are
+    assigned at user creation (/api/v1/user/create-users-with-roles). The role
+    vocabulary itself is not published in the spec.
+docs:
+  public: false
+  note: >-
+    Covatic's SDK/API documentation at docs.covatic.io is Wiki.js behind a login (403
+    for every unauthenticated path); covatic.com/technical/ tells existing clients to
+    email support@covatic.com for credentials. No public authentication guide exists.
+cross_links:
+  scopes: scopes/covatic-scopes.yml
+  conventions: conventions/covatic-conventions.yml
+  well_known: well-known/covatic-well-known.yml

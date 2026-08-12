@@ -1,0 +1,60 @@
+generated: '2026-08-12'
+method: generated
+source: openapi/covatic-audience-builder-openapi.yml
+api: Covatic Audience Builder API
+base_url: https://prodaudiencebuilderapi.covatic.io
+summary: >-
+  Packaged Agent Skills for the Covatic Audience Builder API, authored by API Evangelist
+  and grounded entirely in operationIds that exist in the OpenAPI 3.1.0 document Covatic
+  serves at https://prodaudiencebuilderapi.covatic.io/openapi.json. Covatic publishes no
+  skills, no AGENTS.md and no MCP server of its own; these were generated, not harvested.
+  Every skill carries the same three runtime warnings, because they apply to the whole
+  API: there is no idempotency key on any POST, no rate-limit header on any response,
+  and only 422 is declared as an error.
+authentication:
+  scheme: http bearer
+  token: AWS Cognito JWT (user pool eu-west-2_mQWqhJueg)
+  see: authentication/covatic-authentication.yml
+skills:
+- name: covatic-build-and-launch-audience-campaign
+  file: skills/covatic-build-and-launch-audience-campaign.md
+  description: >-
+    Size an audience from a nested-trait tree, create the campaign, attach audiences and
+    take it live.
+  operation_count: 10
+  tags: [Traits, Profiles, Campaigns]
+- name: covatic-measure-campaign-performance
+  file: skills/covatic-measure-campaign-performance.md
+  description: >-
+    Read summary, timeseries, attribution and targeting-change insights, then accept or
+    dismiss smart-campaign suggestions and record audience performance.
+  operation_count: 12
+  tags: [Campaigns, Insights, Notes]
+- name: covatic-manage-event-and-retargeting-traits
+  file: skills/covatic-manage-event-and-retargeting-traits.md
+  description: >-
+    Register media properties, define on-device event traits and campaign retargeting
+    traits, and check which audience profiles depend on a trait before changing it.
+  operation_count: 14
+  tags: [Event Traits, Retargeting Traits]
+not_covered:
+  - tag: Users
+    reason: Administrative user/role provisioning; not an agent flow.
+  - tag: Company
+    reason: Account onboarding; not an agent flow.
+  - tag: Seeders
+    reason: >-
+      Six data-seeding endpoints that look like internal tooling published on the public
+      contract. Not appropriate to teach an agent to call.
+  - tag: QA and Debug
+    reason: Internal debug endpoint.
+  - tag: Audience Builder Agent
+    reason: >-
+      Covatic's own conversational agent (/api/v1/ai_audience_agent/chat). Its
+      ChatResponse `data` field is untyped in the spec, so a skill cannot describe what
+      comes back. Recorded in mcp/covatic-mcp.yml instead.
+cross_links:
+  openapi: openapi/covatic-audience-builder-openapi.yml
+  conventions: conventions/covatic-conventions.yml
+  errors: errors/covatic-problem-types.yml
+  data_model: data-model/covatic-data-model.yml

@@ -1,0 +1,257 @@
+generated: '2026-08-12'
+method: derived
+source: openapi/covatic-audience-builder-openapi.yml
+summary: >-
+  Entity-relationship graph for the Covatic Audience Builder API, derived from the 78
+  component schemas and the id-reference fields in the 89 published operations. The
+  spine is Company -> SubCompany -> Client (the tenant), and everything else hangs off
+  the tenant: audience Profiles built from Traits, and Campaigns that activate those
+  audiences and measure outcomes. Identifiers are opaque MongoDB-style `_id` strings
+  with a sibling `revision_id`, not prefixed ids.
+identifiers:
+  primary_key_field: _id
+  primary_key_type: string (opaque, ObjectId-shaped)
+  revision_field: revision_id
+  prefixed_ids: false
+  tenant_key: client_id
+  domain_codes:
+  - name: audience_code
+    used_by: [SimpleCampaignAudience, SmartCampaignAudience, SmartCampaignSuggestion]
+    format: >-
+      Per-company, set by Company.audience_code_format — either `numeric_6` or
+      `alphanumeric_3`.
+  - name: trait_code
+    used_by: [Event Traits, Retargeting Traits]
+    format: opaque string, used as a path parameter
+  - name: user_cognito_id
+    used_by: [Users]
+    format: AWS Cognito subject identifier
+entities:
+- name: Company
+  schema: Company
+  description: Top-level account. Holds permissions, a QuickSight dashboard config, and the audience code format.
+  fields: [_id, revision_id, company_name, company_permissions, qs_dashboard, sub_companies, audience_code_format]
+  operations: [onboard_company_api_v1_company_add_post, get_company_data_api_v1_company__id__get, update_company_data_api_v1_company__id__put, delete_company_api_v1_company__id__delete]
+  relationships:
+  - type: has_many
+    target: SubCompany
+    via: sub_companies
+- name: SubCompany
+  schema: SubCompany
+  description: Division inside a Company; carries its own permission set and its own clients.
+  fields: [sub_company_name, clients, sub_company_permissions]
+  relationships:
+  - type: has_many
+    target: Client
+    via: clients
+  - type: belongs_to
+    target: Company
+    via: Company.sub_companies
+- name: Client
+  schema: Client
+  description: >-
+    The operational tenant — the unit every other resource is scoped to. Carries the
+    data-residency signals (country, bucket_name, cluster_reference) that back Covatic's
+    EU/AU/US storage claim, plus sec_type (socio-economic classification family) and
+    restricted_access.
+  fields: [client_id, client_name, platform, location, country, sec_type, bucket_name, code_name, cluster_reference, restricted_access]
+  operations: [get_all_companies_api_v1_user_clients_get, update_default_client_api_v1_user_clients_default__default_client_id__put, get_client_id_api_v1_client_id_get, seed_clients_api_v1_seed_clients_get]
+  relationships:
+  - type: belongs_to
+    target: SubCompany
+    via: SubCompany.clients
+  - type: has_many
+    target: Profile
+    via: client_id
+  - type: has_many
+    target: Campaign
+    via: client_id
+- name: Profile
+  schema: SharedProfile
+  description: >-
+    An audience profile — the saved query (CVCQL) that defines a cohort, plus its
+    metadata (refresh cadence, expiry, version, flags). This is the DMP audience object.
+  fields: [metadata, query, nested_query]
+  operations: [get_profiles_api_v1_profile__get, add_profile_data_api_v1_profile__post, get_profiles_v2_api_v1_profile_v2_profiles_get, get_profile_data_api_v1_profile_v2__id__get, partial_update_profile_api_v1_profile__id__patch, duplicate_profile_api_v1_profile_duplicate__id__post, update_profile_status_api_v1_profile__id__status_patch, delete_profile_data_api_v1_profile__id__delete]
+  relationships:
+  - type: has_one
+    target: Metadata
+    via: metadata
+  - type: belongs_to
+    target: Client
+    via: Metadata.client_id
+  - type: has_many
+    target: Tag
+    via: Metadata.tags
+  - type: has_many
+    target: Trait
+    via: query / nested_query
+- name: Metadata
+  schema: Metadata
+  description: >-
+    Profile envelope. `cvcql_version` names the version of Covatic's own audience query
+    language; `update_every` is the refresh cadence; `flags` carries released/deleted.
+  fields: [name, update_every, expires, cvcql_version, flags, annotations, tags, client_id, profile_version]
+  relationships:
+  - type: has_one
+    target: Flags
+    via: flags
+- name: Trait
+  schema: NestedTraits
+  description: >-
+    A targeting predicate. Traits compose into nested trait trees with exclusions,
+    locations and platforms, and the API returns reach/estimation statistics for any
+    composed tree before a campaign is built.
+  operations: [get_traits_api_v1_trait__get, get_suggested_traits_api_v1_trait_suggested_post, get_nested_traits_estimation_api_v1_trait_estimation_post, get_sec_group_stats_nested_api_v1_trait_sec_group_stats_post, get_sec_trait_stats_nested_api_v1_trait_sec_trait_breakdown_post, get_location_stats_nested_api_v1_trait_location_stats_post, get_platform_stats_nested_api_v1_trait_platform_stats_post]
+  relationships:
+  - type: has_many
+    target: Location
+    via: locations
+  - type: has_many
+    target: Platform
+    via: platforms
+- name: EventTrait
+  schema: EventTraitCreate
+  description: >-
+    A trait defined by observed on-device events — audio content, video content, page
+    views or custom events — matched by keyword/URL against media properties, with a
+    frequency threshold (count within a time period).
+  fields: [smart_match, keywords, url, media_properties, media_properties_display_names, frequency, event_types]
+  operations: [get_event_traits_api_v1_event_trait__get, create_event_trait_api_v1_event_trait__post, update_event_trait_api_v1_event_trait__trait_code__put, delete_event_trait_api_v1_event_trait__trait_code__delete, get_audience_profiles_by_event_trait_api_v1_event_trait__trait_code__audiences_get]
+  relationships:
+  - type: has_many
+    target: MediaPropertyOptions
+    via: media_properties
+  - type: has_one
+    target: Frequency
+    via: frequency
+  - type: has_many
+    target: Profile
+    via: /api/v1/event-trait/{trait_code}/audiences
+- name: RetargetingTrait
+  schema: RetargetingTraitCreate
+  description: A trait that targets users previously exposed to a specific campaign.
+  fields: [campaign_name, campaign_id]
+  operations: [get_retargeting_traits_api_v1_retargeting_trait__get, create_retargeting_trait_api_v1_retargeting_trait__post, update_retargeting_trait_api_v1_retargeting_trait__trait_code__put, delete_retargeting_trait_api_v1_retargeting_trait__trait_code__delete, get_audience_profiles_by_retargeting_trait_api_v1_retargeting_trait__trait_code__audiences_get]
+  relationships:
+  - type: belongs_to
+    target: Campaign
+    via: campaign_id
+  - type: has_many
+    target: Profile
+    via: /api/v1/retargeting-trait/{trait_code}/audiences
+- name: MediaPropertyOptions
+  schema: MediaPropertyOptions
+  description: A registered media property (domains + platforms) that event traits can match against.
+  fields: [_id, revision_id, domains, platform, display_name, parent_id, created_at, updated_at]
+  operations: [get_media_property_options_api_v1_event_trait_media_property_options_get, create_media_property_option_api_v1_event_trait_media_property_options_post, update_media_property_option_api_v1_event_trait_media_property_options__property_id__patch, delete_media_property_option_api_v1_event_trait_media_property_options__property_id__delete]
+  relationships:
+  - type: belongs_to
+    target: MediaPropertyOptions
+    via: parent_id
+    note: Self-referencing hierarchy.
+- name: Campaign
+  schema: CampaignCreateRequest / SimpleCampaign / SmartCampaign
+  description: >-
+    An activation. Type is Attribution, Smart, Notification or Simple. A Simple campaign
+    carries a fixed audience list; a Smart campaign additionally carries system-generated
+    suggestions on a daily or weekly recommendation cadence that a user accepts or dismisses.
+  fields: [name, description, tags, type, orderId, advertiserName, startDate, endDate, platforms, status, outcomes, outcomePixels, simple_campaign, smart_campaign, createdBy]
+  operations: [get_campaigns_api_v1_campaigns__get, create_new_campaign_api_v1_campaigns__post, get_campaign_detail_api_v1_campaigns__campaignId__get, update_existing_campaign_api_v1_campaigns__campaignId__patch, delete_existing_campaign_api_v1_campaigns__campaignId__delete, update_campaign_status_endpoint_api_v1_campaigns__campaignId__status_patch, get_campaign_history_api_v1_campaigns__campaignId__history_get]
+  relationships:
+  - type: belongs_to
+    target: Client
+    via: client_id
+  - type: has_many
+    target: Tag
+    via: tags
+  - type: has_many
+    target: SimpleCampaignAudience
+    via: simple_campaign.audiences
+  - type: has_many
+    target: SmartCampaignSuggestion
+    via: smart_campaign.suggestions
+  - type: has_many
+    target: OutcomePixel
+    via: outcomePixels
+  - type: has_many
+    target: Note
+    via: entity_type=campaign + entity_id
+- name: OutcomePixel
+  schema: OutcomePixel
+  description: >-
+    Measurement wiring — maps a campaign outcome (click_through, view, purchase,
+    form_fill, sign_up, add_to_cart, page_view, download, video_view, custom) onto
+    tracking pixels for a specific ad engine (google_ad_manager or adswizz).
+  relationships:
+  - type: has_many
+    target: Pixel
+    via: pixels
+  - type: belongs_to
+    target: Campaign
+    via: Campaign.outcomePixels
+- name: Tag
+  schema: Tag
+  description: Hierarchical label applied to campaigns and profiles.
+  fields: [_id, revision_id, title, parent_id, created_at, updated_at]
+  operations: [get_tags_api_v1_tag__get, add_tags_api_v1_tag__post, delete_tags_api_v1_tag__id__delete]
+  relationships:
+  - type: belongs_to
+    target: Tag
+    via: parent_id
+    note: Self-referencing hierarchy; `parent_id`/`parent_type` are the most common query parameters in the whole API (67/65 operations).
+- name: Note
+  schema: NoteCreateRequest
+  description: Free-text annotation attached polymorphically to an audience or a campaign.
+  fields: [title, content, entity_type, entity_id]
+  operations: [create_note_api_v1_notes__post, get_notes_by_entity_api_v1_notes__get, get_note_api_v1_notes__note_id__get, update_note_api_v1_notes__note_id__put, delete_note_api_v1_notes__note_id__delete]
+  relationships:
+  - type: belongs_to
+    target: Profile | Campaign
+    via: entity_type + entity_id
+    note: Polymorphic; entity_type is the enum [audience, campaign].
+- name: Location
+  schema: Location
+  description: Geographic targeting reference (name, postcode, country).
+  operations: [get_locations_api_v1_location_get, seed_locations_api_v1_seed_locations_get]
+- name: Platform
+  schema: Platform
+  description: Delivery platform reference used by traits and campaigns.
+  operations: [get_platforms_api_v1_platform_get, seed_platforms_api_v1_seed_platforms_get]
+- name: User
+  schema: UpdateUserRequestModel / CreateUsersWithRolesRequest
+  description: >-
+    A platform user, keyed on an AWS Cognito subject id, associated with one or more
+    companies/clients and given roles at creation.
+  operations: [get_company_users_api_v1_user_list_post, create_users_with_roles_api_v1_user_create_users_with_roles_post, update_user_association_api_v1_user_update_user_association_post, resend_invite_api_v1_user_resend_invite_post, update_user_api_v1_user_update_put, delete_user_api_v1_user_delete__user_cognito_id__delete, update_default_company_api_v1_user_company_default_post]
+  relationships:
+  - type: has_many
+    target: Client
+    via: /api/v1/user/clients
+  - type: belongs_to
+    target: Company
+    via: default company
+enums:
+  CampaignStatus: [Live, Draft, Completed]
+  CampaignType: [Attribution, Smart, Notification, Simple]
+  CampaignOutcome: [click_through, view, purchase, form_fill, sign_up, add_to_cart, page_view, download, video_view, custom]
+  AdEngine: [google_ad_manager, adswizz]
+  NoteEntityType: [audience, campaign]
+  PerformanceRating: [Excellent, Good, Average, Poor, Deleted]
+  SuggestionStatus: [pending, accepted, dismissed]
+  RecommendationCadence: [daily, weekly]
+  AudienceCodeFormat: [numeric_6, alphanumeric_3]
+notes:
+- >-
+  There is no `Audience` schema. An audience is a Profile (SharedProfile + Metadata)
+  that, once activated on a campaign, is referenced only by its `audience_code`. The
+  audience object and the campaign's view of it are deliberately different shapes.
+- >-
+  `query` and `nested_query` on SharedProfile are untyped `object` in the spec. The
+  audience query language is versioned as `cvcql_version` but its grammar is not
+  published, so an agent cannot construct a profile query from the OpenAPI alone. This
+  is the single largest machine-readability gap in the contract.
+cross_links:
+  errors: errors/covatic-problem-types.yml
+  conventions: conventions/covatic-conventions.yml
+  openapi: openapi/covatic-audience-builder-openapi.yml

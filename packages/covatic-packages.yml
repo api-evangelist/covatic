@@ -1,0 +1,91 @@
+generated: '2026-08-12'
+method: searched
+source: >-
+  registry.npmjs.org search, pypi.org, rubygems.org, crates.io, search.maven.org,
+  trunk.cocoapods.org, api.github.com/orgs/Covatic — all probed 2026-08-12
+package_count: 0
+official_package_count: 0
+summary: >-
+  Covatic distributes no client library through any public package registry. This is a
+  measured absence, not an unchecked one: npm, PyPI, RubyGems, crates.io, Maven Central
+  and CocoaPods were all queried, and the Covatic GitHub organisation was resolved and
+  found to publish zero public repositories. Covatic DOES ship SDKs — its own technical
+  page names a "Covatic SDK" for apps, websites and smart-speaker products — but they
+  are delivered to contracted clients through login-gated documentation at
+  docs.covatic.io, not through a registry a developer or an agent can reach.
+packages: []
+registry_probes:
+- registry: npm
+  query: https://registry.npmjs.org/-/v1/search?text=covatic
+  status: 200
+  matches: 0
+  version: null
+  published: null
+  note: Zero packages match "covatic" or "covatic-sdk"; results are unrelated AWS SDK packages.
+- registry: pypi
+  url: https://pypi.org/pypi/covatic/json
+  status: 404
+  version: null
+  published: null
+- registry: rubygems
+  url: https://rubygems.org/api/v1/gems/covatic.json
+  status: 404
+  version: null
+  published: null
+- registry: crates.io
+  url: https://crates.io/api/v1/crates/covatic
+  status: 403
+  version: null
+  published: null
+  note: crates.io rejected the unauthenticated request; no covatic crate is known to exist.
+- registry: cocoapods
+  url: https://trunk.cocoapods.org/api/v1/pods/Covatic
+  status: 404
+  version: null
+  published: null
+  note: '{"error":"No pod found with the specified name."} — relevant because Covatic ships an iOS on-device SDK.'
+- registry: maven-central
+  url: https://search.maven.org/solrsearch/select?q=covatic
+  status: 200
+  matches: 0
+  version: null
+  published: null
+  note: Relevant because Covatic ships an Android on-device SDK.
+- registry: github
+  url: https://api.github.com/orgs/Covatic
+  status: 200
+  note: >-
+    The organisation exists (login "Covatic", id 32621980) and publishes zero public
+    repositories. No SDK source, no examples, no issue tracker.
+undistributed_sdks:
+- name: Covatic SDK
+  platforms: [iOS, Android, web, smart speaker]
+  distribution: gated
+  registry: null
+  version: null
+  published: null
+  official: true
+  source: https://covatic.com/technical/
+  note: >-
+    "The Covatic SDK is a full-featured on-device SDK... Developer documentation is
+    available for clients." Integration instructions live behind the docs.covatic.io
+    login; no artifact coordinates, version or release date are public, so currency
+    cannot be assessed at all.
+- name: Covatic Tag
+  platforms: [web]
+  distribution: gated
+  registry: null
+  version: null
+  published: null
+  official: true
+  source: https://covatic.com/technical/
+  note: >-
+    A no-code tag deployed through a tag manager. No public loader URL, CDN path or
+    pinned version was found on covatic.com, so a consumer cannot tell what version of
+    the tag they would be loading. Recorded as unpinned/unknown rather than guessed.
+gaps_for_the_provider:
+- Publish the SDKs (or at least their release notes and version history) somewhere
+  resolvable — npm/CocoaPods/Maven, or a versioned CDN path for the Tag. Right now the
+  only evidence of an SDK's existence is a sentence on a marketing page.
+- No `SDKs` pointer is emitted in apis.yml because no first-party client library is
+  publicly obtainable.

@@ -1,0 +1,178 @@
+generated: '2026-08-12'
+method: derived
+source: >-
+  openapi/covatic-audience-builder-openapi.yml +
+  live unauthenticated probes of https://prodaudiencebuilderapi.covatic.io (2026-08-12)
+summary: >-
+  Cross-cutting request/response semantics for the Covatic Audience Builder API,
+  computed from the published OpenAPI 3.1.0 and from what the live host actually
+  returns. Covatic publishes no written developer guide in public — docs.covatic.io is
+  login-gated — so everything here is read off the contract and the wire, not off a
+  conventions page. Two things an agent needs are absent and are recorded as absent:
+  idempotency and rate-limit signalling.
+transport:
+  base_url: https://prodaudiencebuilderapi.covatic.io
+  path_prefix: /api/v1
+  server_software: uvicorn (FastAPI)
+  http_version: HTTP/2
+  tls: TLSv1.2
+  hsts: false
+  content_type: application/json
+  unauthenticated_root: 'GET / -> 200 {"message":"Welcome to Covatic client tools."}'
+authentication:
+  style: http_bearer
+  header: Authorization
+  token: AWS Cognito (OIDC) JWT, user pool eu-west-2_mQWqhJueg
+  see: authentication/covatic-authentication.yml
+idempotency:
+  supported: false
+  documented: false
+  header: null
+  evidence: >-
+    No `Idempotency-Key`, `X-Idempotency-Key` or equivalent appears in any of the 89
+    operations' parameters, and no schema carries an idempotency field. There are 28
+    non-idempotent POST operations, including create-campaign, bulk-add-audiences and
+    create-users-with-roles, none of which are safe to retry blind.
+  workaround: >-
+    None published. `duplicate_profile` and `bulk_add_audiences` in particular will
+    create duplicates on a retried request.
+  gap: true
+pagination:
+  style: page-number
+  implementation: fastapi-pagination
+  request_params:
+    page:
+      in: query
+      minimum: 1
+      used_by_operations: 13
+    size:
+      in: query
+      minimum: 1
+      used_by_operations: 13
+  response_envelope:
+    schema_family: Page_<T>
+    fields: [items, total, page, size, pages]
+    required: [items, total, page, size, pages]
+    instantiations: [Page_Any_, Page_Company_, Page_Location_, Page_MediaPropertyOptions_, Page_Platform_, Page_Tag_, Page_str_]
+  cursors: false
+  link_header: false
+  max_page_size:
+    documented: false
+  note: >-
+    Only 13 of the 71 paths are paginated. Large collection reads such as
+    GET /api/v1/trait/ and GET /api/v1/campaigns/ take no page/size parameters at all,
+    so their response size is unbounded from the caller's side.
+filtering_and_sorting:
+  hierarchy_params:
+    parent_id:
+      in: query
+      used_by_operations: 67
+    parent_type:
+      in: query
+      used_by_operations: 65
+    note: >-
+      The dominant convention in the API. Nearly every operation is scoped by a
+      parent entity rather than by a flat resource id — the tag/company hierarchy is
+      threaded through almost the whole surface.
+  tenant_param:
+    client_id:
+      in: query
+      used_by_operations: 34
+      note: Multi-tenant selector; see authentication/ for how the active tenant is set.
+  search:
+    param: search
+    used_by_operations: 6
+    style: free-text substring, semantics not documented
+  sort:
+    param: sort
+    used_by_operations: 3
+    vocabulary: not documented
+  other_filters: [status, platform, tag, location, category, trait_category, type, createdBy, startDate, endDate, change_type, campaign_id, profile_id, entity_type, entity_id]
+field_expansion:
+  supported: false
+  sparse_fieldsets: false
+  note: Responses are fixed-shape; there is no expand/fields/include mechanism.
+versioning:
+  style: uri-path
+  current: v1
+  path_prefix: /api/v1
+  spec_info_version: 0.0.1
+  note: >-
+    `info.version` is 0.0.1 — a build default, not a released version. There is no
+    version header, no date-based version pinning, and no published policy for how v2
+    would be introduced. A `/api/v1/profile/v2_profiles` and `/api/v1/profile/v2/{id}`
+    pair already exists INSIDE v1, so resource-level versioning is happening ad hoc
+    inside the URI version.
+  see: lifecycle/covatic-lifecycle.yml
+error_envelope:
+  format: fastapi-detail
+  field: detail
+  rfc9457: false
+  machine_readable_code: false
+  request_id: false
+  see: errors/covatic-problem-types.yml
+rate_limiting:
+  documented: false
+  response_headers_observed: []
+  retry_after: false
+  status_on_exhaustion: not published
+  see: rate-limits/covatic-rate-limits.yml
+tracing:
+  request_id_header: null
+  correlation_header: null
+  note: >-
+    No request-id or trace header is returned. Observed response headers on the API host
+    are limited to date, content-type, content-length, server and (on 405) allow.
+caching:
+  etag: false
+  last_modified: false
+  cache_control: not sent
+timestamps:
+  fields: [created_at, updated_at, expires, suggested_at, startDate, endDate]
+  format: >-
+    ISO 8601 strings, but typed as a bare `string` in the spec with no
+    `format: date-time` declared.
+  gap: true
+naming:
+  path_case: kebab-case with snake_case segments (e.g. /api/v1/event-trait/media-property-options, /api/v1/ai_audience_agent/chat)
+  consistency: mixed
+  property_case: snake_case, with camelCase exceptions on campaign fields (orderId, advertiserName, startDate, endDate, outcomePixels, createdBy, campaignId, audienceCode, suggestionId)
+  operation_ids:
+    unique: true
+    style: FastAPI auto-generated (function name + path + method), e.g. get_campaign_detail_api_v1_campaigns__campaignId__get
+    human_authored: false
+    note: >-
+      operationIds are machine-generated and carry the path and verb inside the name.
+      They are unique and stable enough to bind against, but they are not designed
+      names and will change if a handler is renamed.
+agent_surface:
+  ai_endpoints:
+  - operation: get_audiences_api_v1_ai_audience_create_audiences_get
+    path: /api/v1/ai_audience/create-audiences
+    note: AI-assisted audience creation.
+  - operation: chat_api_v1_ai_audience_agent_chat_post
+    path: /api/v1/ai_audience_agent/chat
+    request: ChatRequest {message, conversation_history, model}
+    response: ChatResponse {status_code, response_type, description, data}
+    note: >-
+      A conversational agent for building audiences, exposed as a first-class API
+      operation. This is Covatic's own agent surface — it is NOT an MCP server and NOT
+      an A2A agent card; neither exists on any Covatic host.
+  - operation: chat_completions_api_v1_chat_gpt_completions_post
+    path: /api/v1/chat-gpt/completions
+    request: ChatCompletionRequest {model, stream, messages}
+    note: An OpenAI-chat-completions-shaped proxy inside the product API.
+gaps_for_the_provider:
+- No idempotency key on 28 unsafe POST operations.
+- No rate-limit headers and no documented limits.
+- No request-id/correlation header.
+- Only 13 of 71 paths paginated; unbounded collection reads elsewhere.
+- Timestamps typed as bare `string` rather than `format: date-time`.
+- Mixed snake_case/camelCase property naming between the campaign family and everything else.
+cross_links:
+  authentication: authentication/covatic-authentication.yml
+  scopes: scopes/covatic-scopes.yml
+  errors: errors/covatic-problem-types.yml
+  lifecycle: lifecycle/covatic-lifecycle.yml
+  rate_limits: rate-limits/covatic-rate-limits.yml
+  data_model: data-model/covatic-data-model.yml

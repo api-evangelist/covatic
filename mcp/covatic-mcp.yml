@@ -1,0 +1,114 @@
+generated: '2026-08-12'
+method: derived
+status: candidate
+published_by_provider: false
+source: openapi/covatic-audience-builder-openapi.yml
+summary: >-
+  Covatic publishes NO MCP server. This file is a derived candidate tool list computed
+  from the Audience Builder OpenAPI — what an MCP server over this API would expose if
+  Covatic built one. It is deliberately NOT wired as a `MCPServer` pointer in apis.yml,
+  because that pointer asserts the provider serves an MCP endpoint and Covatic does not.
+probes:
+- url: https://prodaudiencebuilderapi.covatic.io/mcp
+  status: 404
+- url: https://covatic.com/.well-known/ai-plugin.json
+  status: 404
+- url: https://prodaudiencebuilderapi.covatic.io/.well-known/ai-plugin.json
+  status: 404
+- url: https://prodaudiencebuilderapi.covatic.io/.well-known/oauth-protected-resource
+  status: 404
+providers_own_agent_surface:
+  note: >-
+    Covatic has built an agent, just not an interoperable one. Two operations in the
+    public contract are agent-shaped and would be the natural seed of an MCP server.
+  operations:
+  - operationId: chat_api_v1_ai_audience_agent_chat_post
+    path: /api/v1/ai_audience_agent/chat
+    tag: Audience Builder Agent
+    request: ChatRequest {message, conversation_history, model}
+    response: ChatResponse {status_code, response_type, description, data}
+  - operationId: get_audiences_api_v1_ai_audience_create_audiences_get
+    path: /api/v1/ai_audience/create-audiences
+    tag: Audience Builder
+  - operationId: chat_completions_api_v1_chat_gpt_completions_post
+    path: /api/v1/chat-gpt/completions
+    tag: ChatGPT
+    request: ChatCompletionRequest {model, stream, messages}
+candidate_tools:
+- name: list_audience_profiles
+  rest: [get_profiles_v2_api_v1_profile_v2_profiles_get, get_profiles_api_v1_profile__get]
+  description: List the audience profiles defined for a client.
+- name: get_audience_profile
+  rest: [get_profile_data_api_v1_profile_v2__id__get]
+  description: Fetch a single audience profile, its query and metadata.
+- name: create_audience_profile
+  rest: [add_profile_data_api_v1_profile__post]
+  description: Create an audience profile from a CVCQL query.
+  caution: >-
+    The query grammar (cvcql_version) is not published; the request body types `query`
+    as an untyped object, so an agent cannot construct one from the contract alone.
+- name: duplicate_audience_profile
+  rest: [duplicate_profile_api_v1_profile_duplicate__id__post]
+- name: update_audience_profile_status
+  rest: [update_profile_status_api_v1_profile__id__status_patch]
+- name: estimate_audience_reach
+  rest: [get_nested_traits_estimation_api_v1_trait_estimation_post]
+  description: Estimate reach for a composed nested-trait tree before committing to a campaign.
+- name: list_traits
+  rest: [get_traits_api_v1_trait__get]
+- name: suggest_traits
+  rest: [get_suggested_traits_api_v1_trait_suggested_post]
+- name: trait_breakdown_stats
+  rest: [get_sec_group_stats_nested_api_v1_trait_sec_group_stats_post, get_sec_trait_stats_nested_api_v1_trait_sec_trait_breakdown_post, get_location_stats_nested_api_v1_trait_location_stats_post, get_platform_stats_nested_api_v1_trait_platform_stats_post]
+  description: Socio-economic, location and platform breakdowns for a trait tree.
+- name: manage_event_traits
+  rest: [get_event_traits_api_v1_event_trait__get, create_event_trait_api_v1_event_trait__post, update_event_trait_api_v1_event_trait__trait_code__put, delete_event_trait_api_v1_event_trait__trait_code__delete]
+- name: manage_retargeting_traits
+  rest: [get_retargeting_traits_api_v1_retargeting_trait__get, create_retargeting_trait_api_v1_retargeting_trait__post, update_retargeting_trait_api_v1_retargeting_trait__trait_code__put, delete_retargeting_trait_api_v1_retargeting_trait__trait_code__delete]
+- name: list_campaigns
+  rest: [get_campaigns_api_v1_campaigns__get]
+- name: get_campaign
+  rest: [get_campaign_detail_api_v1_campaigns__campaignId__get]
+- name: create_campaign
+  rest: [create_new_campaign_api_v1_campaigns__post]
+- name: update_campaign_status
+  rest: [update_campaign_status_endpoint_api_v1_campaigns__campaignId__status_patch]
+- name: add_audiences_to_campaign
+  rest: [bulk_add_audiences_api_v1_campaigns__campaignId__audiences_post, remove_audience_api_v1_campaigns__campaignId__audiences__audienceCode__delete]
+- name: campaign_insights
+  rest: [get_campaign_insights_summary_api_v1_campaigns__campaignId__insights_summary_get, get_campaign_insights_timeseries_api_v1_campaigns__campaignId__insights_timeseries_get, get_campaign_insights_targeting_changes_api_v1_campaigns__campaignId__insights_targeting_changes_get, get_campaign_attribution_insights_api_v1_campaigns__campaignId__insights_attribution_get]
+- name: campaign_suggestions
+  rest: [get_campaign_suggestions_api_v1_campaigns__campaignId__suggestions_get, accept_suggestion_api_v1_campaigns__campaignId__suggestions__suggestionId__accept_post, dismiss_suggestion_api_v1_campaigns__campaignId__suggestions__suggestionId__dismiss_post]
+  description: Read, accept or dismiss the smart-campaign audience suggestions.
+- name: get_tracking_url
+  rest: [get_tracking_url_api_v1_campaigns_tracking_url_get]
+- name: manage_notes
+  rest: [create_note_api_v1_notes__post, get_notes_by_entity_api_v1_notes__get, update_note_api_v1_notes__note_id__put, delete_note_api_v1_notes__note_id__delete]
+- name: manage_tags
+  rest: [get_tags_api_v1_tag__get, add_tags_api_v1_tag__post, delete_tags_api_v1_tag__id__delete]
+- name: insight_dashboard_url
+  rest: [get_qs_dashborad_url_api_v1_insights_get_qs_dashboard_post, list_qs_groups_api_v1_insights_qs_groups_get]
+excluded_from_candidates:
+  reason: administrative or internal; not appropriate agent tools
+  operations:
+  - create_users_with_roles_api_v1_user_create_users_with_roles_post
+  - delete_user_api_v1_user_delete__user_cognito_id__delete
+  - onboard_company_api_v1_company_add_post
+  - delete_company_api_v1_company__id__delete
+  - debug_audience_api_v1_qa_debug_audience_post
+  - seed_platforms_api_v1_seed_platforms_get
+  - seed_locations_api_v1_seed_locations_get
+  - seed_clients_api_v1_seed_clients_get
+  - seed_media_property_options_endpoint_api_v1_seed_media_property_options_get
+  - seed_smart_campaigns_api_v1_seed_smart_campaigns_get
+  - seed_campaign_insights_endpoint_api_v1_seed_campaign_insights_get
+gaps_for_the_provider:
+- Covatic already ships a conversational audience agent inside its own product. Exposing
+  the same capability as an MCP server would make it callable from any agent host
+  instead of only from Covatic's UI.
+- Publish the CVCQL query grammar as JSON Schema; without it, no tool that creates an
+  audience profile can have a usable inputSchema.
+cross_links:
+  openapi: openapi/covatic-audience-builder-openapi.yml
+  conventions: conventions/covatic-conventions.yml
+  authentication: authentication/covatic-authentication.yml

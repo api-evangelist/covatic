@@ -1,0 +1,92 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements — Covatic Audience Builder API
+  version: 1.0.0
+x-provenance:
+  generated: '2026-08-12'
+  method: generated
+  source: openapi/covatic-audience-builder-openapi.yml
+  note: >-
+    Enhancements API Evangelist computed on top of the spec Covatic serves at
+    https://prodaudiencebuilderapi.covatic.io/openapi.json. The original is preserved
+    verbatim in openapi/_original/covatic-audience-builder-openapi.json and is never
+    mutated. Applying this overlay adds the production server block, contact and licence
+    metadata, an explicit description of the bearer scheme, and the 401 responses the
+    contract omits on every protected operation. It does NOT invent behaviour: every
+    addition is either observed on the wire or read from Covatic's own published pages.
+extends: openapi/covatic-audience-builder-openapi.yml
+actions:
+- target: $.info
+  description: >-
+    Add the production server, provider contact and a fuller description. The served
+    spec has no servers[] block at all, so a client generated from it has no host.
+  update:
+    description: >-
+      REST API behind the Covatic client platform for building and operating
+      privacy-preserving audiences and campaigns. Covatic is a UK-based, B Corp
+      certified adtech company whose audience segments are computed on-device, without
+      third-party cookies or shared user IDs. This contract covers audience profiles,
+      behavioural / event / retargeting traits, campaign creation with attribution and
+      time-series insights, tags, notes, company and user administration, QuickSight
+      insight dashboards, and an AI audience-builder agent.
+    contact:
+      name: Covatic Support
+      email: support@covatic.com
+      url: https://covatic.com/contact/
+    termsOfService: https://covatic.com/terms-and-conditions/
+    x-provider: Covatic
+    x-provider-url: https://covatic.com/
+- target: $
+  description: Add the production server block observed in Covatic's own platform bundle.
+  update:
+    servers:
+    - url: https://prodaudiencebuilderapi.covatic.io
+      description: >-
+        Production. Read from https://platform.covatic.io/assets/App-DtRW1Itl.js, which
+        calls https://prodaudiencebuilderapi.covatic.io/api/v1, and confirmed live.
+- target: $.components.securitySchemes.HTTPBearer
+  description: >-
+    Document where the bearer token comes from. The served scheme is a bare
+    `{type: http, scheme: bearer}` with no description, so a consumer cannot obtain a token.
+  update:
+    bearerFormat: JWT
+    description: >-
+      An AWS Cognito ID/access token. Covatic's user pool is eu-west-2_mQWqhJueg
+      (issuer https://cognito-idp.eu-west-2.amazonaws.com/eu-west-2_mQWqhJueg, hosted UI
+      domain clienttoolsapi.auth.eu-west-2.amazoncognito.com, RS256). There is no public
+      sign-up; accounts are provisioned by Covatic. See
+      authentication/covatic-authentication.yml.
+- target: $.paths.*[?(@.security)].responses
+  description: >-
+    Add the 401 that every protected operation can return but none declares. Observed
+    live: GET /api/v1/campaigns/ without a token returns 401 {"detail":"Not authenticated"}.
+  update:
+    '401':
+      description: Not authenticated — bearer token missing, expired or invalid.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              detail:
+                type: string
+                example: Not authenticated
+- target: $
+  description: >-
+    Record the cross-cutting semantics the contract does not express, so a generated
+    client or an agent inherits them.
+  update:
+    x-conventions: conventions/covatic-conventions.yml
+    x-error-catalog: errors/covatic-problem-types.yml
+    x-data-model: data-model/covatic-data-model.yml
+    x-rate-limits:
+      documented: false
+      headers: []
+    x-idempotency:
+      supported: false
+      note: No idempotency key on any of the 28 POST operations; retries are not safe.
+    x-pagination:
+      style: page-number
+      params: [page, size]
+      envelope: [items, total, page, size, pages]
+      coverage: 13 of 71 paths

@@ -18,23 +18,35 @@ x-type: company
 x-source: vc-portfolio
 x-backed-by:
 - techstars
-x-tier: stub
-x-tier-reason: portfolio-lead
+x-tier: profiled
+x-tier-reason: >-
+  Upgraded from stub 2026-08-12. A complete public OpenAPI 3.1.0 contract (71 paths,
+  89 operations) was discovered on Covatic's own API host and harvested.
 accessModel:
-  pricing: unknown
-  onboarding: unknown
+  pricing: contact-sales
+  onboarding: sales-gate
   trial: false
   try_now: false
   public: false
-  label: Unknown
-  confidence: low
-  source: []
-  generated: '2026-07-22'
-  method: derived
+  label: Contact Sales
+  confidence: high
+  source:
+  - https://covatic.com/contact/
+  - https://covatic.com/page-sitemap.xml
+  - https://platform.covatic.io/sign-in
+  note: >-
+    No pricing page exists in the site's own sitemap, and platform.covatic.io offers
+    sign-in only with no self-service registration. Accounts are provisioned by Covatic
+    through its own /api/v1/user/create-users-with-roles operation. NOTE: the OpenAPI
+    contract itself is fully public and unauthenticated at
+    https://prodaudiencebuilderapi.covatic.io/openapi.json — the spec is open, the
+    product is not.
+  generated: '2026-08-12'
+  method: searched
 image: https://covatic.com/wp-content/uploads/2025/07/covatic_favicon-1-300x300.png
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-18'
+modified: '2026-08-12'
 tags:
 - Company
 - Advertising Technology
@@ -46,7 +58,55 @@ tags:
 - On-Device Processing
 - Attribution
 - Audio
-apis: []
+- Campaigns
+- Retargeting
+- Publishing
+- Broadcasting
+- Media
+- B Corp
+- United Kingdom
+apis:
+- name: Covatic Audience Builder API
+  description: >-
+    REST API behind the Covatic client platform (platform.covatic.io) for building and
+    operating privacy-preserving audiences and campaigns: audience profiles, traits
+    (behavioural, event and retargeting), campaign creation with attribution and
+    time-series insights, tags, notes, company/user administration and QuickSight
+    insight dashboards. Also exposes an AI audience-builder agent chat endpoint and a
+    ChatGPT completions proxy. OpenAPI 3.1.0, 89 operations across 71 paths, FastAPI
+    served, bearer-token (AWS Cognito JWT) authenticated.
+  humanURL: https://prodaudiencebuilderapi.covatic.io/docs
+  baseURL: https://prodaudiencebuilderapi.covatic.io
+  tags:
+  - audience-intelligence
+  - adtech
+  - data-management-platform
+  - campaigns
+  - attribution
+  - traits
+  - retargeting
+  - connected-tv
+  - privacy
+  - agent-native
+  properties:
+  - type: OpenAPI
+    url: openapi/covatic-audience-builder-openapi.yml
+  - type: APIReference
+    url: https://prodaudiencebuilderapi.covatic.io/docs
+  - type: Documentation
+    url: https://prodaudiencebuilderapi.covatic.io/redoc
+  - type: Authentication
+    url: authentication/covatic-authentication.yml
+  - type: Conventions
+    url: conventions/covatic-conventions.yml
+  - type: ErrorCatalog
+    url: errors/covatic-problem-types.yml
+  - type: DataModel
+    url: data-model/covatic-data-model.yml
+  - type: RateLimits
+    url: rate-limits/covatic-rate-limits.yml
+  - type: Overlay
+    url: overlays/covatic-audience-builder-overlay.yaml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
@@ -60,7 +120,9 @@ common:
 - type: Website
   url: https://covatic.com/
 - type: Documentation
-  url: https://docs.covatic.com/
+  url: https://covatic.com/technical/
+- type: APIReference
+  url: https://prodaudiencebuilderapi.covatic.io/docs
 - type: Login
   url: https://platform.covatic.io/sign-in
 - type: Support
@@ -75,8 +137,45 @@ common:
   url: https://covatic.com/about/
 - type: LinkedIn
   url: https://www.linkedin.com/company/covatic/
+- type: GitHubOrganization
+  url: https://github.com/Covatic
+- type: Authentication
+  url: authentication/covatic-authentication.yml
+- type: OAuthScopes
+  url: scopes/covatic-scopes.yml
+- type: OpenIDConnect
+  url: well-known/covatic-openid-configuration.json
+- type: Conventions
+  url: conventions/covatic-conventions.yml
+- type: ErrorCatalog
+  url: errors/covatic-problem-types.yml
+- type: DataModel
+  url: data-model/covatic-data-model.yml
+- type: Lifecycle
+  url: lifecycle/covatic-lifecycle.yml
+- type: Conformance
+  url: conformance/covatic-conformance.yml
+- type: Compliance
+  url: conformance/covatic-conformance.yml
+- type: Plans
+  url: plans/covatic-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/covatic-rate-limits.yml
+- type: Packages
+  url: packages/covatic-packages.yml
+- type: Overlay
+  url: overlays/covatic-audience-builder-overlay.yaml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: DataProcessingAgreement
+  url: https://covatic.com/dpa/
 x-enrichment:
-  date: '2026-07-19'
-  status: backfilled
+  date: '2026-08-12'
+  status: enriched
+  artifacts_added: 20
   pass: local-v1
-  note: backfilled from .gitignore signal + verified work evidence
+  note: >-
+    Contract discovery beat the previous round's "no public API" finding. Covatic's
+    platform SPA bundle names https://prodaudiencebuilderapi.covatic.io/api/v1, and that
+    host serves a complete public OpenAPI 3.1.0 document at /openapi.json plus Swagger
+    UI and ReDoc.

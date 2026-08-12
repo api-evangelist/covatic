@@ -1,0 +1,45 @@
+generated: '2026-08-12'
+method: searched
+source: >-
+  https://covatic.com/page-sitemap.xml (full page inventory, 2026-08-12) +
+  https://covatic.com/contact/
+plan_count: 0
+pricing_model: contact-sales
+public_pricing: false
+free_tier: false
+trial: false
+self_serve_signup: false
+summary: >-
+  Covatic publishes no pricing of any kind. There is no /pricing page — the site's own
+  sitemap lists 19 pages and none is a pricing, plans or packages page — and the only
+  route to the product is a "Request a demo" / contact form. The platform login at
+  platform.covatic.io/sign-in has no self-service registration; accounts are created by
+  Covatic through the API's own /api/v1/user/create-users-with-roles and
+  /api/v1/user/resend-invite operations.
+plans: []
+probes:
+- url: https://covatic.com/pricing/
+  status: 404
+- url: https://covatic.com/page-sitemap.xml
+  status: 200
+  note: >-
+    Full page list — /, /sample-page/, /news/, /contact/, /anti-slavery-policy/,
+    /product/, /terms/, /major-uk-charity-case-study/, /audience-retargeting-infographic/,
+    /about/, /terms-and-conditions/, /privacy-policy/, /sustainability/, /dpa/,
+    /audience-solutions/, /audio-podcast/, /technical/, /ctv-solutions/, /cannes/.
+    No pricing page exists.
+- url: https://platform.covatic.io/sign-in
+  status: 200
+  note: Login only; no sign-up path.
+commercial_contacts:
+- type: demo_request
+  url: https://covatic.com/contact/
+- type: email
+  value: support@covatic.com
+notes:
+- >-
+  Enterprise media-owner / broadcaster sales motion. This is a normal posture for the
+  segment, but it means an agent or a developer cannot determine cost, quota or
+  entitlement from anything public.
+cross_links:
+  rate_limits: rate-limits/covatic-rate-limits.yml

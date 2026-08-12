@@ -1,12 +1,32 @@
-generated: '2026-07-18'
+generated: '2026-08-12'
 method: probed
 source: live DNS/TLS/HTTP probes of apis.yml + OpenAPI hosts
 hosts:
 - host: covatic.com
   https: true
   tls_version: TLSv1.3
-  cert_expires: Sep  4 12:29:30 2026 GMT
+  cert_expires: Nov  2 12:40:39 2026 GMT
   hsts: false
+- host: prodaudiencebuilderapi.covatic.io
+  https: true
+  tls_version: TLSv1.2
+  cert_expires: Feb 11 23:59:59 2027 GMT
+  hsts: null
+- host: docs.covatic.com
+  https: false
+  https_error: certificate has expired
+  tls_version: TLSv1.2
+  cert_subject: CN=docs.covatic.com
+  cert_issuer: ZeroSSL RSA Domain Secure Site CA
+  cert_not_before: Jan  3 00:00:00 2023 GMT
+  cert_expires: Apr  3 23:59:59 2023 GMT
+  hsts: null
+  note: >-
+    FINDING — the documentation host Covatic publishes on covatic.com/technical/ has
+    served an EXPIRED TLS certificate since 2023-04-03. Every modern browser and every
+    default HTTP client refuses the connection (curl exits 60, "certificate has
+    expired"); the host only answers with certificate verification disabled, and then
+    301s to https://docs.covatic.io/login. Probed 2026-08-12.
 domains:
 - domain: covatic.com
   dnssec: false
@@ -14,3 +34,8 @@ domains:
   spf: true
   dmarc: true
   dmarc_policy: none
+- domain: covatic.io
+  dnssec: false
+  caa: []
+  spf: false
+  dmarc: false

@@ -1,0 +1,47 @@
+generated: '2026-08-12'
+method: probed
+source: https://cognito-idp.eu-west-2.amazonaws.com/eu-west-2_mQWqhJueg/.well-known/openid-configuration
+docs: null
+summary: >-
+  The Covatic Audience Builder OpenAPI declares no oauth2 securityScheme and therefore
+  no per-operation scopes — every protected operation carries a bare HTTP Bearer
+  requirement. The only published scope vocabulary for Covatic is the standard OIDC set
+  advertised by its AWS Cognito user pool's discovery document. There is no Covatic
+  resource-server scope namespace (no `audiences:read`, `campaigns:write`, or similar)
+  in anything public.
+scheme: openIdConnect
+issuer: https://cognito-idp.eu-west-2.amazonaws.com/eu-west-2_mQWqhJueg
+authorization_endpoint: https://clienttoolsapi.auth.eu-west-2.amazoncognito.com/oauth2/authorize
+token_endpoint: https://clienttoolsapi.auth.eu-west-2.amazoncognito.com/oauth2/token
+scope_count: 4
+scopes:
+- name: openid
+  description: Standard OIDC scope; requests an ID token for the authenticated Covatic platform user.
+  source: openid-configuration.scopes_supported
+- name: email
+  description: Releases the user's email address claim.
+  source: openid-configuration.scopes_supported
+- name: phone
+  description: Releases the user's phone number claim.
+  source: openid-configuration.scopes_supported
+- name: profile
+  description: Releases standard profile claims for the user.
+  source: openid-configuration.scopes_supported
+resource_server_scopes:
+  declared: false
+  note: >-
+    Cognito resource servers can define custom scopes (e.g. `covatic/campaigns.read`)
+    and they would appear in `scopes_supported`. None do, so authorization inside the
+    API is enforced by role and tenant (client_id) rather than by OAuth scope.
+authorization_notes: >-
+  Coarse-grained access is managed through company/client association and roles —
+  /api/v1/user/create-users-with-roles, /api/v1/user/update-user-association,
+  /api/v1/user/clients/default/{default_client_id}. The role names are not published.
+gaps_for_the_provider:
+- Define a Cognito resource server with read/write scopes per resource family
+  (profiles, traits, campaigns, users, company) so tokens can be least-privilege.
+- Declare an `oauth2` or `openIdConnect` securityScheme in the OpenAPI and attach
+  scopes per operation, instead of a bare HTTPBearer.
+cross_links:
+  authentication: authentication/covatic-authentication.yml
+  openid_configuration: well-known/covatic-openid-configuration.json

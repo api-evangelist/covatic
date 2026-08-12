@@ -1,0 +1,107 @@
+generated: '2026-08-12'
+method: derived
+source: >-
+  openapi/covatic-audience-builder-openapi.yml (declared responses) +
+  live unauthenticated probes of https://prodaudiencebuilderapi.covatic.io
+format: fastapi-detail
+rfc9457: false
+content_type: application/json
+summary: >-
+  The Covatic Audience Builder API uses FastAPI's default error envelope, not RFC 9457
+  problem+json. Two shapes exist: a scalar `{"detail": "<string>"}` for transport and
+  auth errors, and a structured `{"detail": [ValidationError, ...]}` for 422 request
+  validation. The published contract declares ONLY 422 as an error response — 80 of 89
+  operations declare it and nothing else. No 4xx or 5xx business errors are documented
+  anywhere in the spec, so an agent has no published list of what can go wrong.
+envelope:
+  field: detail
+  scalar_form: '{"detail": "Not authenticated"}'
+  structured_form: '{"detail": [{"loc": ["body", "name"], "msg": "Field required", "type": "missing", "input": null}]}'
+  no_error_code_field: true
+  no_request_id_field: true
+declared_in_spec:
+  '200': 87
+  '201': 1
+  '204': 1
+  '422': 80
+problem_types:
+- status: 422
+  name: Validation Error
+  schema: HTTPValidationError
+  declared: true
+  operations: 80
+  media_type: application/json
+  detail_is_array: true
+  fields:
+    loc: array of string|integer — the path to the offending field (e.g. ["body","name"] or ["query","client_id"])
+    msg: human-readable message
+    type: pydantic error type slug (e.g. missing, string_type, value_error)
+    input: the rejected value
+    ctx: optional error context object
+  remediation: >-
+    Read `loc` to find the field and `type` to classify the failure programmatically.
+    `type` is the stable machine-readable key; `msg` is prose and may change.
+  source: openapi/covatic-audience-builder-openapi.yml
+- status: 401
+  name: Not authenticated
+  schema: null
+  declared: false
+  method: probed
+  observed:
+    url: https://prodaudiencebuilderapi.covatic.io/api/v1/campaigns/
+    body: '{"detail":"Not authenticated"}'
+    www_authenticate_header: absent
+  remediation: >-
+    Present `Authorization: Bearer <Cognito JWT>`. Note the response carries NO
+    WWW-Authenticate header, so the 401 does not tell a client where to get a token.
+  note: >-
+    UNDOCUMENTED — every one of the 88 protected operations can return this and none of
+    them declare it.
+- status: 405
+  name: Method Not Allowed
+  schema: null
+  declared: false
+  method: probed
+  observed:
+    url: https://prodaudiencebuilderapi.covatic.io/ (HEAD)
+    allow_header: GET
+  remediation: Use the method named in the `Allow` response header.
+- status: 403
+  name: Forbidden
+  schema: null
+  declared: false
+  inferred_from: >-
+    Client.restricted_access, company_permissions and sub_company_permissions in the data
+    model imply an authorization tier distinct from authentication.
+  confidence: medium
+  remediation: Not published. Not observable without credentials.
+- status: 404
+  name: Not Found
+  schema: null
+  declared: false
+  method: probed
+  observed:
+    url: https://prodaudiencebuilderapi.covatic.io/api/v1/openapi.json
+    body: '{"detail":"Not Found"}'
+  note: >-
+    UNDOCUMENTED for resource lookups. 38 operations take a path id
+    (`{id}`, `{campaignId}`, `{trait_code}`, `{note_id}`, `{property_id}`,
+    `{user_cognito_id}`) and not one declares a 404.
+- status: 500
+  name: Internal Server Error
+  schema: null
+  declared: false
+  remediation: Not published.
+gaps_for_the_provider:
+- Declare 401 on every operation carrying the HTTPBearer requirement.
+- Declare 404 on the 38 operations that take a resource identifier in the path.
+- Declare 403 for the permission/restricted_access tier the data model already implies.
+- Add a stable machine-readable error `code` to the envelope; `detail` as a bare string
+  cannot be branched on safely by an agent.
+- Emit `WWW-Authenticate: Bearer` on 401 (RFC 6750) and a request-correlation header.
+- Consider RFC 9457 `application/problem+json`; the current envelope predates it and is
+  a FastAPI default rather than a designed contract.
+cross_links:
+  authentication: authentication/covatic-authentication.yml
+  conventions: conventions/covatic-conventions.yml
+  openapi: openapi/covatic-audience-builder-openapi.yml

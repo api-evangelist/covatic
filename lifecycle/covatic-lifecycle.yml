@@ -1,0 +1,95 @@
+generated: '2026-08-12'
+method: searched
+source: >-
+  https://covatic.com/ (sitemap crawl, 2026-08-12) + openapi/covatic-audience-builder-openapi.yml +
+  live probes of status.covatic.com and covatic.com/status/
+summary: >-
+  Covatic publishes no operational lifecycle commitments of any kind for its API. There
+  is no status page, no changelog, no versioning policy, no deprecation policy, no SLA
+  and no maintenance window. Everything below is an honest absence, verified by probe,
+  not an omission from this profile.
+versioning:
+  scheme: uri-path
+  current_version: v1
+  path_prefix: /api/v1
+  spec_info_version: 0.0.1
+  policy_published: false
+  note: >-
+    `info.version` is 0.0.1, FastAPI's default. Resource-level versioning is already
+    leaking into the path inside v1 (/api/v1/profile/v2_profiles and
+    /api/v1/profile/v2/{id} sit alongside /api/v1/profile/), which is what happens when
+    there is no version policy.
+deprecated_operations:
+  count: 0
+  method: derived
+  source: openapi/covatic-audience-builder-openapi.yml
+  note: >-
+    No operation carries `deprecated: true`. But the spec DOES carry a `v2_profiles`
+    listing beside the original `/api/v1/profile/` listing, and a `QA and Debug` tag
+    (/api/v1/qa-debug/audience) and a `Seeders` tag (6 seed endpoints for platforms,
+    locations, clients, media property options, smart campaigns and campaign insights)
+    that look like internal tooling published on the same public contract as the product
+    API. None is marked deprecated, internal or excluded.
+deprecation_policy:
+  published: false
+  sunset_header: false
+  deprecation_header: false
+  rfc8594: false
+  evidence: No deprecation or sunset policy found on covatic.com or in the OpenAPI.
+status_page:
+  published: false
+  probes:
+  - url: https://status.covatic.com/
+    status: 000
+    note: DNS does not resolve / connection failed.
+  - url: https://covatic.com/status/
+    status: 404
+  third_party_checked: [statuspage.io, status.io, instatus, betteruptime]
+  found: false
+changelog:
+  published: false
+  probes:
+  - url: https://covatic.com/page-sitemap.xml
+    status: 200
+    note: >-
+      Full page list crawled — 19 pages, none of them a changelog, release notes or
+      API updates page. The nearest thing is the marketing blog at /insights/
+      (31 posts, latest 2026-05-26), which announces products, not API changes.
+  see: null
+sla:
+  published: false
+  uptime_target: null
+  support_response_target: null
+maintenance_windows:
+  published: false
+support:
+  channels:
+  - type: email
+    value: support@covatic.com
+    source: https://covatic.com/technical/
+  - type: form
+    value: https://covatic.com/contact/
+  - type: faq
+    value: https://covatic.com/help-faq/
+  developer_support: >-
+    Covatic directs existing clients who are missing documentation credentials to email
+    support@covatic.com. There is no developer forum, community, Slack or public issue
+    tracker; the GitHub organisation github.com/Covatic exists but publishes zero repos.
+documentation_health:
+  finding: >-
+    The documentation host Covatic advertises on its own technical page,
+    http://docs.covatic.com, has served an EXPIRED TLS certificate since 2023-04-03
+    (ZeroSSL, CN=docs.covatic.com, notAfter Apr 3 2023). Standard HTTP clients refuse
+    the connection outright. With verification disabled it 301s to
+    https://docs.covatic.io/login, a Wiki.js instance that returns 403 for every
+    unauthenticated path. Probed 2026-08-12.
+  see: security/covatic-domain-security.yml
+gaps_for_the_provider:
+- Renew or retire the docs.covatic.com certificate; a link on the marketing site that no
+  browser will open is the most visible defect on the whole developer surface.
+- Publish a status page for prodaudiencebuilderapi.covatic.io.
+- Publish a changelog and a versioning/deprecation policy for /api/v1.
+- Mark or remove the Seeders and QA-and-Debug operations from the public contract.
+cross_links:
+  conventions: conventions/covatic-conventions.yml
+  security: security/covatic-domain-security.yml
