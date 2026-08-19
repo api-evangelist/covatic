@@ -44,7 +44,7 @@ accessModel:
   generated: '2026-08-12'
   method: searched
 image: https://covatic.com/wp-content/uploads/2025/07/covatic_favicon-1-300x300.png
-specificationVersion: '0.20'
+specificationVersion: '0.23'
 created: '2026-07-17'
 modified: '2026-08-12'
 tags:
