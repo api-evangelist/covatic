@@ -1,0 +1,3194 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Audience builder",
+    "version": "0.0.1"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Root",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Read Root",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://prodaudiencebuilderapi.covatic.io/"
+          },
+          "docs": "Read Root"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Auth",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Secure Access",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://prodaudiencebuilderapi.covatic.io/access/",
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Secure Access"
+        },
+        {
+          "info": {
+            "name": "Secure User",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://prodaudiencebuilderapi.covatic.io/user/",
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Secure User"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Profiles",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Profiles",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://prodaudiencebuilderapi.covatic.io/api/v1/profile/",
+            "params": [
+              {
+                "name": "parent_type",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "parent_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "client_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "search",
+                "value": "",
+                "type": "query",
+                "description": "Query string to search the profile"
+              },
+              {
+                "name": "status",
+                "value": "",
+                "type": "query",
+                "description": "Query string to filter the profile for status"
+              },
+              {
+                "name": "location",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "platform",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "tag",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "sort",
+                "value": "latest",
+                "type": "query",
+                "description": "Query string to sort profiles"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number"
+              },
+              {
+                "name": "size",
+                "value": "",
+                "type": "query",
+                "description": "Page size"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get Profiles"
+        },
+        {
+          "info": {
+            "name": "Add Profile Data",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://prodaudiencebuilderapi.covatic.io/api/v1/profile/",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Add Profile Data"
+        },
+        {
+          "info": {
+            "name": "Get Profiles V2",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://prodaudiencebuilderapi.covatic.io/api/v1/profile/v2_profiles",
+            "params": [
+              {
+                "name": "parent_type",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "parent_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "client_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "search",
+                "value": "",
+                "type": "query",
+                "description": "Query string to search the profile"
+              },
+              {
+                "name": "status",
+                "value": "",
+                "type": "query",
+                "description": "Query string to filter the profile for status"
+              },
+              {
+                "name": "location",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "platform",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "tag",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "sort",
+                "value": "latest",
+                "type": "query",
+                "description": "Query string to sort profiles"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number"
+              },
+              {
+                "name": "size",
+                "value": "",
+                "type": "query",
+                "description": "Page size"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get Profiles V2"
+        },
+        {
+          "info": {
+            "name": "Get Profile Data",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://prodaudiencebuilderapi.covatic.io/api/v1/profile/v2/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "parent_type",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "parent_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "client_id",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get Profile Data"
+        },
+        {
+          "info": {
+            "name": "Partial Update Profile",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://prodaudiencebuilderapi.covatic.io/api/v1/profile/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "parent_type",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "parent_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "client_id",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Partial Update Profile"
+        },
+        {
+          "info": {
+            "name": "Delete Profile Data",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://prodaudiencebuilderapi.covatic.io/api/v1/profile/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "parent_type",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "parent_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "client_id",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Delete Profile Data"
+        },
+        {
+          "info": {
+            "name": "Duplicate Profile",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://prodaudiencebuilderapi.covatic.io/api/v1/profile/duplicate/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "parent_type",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "parent_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "client_id",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Duplicate Profile"
+        },
+        {
+          "info": {
+            "name": "Update Profile Status",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://prodaudiencebuilderapi.covatic.io/api/v1/profile/:id/status",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "parent_type",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "parent_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "client_id",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Update Profile Status"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Traits",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Traits",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://prodaudiencebuilderapi.covatic.io/api/v1/trait/",
+            "params": [
+              {
+                "name": "parent_type",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "parent_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "client_id",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get Traits"
+        },
+        {
+          "info": {
+            "name": "Get Suggested Traits",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://prodaudiencebuilderapi.covatic.io/api/v1/trait/suggested",
+            "params": [
+              {
+                "name": "num_suggestions",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "parent_type",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "parent_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "client_id",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get Suggested Traits"
+        },
+        {
+          "info": {
+            "name": "Get Nested Traits Estimation",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://prodaudiencebuilderapi.covatic.io/api/v1/trait/estimation",
+            "params": [
+              {
+                "name": "profile_id",
+                "value": "profile_123",
+                "type": "query"
+              },
+              {
+                "name": "parent_type",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "parent_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "client_id",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get Nested Traits Estimation"
+        },
+        {
+          "info": {
+            "name": "Get Sec Group Stats Nested",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://prodaudiencebuilderapi.covatic.io/api/v1/trait/sec-group-stats",
+            "params": [
+              {
+                "name": "parent_type",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "parent_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "client_id",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get Sec Group Stats Nested"
+        },
+        {
+          "info": {
+            "name": "Get Sec Trait Stats Nested",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://prodaudiencebuilderapi.covatic.io/api/v1/trait/sec-trait-breakdown",
+            "params": [
+              {
+                "name": "trait_category",
+                "value": "FINANCE|Household Annual Income",
+                "type": "query"
+              },
+              {
+                "name": "parent_type",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "parent_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "client_id",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get Sec Trait Stats Nested"
+        },
+        {
+          "info": {
+            "name": "Get Location Stats Nested",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://prodaudiencebuilderapi.covatic.io/api/v1/trait/location-stats",
+            "params": [
+              {
+                "name": "parent_type",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "parent_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "client_id",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get Location Stats Nested"
+        },
+        {
+          "info": {
+            "name": "Get Platform Stats Nested",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://prodaudiencebuilderapi.covatic.io/api/v1/trait/platform-stats",
+            "params": [
+              {
+                "name": "parent_type",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "parent_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "client_id",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get Platform Stats Nested"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Event Traits",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Event Traits",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://prodaudiencebuilderapi.covatic.io/api/v1/event-trait/",
+            "params": [
+              {
+                "name": "category",
+                "value": "Rugby",
+                "type": "query"
+              },
+              {
+                "name": "parent_type",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "parent_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "client_id",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get all event traits for a specific parent_id, optionally filtered by smart_match category.\nIf category is provided, only returns traits that start with that category."
+        },
+        {
+          "info": {
+            "name": "Create Event Trait",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://prodaudiencebuilderapi.covatic.io/api/v1/event-trait/",
+            "params": [
+              {
+                "name": "parent_type",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "parent_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "client_id",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Create a new event trait with auto-generated unique trait_code.\nEither smart_match or keywords must be provided."
+        },
+        {
+          "info": {
+            "name": "Get Media Property Options",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://prodaudiencebuilderapi.covatic.io/api/v1/event-trait/media-property-options",
+            "params": [
+              {
+                "name": "parent_type",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "parent_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "client_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number"
+              },
+              {
+                "name": "size",
+                "value": "",
+                "type": "query",
+                "description": "Page size"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get media property options filtered by parent_id with pagination."
+        },
+        {
+          "info": {
+            "name": "Create Media Property Option",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://prodaudiencebuilderapi.covatic.io/api/v1/event-trait/media-property-options",
+            "params": [
+              {
+                "name": "parent_type",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "parent_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "client_id",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Create a new media property option."
+        },
+        {
+          "info": {
+            "name": "Update Media Property Option",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://prodaudiencebuilderapi.covatic.io/api/v1/event-trait/media-property-options/:property_id",
+            "params": [
+              {
+                "name": "property_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "parent_type",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "parent_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "client_id",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Update an existing media property option."
+        },
+        {
+          "info": {
+            "name": "Delete Media Property Option",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://prodaudiencebuilderapi.covatic.io/api/v1/event-trait/media-property-options/:property_id",
+            "params": [
+              {
+                "name": "property_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "parent_type",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "parent_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "client_id",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Delete a media property option."
+        },
+        {
+          "info": {
+            "name": "Update Event Trait",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://prodaudiencebuilderapi.covatic.io/api/v1/event-trait/:trait_code",
+            "params": [
+              {
+                "name": "trait_code",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "parent_type",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "parent_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "client_id",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Update an existing event trait and all audiences that use it.\nThe trait_code remains unchanged, so no CVCQL reprocessing is needed."
+        },
+        {
+          "info": {
+            "name": "Delete Event Trait",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://prodaudiencebuilderapi.covatic.io/api/v1/event-trait/:trait_code",
+            "params": [
+              {
+                "name": "trait_code",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "parent_type",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "parent_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "client_id",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Delete an event trait and remove it from all audiences that use it.\nThis will also re-evaluate the CVCQL for affected audiences."
+        },
+        {
+          "info": {
+            "name": "Get Audience Profiles By Event Trait",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://prodaudiencebuilderapi.covatic.io/api/v1/event-trait/:trait_code/audiences",
+            "params": [
+              {
+                "name": "trait_code",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "parent_type",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "parent_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "client_id",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get all audience profiles that are using a specific event trait.\nThe event trait information is stored in the nested_query.traits structure."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Retargeting Traits",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Retargeting Traits",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://prodaudiencebuilderapi.covatic.io/api/v1/retargeting-trait/",
+            "params": [
+              {
+                "name": "parent_type",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "parent_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "client_id",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get all retargeting traits for a specific parent_id."
+        },
+        {
+          "info": {
+            "name": "Create Retargeting Trait",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://prodaudiencebuilderapi.covatic.io/api/v1/retargeting-trait/",
+            "params": [
+              {
+                "name": "parent_type",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "parent_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "client_id",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Create a new retargeting trait with auto-generated unique trait_code (RET prefix)."
+        },
+        {
+          "info": {
+            "name": "Update Retargeting Trait",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://prodaudiencebuilderapi.covatic.io/api/v1/retargeting-trait/:trait_code",
+            "params": [
+              {
+                "name": "trait_code",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "parent_type",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "parent_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "client_id",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Update an existing retargeting trait and all audiences that use it."
+        },
+        {
+          "info": {
+            "name": "Delete Retargeting Trait",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://prodaudiencebuilderapi.covatic.io/api/v1/retargeting-trait/:trait_code",
+            "params": [
+              {
+                "name": "trait_code",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "parent_type",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "parent_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "client_id",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Delete a retargeting trait and remove it from all audiences that use it."
+        },
+        {
+          "info": {
+            "name": "Get Audience Profiles By Retargeting Trait",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://prodaudiencebuilderapi.covatic.io/api/v1/retargeting-trait/:trait_code/audiences",
+            "params": [
+              {
+                "name": "trait_code",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "parent_type",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "parent_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "client_id",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get all audience profiles that are using a specific retargeting trait."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Insights",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Qs Dashborad Url",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://prodaudiencebuilderapi.covatic.io/api/v1/insights/get-qs-dashboard",
+            "params": [
+              {
+                "name": "parent_type",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "parent_id",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get Qs Dashborad Url"
+        },
+        {
+          "info": {
+            "name": "List Qs Groups",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://prodaudiencebuilderapi.covatic.io/api/v1/insights/qs-groups",
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Return all QuickSight groups in the account.\n\nUsed by the frontend to populate a group selector when configuring\na company's QuickSight dashboard settings.  Falls back to a known\nlist if the QuickSight API is unreachable."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Tags",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Tags",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://prodaudiencebuilderapi.covatic.io/api/v1/tag/",
+            "params": [
+              {
+                "name": "search",
+                "value": "",
+                "type": "query",
+                "description": "Query string to search the tag"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number"
+              },
+              {
+                "name": "size",
+                "value": "",
+                "type": "query",
+                "description": "Page size"
+              },
+              {
+                "name": "parent_type",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "parent_id",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get Tags"
+        },
+        {
+          "info": {
+            "name": "Add Tags",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://prodaudiencebuilderapi.covatic.io/api/v1/tag/",
+            "params": [
+              {
+                "name": "parent_type",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "parent_id",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Add Tags"
+        },
+        {
+          "info": {
+            "name": "Delete Tags",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://prodaudiencebuilderapi.covatic.io/api/v1/tag/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Delete Tags"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Campaigns",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Campaigns",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://prodaudiencebuilderapi.covatic.io/api/v1/campaigns/",
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number (1-indexed)"
+              },
+              {
+                "name": "size",
+                "value": "",
+                "type": "query",
+                "description": "Items per page (max 100)"
+              },
+              {
+                "name": "status",
+                "value": "",
+                "type": "query",
+                "description": "Filter by status"
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Sort option: latest, oldest, name-ascending, name-descending"
+              },
+              {
+                "name": "search",
+                "value": "",
+                "type": "query",
+                "description": "Search in name, orderId, and audienceCode"
+              },
+              {
+                "name": "tag",
+                "value": "",
+                "type": "query",
+                "description": "Filter by tags"
+              },
+              {
+                "name": "platform",
+                "value": "",
+                "type": "query",
+                "description": "Filter by platforms"
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "query",
+                "description": "Filter by campaign type"
+              },
+              {
+                "name": "createdBy",
+                "value": "",
+                "type": "query",
+                "description": "Filter by creator"
+              },
+              {
+                "name": "startDate",
+                "value": "",
+                "type": "query",
+                "description": "Filter by start date"
+              },
+              {
+                "name": "endDate",
+                "value": "",
+                "type": "query",
+                "description": "Filter by end date"
+              },
+              {
+                "name": "parent_type",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "parent_id",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Retrieve a paginated list of campaigns with optional filtering and sorting.\n\nSupports:\n- Pagination (page, size)\n- Status filtering\n- Search by name, orderId, and audienceCode\n- Filter by tags, platforms, type, creator\n- Date range filtering (by creation date)\n- Multiple sort options"
+        },
+        {
+          "info": {
+            "name": "Create New Campaign",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://prodaudiencebuilderapi.covatic.io/api/v1/campaigns/",
+            "params": [
+              {
+                "name": "parent_type",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "parent_id",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Create a new campaign.\n\nArgs:\n    campaign_data: Campaign creation request body\n\nReturns:\n    Created campaign with generated unique audienceCode and optional orderId\n\nRaises:\n    400: Invalid request body or validation errors\n    409: Campaign with same name already exists"
+        },
+        {
+          "info": {
+            "name": "Get Campaign Created By",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://prodaudiencebuilderapi.covatic.io/api/v1/campaigns/created-by",
+            "params": [
+              {
+                "name": "parent_type",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "parent_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number"
+              },
+              {
+                "name": "size",
+                "value": "",
+                "type": "query",
+                "description": "Page size"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Retrieve unique list of createdBy values from campaigns.\n\nQuery Parameters:\n- parent_id: Filter by company/sub-company ID (from CompanyInfoQueryParams)\n- page: Page number for pagination\n- size: Items per page\n\nReturns:\n    Paginated list of unique createdBy values"
+        },
+        {
+          "info": {
+            "name": "Get Tracking Url",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://prodaudiencebuilderapi.covatic.io/api/v1/campaigns/tracking-url",
+            "params": [
+              {
+                "name": "parent_type",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "parent_id",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get the tracking URL based on the parent_id (company or sub-company).\n\nQuery Parameters:\n    parent_id: Company or sub-company name (from CompanyInfoQueryParams)\n\nReturns:\n    Tracking URL for the specified parent with is_default flag\n\nExample Response (specific mapping):\n    {\n        \"status_code\": 200,\n        \"response_type\": \"success\",\n        \"description\": \"Tracking URL retrieved successfully\",\n        \"data\": {\n            \"tracking_url\": \"https://sca-cvc-prod.covatic.io/mobile/api/v1.0\""
+        },
+        {
+          "info": {
+            "name": "Get Campaign Insights Summary",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://prodaudiencebuilderapi.covatic.io/api/v1/campaigns/:campaignId/insights/summary",
+            "params": [
+              {
+                "name": "campaignId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "parent_type",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "parent_id",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get Campaign Insights Summary"
+        },
+        {
+          "info": {
+            "name": "Get Campaign Insights Timeseries",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://prodaudiencebuilderapi.covatic.io/api/v1/campaigns/:campaignId/insights/timeseries",
+            "params": [
+              {
+                "name": "campaignId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "parent_type",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "parent_id",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get Campaign Insights Timeseries"
+        },
+        {
+          "info": {
+            "name": "Get Campaign Insights Targeting Changes",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://prodaudiencebuilderapi.covatic.io/api/v1/campaigns/:campaignId/insights/targeting-changes",
+            "params": [
+              {
+                "name": "campaignId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "parent_type",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "parent_id",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get Campaign Insights Targeting Changes"
+        },
+        {
+          "info": {
+            "name": "Get Campaign Attribution Insights",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://prodaudiencebuilderapi.covatic.io/api/v1/campaigns/:campaignId/insights/attribution",
+            "params": [
+              {
+                "name": "campaignId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "parent_type",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "parent_id",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Retrieve the full pre-computed Attribution insights payload for a campaign.\n\nReturns a single document containing `events`, `totals`, `chart`,\n`performance_summary`, `sec_summary`, and `audience_summary`. Top-N\nranking, scope filtering, and conversion-rate rollups are all performed\non the frontend per PRO-138 / DATA-874.\n\nReturns 404 if the campaign does not exist, no insights document exists,\nor the stored insights document is not of type Attribution."
+        },
+        {
+          "info": {
+            "name": "Dismiss Suggestion",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://prodaudiencebuilderapi.covatic.io/api/v1/campaigns/:campaignId/suggestions/:suggestionId/dismiss",
+            "params": [
+              {
+                "name": "campaignId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "suggestionId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "parent_type",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "parent_id",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Dismiss a suggested audience for a smart campaign.\n\n- Moves suggestion to DISMISSED status\n- Creates record in campaign_history collection\n- Removes from suggestions array in campaign\n\nArgs:\n    campaignId: Campaign ID\n    suggestionId: Audience code of the suggestion\n    dismissal_data: Optional reason for dismissal\n\nReturns:\n    Updated campaign without the dismissed suggestion\n\nRaises:\n    400: Not a Smart campaign\n    404: Campaign or suggestion not found"
+        },
+        {
+          "info": {
+            "name": "Accept Suggestion",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://prodaudiencebuilderapi.covatic.io/api/v1/campaigns/:campaignId/suggestions/:suggestionId/accept",
+            "params": [
+              {
+                "name": "campaignId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "suggestionId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "parent_type",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "parent_id",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Accept a suggested audience and add it to the campaign audiences.\n\n- Moves suggestion to ACCEPTED status\n- Adds audience to audiences array\n- Removes from suggestions array\n- Re-estimates reach, duration, and updates nested_traits from all audiences\n\nArgs:\n    campaignId: Campaign ID\n    suggestionId: Audience code of the suggestion\n\nReturns:\n    Updated campaign with new audience added\n\nRaises:\n    400: Not a Smart campaign\n    404: Campaign or suggestion not found\n    409: Audience code alread"
+        },
+        {
+          "info": {
+            "name": "Get Campaign History",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://prodaudiencebuilderapi.covatic.io/api/v1/campaigns/:campaignId/history",
+            "params": [
+              {
+                "name": "campaignId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "change_type",
+                "value": "",
+                "type": "query",
+                "description": "Filter by change type"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number (1-indexed)"
+              },
+              {
+                "name": "size",
+                "value": "",
+                "type": "query",
+                "description": "Items per page (max 100)"
+              },
+              {
+                "name": "parent_type",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "parent_id",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Retrieve change history for a specific campaign.\n\nUseful for:\n- Data team to review what was dismissed (filter by suggestion_dismissed)\n- Users to see full audit trail\n- Analytics on suggestion quality\n- Compliance and reporting\n\nQuery Parameters:\n- change_type: Filter by specific type (suggestion_dismissed, suggestion_accepted,\n               performance_updated, audience_added, audience_removed, etc.)\n- page: Page number (1-indexed)\n- size: Items per page (max 100)\n\nArgs:\n    campaignId: Campa"
+        },
+        {
+          "info": {
+            "name": "Get Campaign Suggestions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://prodaudiencebuilderapi.covatic.io/api/v1/campaigns/:campaignId/suggestions",
+            "params": [
+              {
+                "name": "campaignId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "parent_type",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "parent_id",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get all suggestions for a smart campaign.\n\nReturns the list of pending, accepted, and dismissed suggestions.\nFor full campaign details including audiences, use GET /campaigns/{campaignId}\n\nArgs:\n    campaignId: Campaign ID\n\nReturns:\n    List of suggestions with their status\n\nRaises:\n    400: Not a Smart campaign\n    404: Campaign not found"
+        },
+        {
+          "info": {
+            "name": "Add Campaign Suggestions",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://prodaudiencebuilderapi.covatic.io/api/v1/campaigns/:campaignId/suggestions",
+            "params": [
+              {
+                "name": "campaignId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "parent_type",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "parent_id",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Add new suggestions to a smart campaign (typically used by data team).\n\nThe system automatically:\n- Checks dismissal history to prevent re-suggesting dismissed audiences\n- Filters out suggestions with audience codes that already exist\n- Creates history records for each added suggestion\n\nArgs:\n    campaignId: Campaign ID\n    suggestions_data: Array of suggestions to add (max 20)\n\nReturns:\n    Summary with added and skipped suggestions\n\nRaises:\n    400: Not a Smart campaign or invalid data\n    404"
+        },
+        {
+          "info": {
+            "name": "Update Audience Performance",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://prodaudiencebuilderapi.covatic.io/api/v1/campaigns/:campaignId/audiences/performance",
+            "params": [
+              {
+                "name": "campaignId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "parent_type",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "parent_id",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Update performance metrics for existing audiences in a smart campaign.\n\nTypically used by the data team to update performance ratings based on analytics.\nCreates history records for each performance update.\n\nArgs:\n    campaignId: Campaign ID\n    performance_data: Array of performance updates\n\nReturns:\n    Updated campaign with new performance ratings\n\nRaises:\n    400: Not a Smart campaign or invalid performance rating\n    404: Campaign or audience not found"
+        },
+        {
+          "info": {
+            "name": "Bulk Add Audiences",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://prodaudiencebuilderapi.covatic.io/api/v1/campaigns/:campaignId/audiences",
+            "params": [
+              {
+                "name": "campaignId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "parent_type",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "parent_id",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Bulk add audiences to a smart campaign.\n\n- Adds each audience to the smart campaign audiences array\n- Skips audience codes that already exist in the campaign\n- Creates campaign_history records (change_type=\"audience_added\") for each\n- Re-estimates reach, duration, and nested_traits from all audiences\n\nArgs:\n    campaignId: Campaign ID\n    audiences_data: Array of audiences to add (max 50)\n\nReturns:\n    Summary with added/skipped audiences and updated campaign\n\nRaises:\n    400: Not a Smart campai"
+        },
+        {
+          "info": {
+            "name": "Remove Audience",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://prodaudiencebuilderapi.covatic.io/api/v1/campaigns/:campaignId/audiences/:audienceCode",
+            "params": [
+              {
+                "name": "campaignId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "audienceCode",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "parent_type",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "parent_id",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Remove an audience from a smart campaign.\n\n- Removes audience from audiences array\n- Re-estimates reach, duration, and updates nested_traits from remaining audiences\n- Creates record in campaign_history collection (change_type=\"audience_removed\")\n\nArgs:\n    campaignId: Campaign ID\n    audienceCode: Audience code to remove\n    removal_data: Optional reason for removal\n\nReturns:\n    Updated campaign without the removed audience\n\nRaises:\n    400: Not a Smart campaign\n    404: Campaign or audience n"
+        },
+        {
+          "info": {
+            "name": "Get Campaign Detail",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://prodaudiencebuilderapi.covatic.io/api/v1/campaigns/:campaignId",
+            "params": [
+              {
+                "name": "campaignId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "parent_type",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "parent_id",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Retrieve detailed information about a specific campaign.\n\nArgs:\n    campaignId: Campaign ID (MongoDB ObjectId)\n\nReturns:\n    Campaign details\n\nRaises:\n    404: Campaign not found"
+        },
+        {
+          "info": {
+            "name": "Update Existing Campaign",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://prodaudiencebuilderapi.covatic.io/api/v1/campaigns/:campaignId",
+            "params": [
+              {
+                "name": "campaignId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "parent_type",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "parent_id",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Update an existing campaign (partial update).\n\nArgs:\n    campaignId: Campaign ID to update\n    update_data: Partial update data (only send fields to update)\n\nReturns:\n    Updated campaign\n\nRaises:\n    400: Invalid request body\n    404: Campaign not found\n    409: Campaign name already exists"
+        },
+        {
+          "info": {
+            "name": "Delete Existing Campaign",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://prodaudiencebuilderapi.covatic.io/api/v1/campaigns/:campaignId",
+            "params": [
+              {
+                "name": "campaignId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "parent_type",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "parent_id",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Delete a campaign (soft delete).\n\nArgs:\n    campaignId: Campaign ID to delete\n\nReturns:\n    204 No Content on success\n\nRaises:\n    404: Campaign not found\n    409: Cannot delete active campaign"
+        },
+        {
+          "info": {
+            "name": "Update Campaign Status Endpoint",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://prodaudiencebuilderapi.covatic.io/api/v1/campaigns/:campaignId/status",
+            "params": [
+              {
+                "name": "campaignId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "parent_type",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "parent_id",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Update only the status of a campaign.\n\nArgs:\n    campaignId: Campaign ID to update\n    status_data: New status\n\nReturns:\n    Updated campaign with new status\n\nRaises:\n    400: Invalid status value\n    404: Campaign not found"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Notes",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Notes By Entity",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://prodaudiencebuilderapi.covatic.io/api/v1/notes/",
+            "params": [
+              {
+                "name": "entity_type",
+                "value": "",
+                "type": "query",
+                "description": "Entity type (audience or campaign)"
+              },
+              {
+                "name": "entity_id",
+                "value": "",
+                "type": "query",
+                "description": "Entity ID (audience_code or campaign _id)"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number (1-indexed)"
+              },
+              {
+                "name": "size",
+                "value": "",
+                "type": "query",
+                "description": "Items per page (max 100)"
+              },
+              {
+                "name": "parent_type",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "parent_id",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Retrieve paginated notes for a specific entity (audience or campaign).\nNotes are returned in reverse chronological order (newest first).\n\nRequires:\n- Valid JWT token\n- CAMPAIGNS or ADVERTISING feature permission\n- VIEW role permission (all roles)"
+        },
+        {
+          "info": {
+            "name": "Create Note",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://prodaudiencebuilderapi.covatic.io/api/v1/notes/",
+            "params": [
+              {
+                "name": "parent_type",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "parent_id",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Create a new note for an audience or campaign.\n\nRequires:\n- Valid JWT token\n- CAMPAIGNS or ADVERTISING feature permission\n- CREATE role permission (super_admin, admin, editor)"
+        },
+        {
+          "info": {
+            "name": "Get Note",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://prodaudiencebuilderapi.covatic.io/api/v1/notes/:note_id",
+            "params": [
+              {
+                "name": "note_id",
+                "value": "",
+                "type": "path",
+                "description": "Note ID"
+              },
+              {
+                "name": "parent_type",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "parent_id",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Retrieve a single note by its ID.\n\nRequires:\n- Valid JWT token\n- CAMPAIGNS or ADVERTISING feature permission\n- VIEW role permission (all roles)"
+        },
+        {
+          "info": {
+            "name": "Update Note",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://prodaudiencebuilderapi.covatic.io/api/v1/notes/:note_id",
+            "params": [
+              {
+                "name": "note_id",
+                "value": "",
+                "type": "path",
+                "description": "Note ID"
+              },
+              {
+                "name": "parent_type",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "parent_id",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Update an existing note.\n\nRequires:\n- Valid JWT token\n- CAMPAIGNS or ADVERTISING feature permission\n- EDIT role permission (super_admin, admin, editor)"
+        },
+        {
+          "info": {
+            "name": "Delete Note",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://prodaudiencebuilderapi.covatic.io/api/v1/notes/:note_id",
+            "params": [
+              {
+                "name": "note_id",
+                "value": "",
+                "type": "path",
+                "description": "Note ID"
+              },
+              {
+                "name": "parent_type",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "parent_id",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Soft delete a note.\n\nRequires:\n- Valid JWT token\n- CAMPAIGNS or ADVERTISING feature permission\n- DELETE role permission (super_admin, admin, editor)"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Audience Builder",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Audiences",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://prodaudiencebuilderapi.covatic.io/api/v1/ai_audience/create-audiences",
+            "params": [
+              {
+                "name": "audience_description",
+                "value": "Affluent renters who use public transport",
+                "type": "query"
+              },
+              {
+                "name": "parent_type",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "parent_id",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get Audiences"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Audience Builder Agent",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Chat",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://prodaudiencebuilderapi.covatic.io/api/v1/ai_audience_agent/chat",
+            "params": [
+              {
+                "name": "parent_type",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "parent_id",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Chat with the AI Audience Builder to create targeted audience segments.\n\nSend a message describing your target audience and the assistant will help\nyou build it using available traits and reach estimates.\n\nQuery params: parent_type, parent_id, sec_threshold (optional, default 100)"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Commons",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Locations",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://prodaudiencebuilderapi.covatic.io/api/v1/location",
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number"
+              },
+              {
+                "name": "size",
+                "value": "",
+                "type": "query",
+                "description": "Page size"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get Locations"
+        },
+        {
+          "info": {
+            "name": "Get Platforms",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://prodaudiencebuilderapi.covatic.io/api/v1/platform",
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number"
+              },
+              {
+                "name": "size",
+                "value": "",
+                "type": "query",
+                "description": "Page size"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get Platforms"
+        },
+        {
+          "info": {
+            "name": "Get Created By",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://prodaudiencebuilderapi.covatic.io/api/v1/created-by",
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number"
+              },
+              {
+                "name": "size",
+                "value": "",
+                "type": "query",
+                "description": "Page size"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get Created By"
+        },
+        {
+          "info": {
+            "name": "Get Client Id",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://prodaudiencebuilderapi.covatic.io/api/v1/client-id",
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get Client Id"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Seeders",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Seed Platforms",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://prodaudiencebuilderapi.covatic.io/api/v1/seed/platforms",
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Seed Platforms"
+        },
+        {
+          "info": {
+            "name": "Seed Locations",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://prodaudiencebuilderapi.covatic.io/api/v1/seed/locations",
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Seed Locations"
+        },
+        {
+          "info": {
+            "name": "Seed Clients",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://prodaudiencebuilderapi.covatic.io/api/v1/seed/clients",
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Seed Clients"
+        },
+        {
+          "info": {
+            "name": "Seed Media Property Options Endpoint",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://prodaudiencebuilderapi.covatic.io/api/v1/seed/media-property-options",
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Seed Media Property Options Endpoint"
+        },
+        {
+          "info": {
+            "name": "Seed Smart Campaigns",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://prodaudiencebuilderapi.covatic.io/api/v1/seed/smart-campaigns",
+            "params": [
+              {
+                "name": "campaign_id",
+                "value": "",
+                "type": "query",
+                "description": "Specific campaign ID to seed"
+              },
+              {
+                "name": "parent_id",
+                "value": "",
+                "type": "query",
+                "description": "Filter campaigns by parent_id"
+              },
+              {
+                "name": "num_suggestions",
+                "value": "",
+                "type": "query",
+                "description": "Number of suggestions per campaign"
+              },
+              {
+                "name": "add_performance",
+                "value": "",
+                "type": "query",
+                "description": "Add performance data to audiences"
+              },
+              {
+                "name": "add_suggestions",
+                "value": "",
+                "type": "query",
+                "description": "Add AI suggestions"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Seed Smart Campaigns with performance data and AI-generated suggestions.\n\nThis endpoint populates Smart Campaigns with:\n- Performance ratings (Excellent/Good/Average/Poor) for existing audiences\n- AI-generated audience suggestions with realistic data\n- Proper audit trail in campaign_history collection\n\nQuery Parameters:\n- campaign_id: Seed a specific campaign (optional, if not provided seeds all)\n- parent_id: Filter campaigns by company/sub-company (optional)\n- num_suggestions: Number of suggest"
+        },
+        {
+          "info": {
+            "name": "Seed Campaign Insights Endpoint",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://prodaudiencebuilderapi.covatic.io/api/v1/seed/campaign-insights",
+            "params": [
+              {
+                "name": "campaign_id",
+                "value": "",
+                "type": "query",
+                "description": "Specific campaign ID to seed insights for"
+              },
+              {
+                "name": "parent_id",
+                "value": "",
+                "type": "query",
+                "description": "Filter campaigns by parent_id"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Seed the campaign_insights collection with realistic sample data.\n\nGenerates 90 days of time series, 7 targeting change batches with\n20 total audience operations, and derived summary statistics.\n\nIf a campaign already has insights data it will be replaced.\n\nQuery Parameters:\n- campaign_id: Seed insights for a specific campaign (optional)\n- parent_id: Seed insights for all campaigns under a company (optional)\n\nExamples:\n- Seed all campaigns: GET /seed/campaign-insights\n- Seed specific campaign: G"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Users",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get All Companies",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://prodaudiencebuilderapi.covatic.io/api/v1/user/clients",
+            "params": [
+              {
+                "name": "search",
+                "value": "",
+                "type": "query",
+                "description": "Query string to search the company"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number"
+              },
+              {
+                "name": "size",
+                "value": "",
+                "type": "query",
+                "description": "Page size"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get All Companies"
+        },
+        {
+          "info": {
+            "name": "Get Company Users",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://prodaudiencebuilderapi.covatic.io/api/v1/user/list",
+            "params": [
+              {
+                "name": "search",
+                "value": "",
+                "type": "query",
+                "description": "Query string to search the user in a company"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number"
+              },
+              {
+                "name": "size",
+                "value": "",
+                "type": "query",
+                "description": "Page size"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get Company Users"
+        },
+        {
+          "info": {
+            "name": "Update Default Client",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://prodaudiencebuilderapi.covatic.io/api/v1/user/clients/default/:default_client_id",
+            "params": [
+              {
+                "name": "default_client_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Update Default Client"
+        },
+        {
+          "info": {
+            "name": "Update Default Company",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://prodaudiencebuilderapi.covatic.io/api/v1/user/company/default",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Update Default Company"
+        },
+        {
+          "info": {
+            "name": "Update User Association",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://prodaudiencebuilderapi.covatic.io/api/v1/user/update-user-association",
+            "params": [
+              {
+                "name": "parent_type",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "parent_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "client_id",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Update User Association"
+        },
+        {
+          "info": {
+            "name": "Create Users With Roles",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://prodaudiencebuilderapi.covatic.io/api/v1/user/create-users-with-roles",
+            "params": [
+              {
+                "name": "parent_type",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "parent_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "client_id",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Creates multiple Cognito users in bulk with specific roles and associated companies.\n\nExpects payload like:\n{\n    \"emails\": [\"imran+bulk1@covatic.com\", \"imran+bulk2@covatic.com\"],\n    \"roles\": [\"super_admin\"],\n    \"associated_companies\": [\n        {\n            \"parent_id\": \"BBC\",\n            \"parent_type\": \"company\",\n            \"is_default\": true,\n            \"permissions\": [\"insights\", \"advertising\"]\n        }\n    ],\n    \"company\": {\n        \"parent_id\": \"BBC\",\n        \"parent_type\": \"company"
+        },
+        {
+          "info": {
+            "name": "Resend Invite",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://prodaudiencebuilderapi.covatic.io/api/v1/user/resend-invite",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Resend invite to an existing Cognito user"
+        },
+        {
+          "info": {
+            "name": "Delete User",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://prodaudiencebuilderapi.covatic.io/api/v1/user/delete/:user_cognito_id",
+            "params": [
+              {
+                "name": "user_cognito_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Delete a user from Cognito, the database, and QuickSight.\n\nProcess:\n1. Retrieve user record from DB (to obtain email and company for QS cleanup)\n2. Attempt to delete from Cognito\n3. If user deleted from Cognito OR user doesn't exist in Cognito:\n   - Proceed to delete from database\n4. Best-effort removal from QuickSight (revoke dashboard + delete QS user)\n5. If Cognito deletion fails with an error:\n   - Do NOT delete from database to maintain data consistency\n   - Raise HTTP 500 error\n\nArgs:\n    "
+        },
+        {
+          "info": {
+            "name": "Update User",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://prodaudiencebuilderapi.covatic.io/api/v1/user/update",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Update user's associated companies and roles.\n\nExpects payload like:\n{\n    \"user_cognito_id\": \"3314b812-d061-7062-b980-5acc06868d34\",\n    \"associated_companies\": [\n        {\n            \"parent_id\": \"Covatic US\",\n            \"parent_type\": \"company\",\n            \"is_default\": false,\n            \"permissions\": [\"insights\", \"advertising\"]\n        },\n        {\n            \"parent_id\": \"Covatic\",\n            \"parent_type\": \"company\",\n            \"is_default\": true,\n            \"permissions\": [\"insig"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Company",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Onboard Company",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://prodaudiencebuilderapi.covatic.io/api/v1/company/add",
+            "params": [
+              {
+                "name": "parent_type",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "parent_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "client_id",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Onboard Company"
+        },
+        {
+          "info": {
+            "name": "Get Company Data",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://prodaudiencebuilderapi.covatic.io/api/v1/company/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "parent_type",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "parent_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "client_id",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get Company Data"
+        },
+        {
+          "info": {
+            "name": "Update Company Data",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://prodaudiencebuilderapi.covatic.io/api/v1/company/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "parent_type",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "parent_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "client_id",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Update a company by ID with the provided data.\nOnly the fields provided in the request body will be updated."
+        },
+        {
+          "info": {
+            "name": "Delete Company",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://prodaudiencebuilderapi.covatic.io/api/v1/company/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "parent_type",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "parent_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "client_id",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Delete Company"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "QA and Debug",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Debug Audience",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://prodaudiencebuilderapi.covatic.io/api/v1/qa-debug/audience",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Debug Audience"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "ChatGPT",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Streaming chat completion proxy",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://prodaudiencebuilderapi.covatic.io/api/v1/chat-gpt/completions",
+            "params": [
+              {
+                "name": "parent_type",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "parent_id",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Proxies an OpenAI Chat Completions request on behalf of the caller and streams the response back as Server-Sent Events in the exact format OpenAI uses."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
