@@ -78,6 +78,17 @@ apis:
   humanURL: https://prodaudiencebuilderapi.covatic.io/docs
   baseURL: https://prodaudiencebuilderapi.covatic.io
   tags:
+  - Audience Intelligence
+  - AdTech
+  - Data Management Platform
+  - Campaigns
+  - Attribution
+  - Traits
+  - Retargeting
+  - Connected TV
+  - Privacy
+  - agent-native
+  tags_raw:
   - audience-intelligence
   - adtech
   - data-management-platform
