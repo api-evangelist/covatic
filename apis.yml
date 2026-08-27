@@ -66,42 +66,16 @@ tags:
 - B Corp
 - United Kingdom
 apis:
-- name: Covatic Audience Builder API
-  description: >-
-    REST API behind the Covatic client platform (platform.covatic.io) for building and
-    operating privacy-preserving audiences and campaigns: audience profiles, traits
-    (behavioural, event and retargeting), campaign creation with attribution and
-    time-series insights, tags, notes, company/user administration and QuickSight
-    insight dashboards. Also exposes an AI audience-builder agent chat endpoint and a
-    ChatGPT completions proxy. OpenAPI 3.1.0, 89 operations across 71 paths, FastAPI
-    served, bearer-token (AWS Cognito JWT) authenticated.
+- aid: covatic:covatic-audience-builder-agent-api
+  name: Covatic Audience Builder Agent API
+  description: The Audience Builder Agent API from Covatic — 1 operation(s) for audience builder agent.
   humanURL: https://prodaudiencebuilderapi.covatic.io/docs
   baseURL: https://prodaudiencebuilderapi.covatic.io
   tags:
-  - Audience Intelligence
-  - AdTech
-  - Data Management Platform
-  - Campaigns
-  - Attribution
-  - Traits
-  - Retargeting
-  - Connected TV
-  - Privacy
-  - agent-native
-  tags_raw:
-  - audience-intelligence
-  - adtech
-  - data-management-platform
-  - campaigns
-  - attribution
-  - traits
-  - retargeting
-  - connected-tv
-  - privacy
-  - agent-native
+  - Audience Builder Agent
   properties:
   - type: OpenAPI
-    url: openapi/covatic-audience-builder-openapi.yml
+    url: openapi/covatic-audience-builder-agent-api-openapi.yml
   - type: APIReference
     url: https://prodaudiencebuilderapi.covatic.io/docs
   - type: Documentation
@@ -116,8 +90,414 @@ apis:
     url: data-model/covatic-data-model.yml
   - type: RateLimits
     url: rate-limits/covatic-rate-limits.yml
-  - type: Overlay
-    url: overlays/covatic-audience-builder-overlay.yaml
+- aid: covatic:covatic-audience-builder-api
+  name: Covatic Audience Builder API
+  description: The Audience Builder API from Covatic — 1 operation(s) for audience builder.
+  humanURL: https://prodaudiencebuilderapi.covatic.io/docs
+  baseURL: https://prodaudiencebuilderapi.covatic.io
+  tags:
+  - Audience Builder
+  properties:
+  - type: OpenAPI
+    url: openapi/covatic-audience-builder-api-openapi.yml
+  - type: APIReference
+    url: https://prodaudiencebuilderapi.covatic.io/docs
+  - type: Documentation
+    url: https://prodaudiencebuilderapi.covatic.io/redoc
+  - type: Authentication
+    url: authentication/covatic-authentication.yml
+  - type: Conventions
+    url: conventions/covatic-conventions.yml
+  - type: ErrorCatalog
+    url: errors/covatic-problem-types.yml
+  - type: DataModel
+    url: data-model/covatic-data-model.yml
+  - type: RateLimits
+    url: rate-limits/covatic-rate-limits.yml
+- aid: covatic:covatic-auth-api
+  name: Covatic Auth API
+  description: The Auth API from Covatic — 2 operation(s) for auth.
+  humanURL: https://prodaudiencebuilderapi.covatic.io/docs
+  baseURL: https://prodaudiencebuilderapi.covatic.io
+  tags:
+  - Auth
+  properties:
+  - type: OpenAPI
+    url: openapi/covatic-auth-api-openapi.yml
+  - type: APIReference
+    url: https://prodaudiencebuilderapi.covatic.io/docs
+  - type: Documentation
+    url: https://prodaudiencebuilderapi.covatic.io/redoc
+  - type: Authentication
+    url: authentication/covatic-authentication.yml
+  - type: Conventions
+    url: conventions/covatic-conventions.yml
+  - type: ErrorCatalog
+    url: errors/covatic-problem-types.yml
+  - type: DataModel
+    url: data-model/covatic-data-model.yml
+  - type: RateLimits
+    url: rate-limits/covatic-rate-limits.yml
+- aid: covatic:covatic-campaigns-api
+  name: Covatic Campaigns API
+  description: The Campaigns API from Covatic — 16 operation(s) for campaigns.
+  humanURL: https://prodaudiencebuilderapi.covatic.io/docs
+  baseURL: https://prodaudiencebuilderapi.covatic.io
+  tags:
+  - Campaigns
+  properties:
+  - type: OpenAPI
+    url: openapi/covatic-campaigns-api-openapi.yml
+  - type: APIReference
+    url: https://prodaudiencebuilderapi.covatic.io/docs
+  - type: Documentation
+    url: https://prodaudiencebuilderapi.covatic.io/redoc
+  - type: Authentication
+    url: authentication/covatic-authentication.yml
+  - type: Conventions
+    url: conventions/covatic-conventions.yml
+  - type: ErrorCatalog
+    url: errors/covatic-problem-types.yml
+  - type: DataModel
+    url: data-model/covatic-data-model.yml
+  - type: RateLimits
+    url: rate-limits/covatic-rate-limits.yml
+- aid: covatic:covatic-chatgpt-api
+  name: Covatic Chat GPT API
+  description: The ChatGPT API from Covatic — 1 operation(s) for chatgpt.
+  humanURL: https://prodaudiencebuilderapi.covatic.io/docs
+  baseURL: https://prodaudiencebuilderapi.covatic.io
+  tags:
+  - ChatGPT
+  properties:
+  - type: OpenAPI
+    url: openapi/covatic-chatgpt-api-openapi.yml
+  - type: APIReference
+    url: https://prodaudiencebuilderapi.covatic.io/docs
+  - type: Documentation
+    url: https://prodaudiencebuilderapi.covatic.io/redoc
+  - type: Authentication
+    url: authentication/covatic-authentication.yml
+  - type: Conventions
+    url: conventions/covatic-conventions.yml
+  - type: ErrorCatalog
+    url: errors/covatic-problem-types.yml
+  - type: DataModel
+    url: data-model/covatic-data-model.yml
+  - type: RateLimits
+    url: rate-limits/covatic-rate-limits.yml
+- aid: covatic:covatic-commons-api
+  name: Covatic Commons API
+  description: The Commons API from Covatic — 4 operation(s) for commons.
+  humanURL: https://prodaudiencebuilderapi.covatic.io/docs
+  baseURL: https://prodaudiencebuilderapi.covatic.io
+  tags:
+  - Commons
+  properties:
+  - type: OpenAPI
+    url: openapi/covatic-commons-api-openapi.yml
+  - type: APIReference
+    url: https://prodaudiencebuilderapi.covatic.io/docs
+  - type: Documentation
+    url: https://prodaudiencebuilderapi.covatic.io/redoc
+  - type: Authentication
+    url: authentication/covatic-authentication.yml
+  - type: Conventions
+    url: conventions/covatic-conventions.yml
+  - type: ErrorCatalog
+    url: errors/covatic-problem-types.yml
+  - type: DataModel
+    url: data-model/covatic-data-model.yml
+  - type: RateLimits
+    url: rate-limits/covatic-rate-limits.yml
+- aid: covatic:covatic-company-api
+  name: Covatic Company API
+  description: The Company API from Covatic — 2 operation(s) for company.
+  humanURL: https://prodaudiencebuilderapi.covatic.io/docs
+  baseURL: https://prodaudiencebuilderapi.covatic.io
+  tags:
+  - Company
+  properties:
+  - type: OpenAPI
+    url: openapi/covatic-company-api-openapi.yml
+  - type: APIReference
+    url: https://prodaudiencebuilderapi.covatic.io/docs
+  - type: Documentation
+    url: https://prodaudiencebuilderapi.covatic.io/redoc
+  - type: Authentication
+    url: authentication/covatic-authentication.yml
+  - type: Conventions
+    url: conventions/covatic-conventions.yml
+  - type: ErrorCatalog
+    url: errors/covatic-problem-types.yml
+  - type: DataModel
+    url: data-model/covatic-data-model.yml
+  - type: RateLimits
+    url: rate-limits/covatic-rate-limits.yml
+- aid: covatic:covatic-event-traits-api
+  name: Covatic Event Traits API
+  description: The Event Traits API from Covatic — 5 operation(s) for event traits.
+  humanURL: https://prodaudiencebuilderapi.covatic.io/docs
+  baseURL: https://prodaudiencebuilderapi.covatic.io
+  tags:
+  - Event Traits
+  properties:
+  - type: OpenAPI
+    url: openapi/covatic-event-traits-api-openapi.yml
+  - type: APIReference
+    url: https://prodaudiencebuilderapi.covatic.io/docs
+  - type: Documentation
+    url: https://prodaudiencebuilderapi.covatic.io/redoc
+  - type: Authentication
+    url: authentication/covatic-authentication.yml
+  - type: Conventions
+    url: conventions/covatic-conventions.yml
+  - type: ErrorCatalog
+    url: errors/covatic-problem-types.yml
+  - type: DataModel
+    url: data-model/covatic-data-model.yml
+  - type: RateLimits
+    url: rate-limits/covatic-rate-limits.yml
+- aid: covatic:covatic-insights-api
+  name: Covatic Insights API
+  description: The Insights API from Covatic — 2 operation(s) for insights.
+  humanURL: https://prodaudiencebuilderapi.covatic.io/docs
+  baseURL: https://prodaudiencebuilderapi.covatic.io
+  tags:
+  - Insights
+  properties:
+  - type: OpenAPI
+    url: openapi/covatic-insights-api-openapi.yml
+  - type: APIReference
+    url: https://prodaudiencebuilderapi.covatic.io/docs
+  - type: Documentation
+    url: https://prodaudiencebuilderapi.covatic.io/redoc
+  - type: Authentication
+    url: authentication/covatic-authentication.yml
+  - type: Conventions
+    url: conventions/covatic-conventions.yml
+  - type: ErrorCatalog
+    url: errors/covatic-problem-types.yml
+  - type: DataModel
+    url: data-model/covatic-data-model.yml
+  - type: RateLimits
+    url: rate-limits/covatic-rate-limits.yml
+- aid: covatic:covatic-notes-api
+  name: Covatic Notes API
+  description: The Notes API from Covatic — 2 operation(s) for notes.
+  humanURL: https://prodaudiencebuilderapi.covatic.io/docs
+  baseURL: https://prodaudiencebuilderapi.covatic.io
+  tags:
+  - Notes
+  properties:
+  - type: OpenAPI
+    url: openapi/covatic-notes-api-openapi.yml
+  - type: APIReference
+    url: https://prodaudiencebuilderapi.covatic.io/docs
+  - type: Documentation
+    url: https://prodaudiencebuilderapi.covatic.io/redoc
+  - type: Authentication
+    url: authentication/covatic-authentication.yml
+  - type: Conventions
+    url: conventions/covatic-conventions.yml
+  - type: ErrorCatalog
+    url: errors/covatic-problem-types.yml
+  - type: DataModel
+    url: data-model/covatic-data-model.yml
+  - type: RateLimits
+    url: rate-limits/covatic-rate-limits.yml
+- aid: covatic:covatic-profiles-api
+  name: Covatic Profiles API
+  description: The Profiles API from Covatic — 6 operation(s) for profiles.
+  humanURL: https://prodaudiencebuilderapi.covatic.io/docs
+  baseURL: https://prodaudiencebuilderapi.covatic.io
+  tags:
+  - Profiles
+  properties:
+  - type: OpenAPI
+    url: openapi/covatic-profiles-api-openapi.yml
+  - type: APIReference
+    url: https://prodaudiencebuilderapi.covatic.io/docs
+  - type: Documentation
+    url: https://prodaudiencebuilderapi.covatic.io/redoc
+  - type: Authentication
+    url: authentication/covatic-authentication.yml
+  - type: Conventions
+    url: conventions/covatic-conventions.yml
+  - type: ErrorCatalog
+    url: errors/covatic-problem-types.yml
+  - type: DataModel
+    url: data-model/covatic-data-model.yml
+  - type: RateLimits
+    url: rate-limits/covatic-rate-limits.yml
+- aid: covatic:covatic-qa-and-debug-api
+  name: Covatic QA and Debug API
+  description: The QA and Debug API from Covatic — 1 operation(s) for qa and debug.
+  humanURL: https://prodaudiencebuilderapi.covatic.io/docs
+  baseURL: https://prodaudiencebuilderapi.covatic.io
+  tags:
+  - QA and Debug
+  properties:
+  - type: OpenAPI
+    url: openapi/covatic-qa-and-debug-api-openapi.yml
+  - type: APIReference
+    url: https://prodaudiencebuilderapi.covatic.io/docs
+  - type: Documentation
+    url: https://prodaudiencebuilderapi.covatic.io/redoc
+  - type: Authentication
+    url: authentication/covatic-authentication.yml
+  - type: Conventions
+    url: conventions/covatic-conventions.yml
+  - type: ErrorCatalog
+    url: errors/covatic-problem-types.yml
+  - type: DataModel
+    url: data-model/covatic-data-model.yml
+  - type: RateLimits
+    url: rate-limits/covatic-rate-limits.yml
+- aid: covatic:covatic-retargeting-traits-api
+  name: Covatic Retargeting Traits API
+  description: The Retargeting Traits API from Covatic — 3 operation(s) for retargeting traits.
+  humanURL: https://prodaudiencebuilderapi.covatic.io/docs
+  baseURL: https://prodaudiencebuilderapi.covatic.io
+  tags:
+  - Retargeting Traits
+  properties:
+  - type: OpenAPI
+    url: openapi/covatic-retargeting-traits-api-openapi.yml
+  - type: APIReference
+    url: https://prodaudiencebuilderapi.covatic.io/docs
+  - type: Documentation
+    url: https://prodaudiencebuilderapi.covatic.io/redoc
+  - type: Authentication
+    url: authentication/covatic-authentication.yml
+  - type: Conventions
+    url: conventions/covatic-conventions.yml
+  - type: ErrorCatalog
+    url: errors/covatic-problem-types.yml
+  - type: DataModel
+    url: data-model/covatic-data-model.yml
+  - type: RateLimits
+    url: rate-limits/covatic-rate-limits.yml
+- aid: covatic:covatic-root-api
+  name: Covatic Root API
+  description: The Root API from Covatic — 1 operation(s) for root.
+  humanURL: https://prodaudiencebuilderapi.covatic.io/docs
+  baseURL: https://prodaudiencebuilderapi.covatic.io
+  tags:
+  - Root
+  properties:
+  - type: OpenAPI
+    url: openapi/covatic-root-api-openapi.yml
+  - type: APIReference
+    url: https://prodaudiencebuilderapi.covatic.io/docs
+  - type: Documentation
+    url: https://prodaudiencebuilderapi.covatic.io/redoc
+  - type: Authentication
+    url: authentication/covatic-authentication.yml
+  - type: Conventions
+    url: conventions/covatic-conventions.yml
+  - type: ErrorCatalog
+    url: errors/covatic-problem-types.yml
+  - type: DataModel
+    url: data-model/covatic-data-model.yml
+  - type: RateLimits
+    url: rate-limits/covatic-rate-limits.yml
+- aid: covatic:covatic-seeders-api
+  name: Covatic Seeders API
+  description: The Seeders API from Covatic — 6 operation(s) for seeders.
+  humanURL: https://prodaudiencebuilderapi.covatic.io/docs
+  baseURL: https://prodaudiencebuilderapi.covatic.io
+  tags:
+  - Seeders
+  properties:
+  - type: OpenAPI
+    url: openapi/covatic-seeders-api-openapi.yml
+  - type: APIReference
+    url: https://prodaudiencebuilderapi.covatic.io/docs
+  - type: Documentation
+    url: https://prodaudiencebuilderapi.covatic.io/redoc
+  - type: Authentication
+    url: authentication/covatic-authentication.yml
+  - type: Conventions
+    url: conventions/covatic-conventions.yml
+  - type: ErrorCatalog
+    url: errors/covatic-problem-types.yml
+  - type: DataModel
+    url: data-model/covatic-data-model.yml
+  - type: RateLimits
+    url: rate-limits/covatic-rate-limits.yml
+- aid: covatic:covatic-tags-api
+  name: Covatic Tags API
+  description: The Tags API from Covatic — 2 operation(s) for tags.
+  humanURL: https://prodaudiencebuilderapi.covatic.io/docs
+  baseURL: https://prodaudiencebuilderapi.covatic.io
+  tags:
+  - Tags
+  properties:
+  - type: OpenAPI
+    url: openapi/covatic-tags-api-openapi.yml
+  - type: APIReference
+    url: https://prodaudiencebuilderapi.covatic.io/docs
+  - type: Documentation
+    url: https://prodaudiencebuilderapi.covatic.io/redoc
+  - type: Authentication
+    url: authentication/covatic-authentication.yml
+  - type: Conventions
+    url: conventions/covatic-conventions.yml
+  - type: ErrorCatalog
+    url: errors/covatic-problem-types.yml
+  - type: DataModel
+    url: data-model/covatic-data-model.yml
+  - type: RateLimits
+    url: rate-limits/covatic-rate-limits.yml
+- aid: covatic:covatic-traits-api
+  name: Covatic Traits API
+  description: The Traits API from Covatic — 7 operation(s) for traits.
+  humanURL: https://prodaudiencebuilderapi.covatic.io/docs
+  baseURL: https://prodaudiencebuilderapi.covatic.io
+  tags:
+  - Traits
+  properties:
+  - type: OpenAPI
+    url: openapi/covatic-traits-api-openapi.yml
+  - type: APIReference
+    url: https://prodaudiencebuilderapi.covatic.io/docs
+  - type: Documentation
+    url: https://prodaudiencebuilderapi.covatic.io/redoc
+  - type: Authentication
+    url: authentication/covatic-authentication.yml
+  - type: Conventions
+    url: conventions/covatic-conventions.yml
+  - type: ErrorCatalog
+    url: errors/covatic-problem-types.yml
+  - type: DataModel
+    url: data-model/covatic-data-model.yml
+  - type: RateLimits
+    url: rate-limits/covatic-rate-limits.yml
+- aid: covatic:covatic-users-api
+  name: Covatic Users API
+  description: The Users API from Covatic — 9 operation(s) for users.
+  humanURL: https://prodaudiencebuilderapi.covatic.io/docs
+  baseURL: https://prodaudiencebuilderapi.covatic.io
+  tags:
+  - Users
+  properties:
+  - type: OpenAPI
+    url: openapi/covatic-users-api-openapi.yml
+  - type: APIReference
+    url: https://prodaudiencebuilderapi.covatic.io/docs
+  - type: Documentation
+    url: https://prodaudiencebuilderapi.covatic.io/redoc
+  - type: Authentication
+    url: authentication/covatic-authentication.yml
+  - type: Conventions
+    url: conventions/covatic-conventions.yml
+  - type: ErrorCatalog
+    url: errors/covatic-problem-types.yml
+  - type: DataModel
+    url: data-model/covatic-data-model.yml
+  - type: RateLimits
+    url: rate-limits/covatic-rate-limits.yml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
