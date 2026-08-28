@@ -22,6 +22,18 @@ x-tier: profiled
 x-tier-reason: >-
   Upgraded from stub 2026-08-12. A complete public OpenAPI 3.1.0 contract (71 paths,
   89 operations) was discovered on Covatic's own API host and harvested.
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: true
+  label: Hosted service · you call their endpoint
+  confidence: high
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: contact-sales
   onboarding: sales-gate
