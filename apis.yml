@@ -516,6 +516,9 @@ maintainers:
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: CapabilityMap
+  url: capabilities/covatic-capability-edges.yml
+  name: Covatic Business Capability Map
 - type: DomainSecurity
   url: security/covatic-domain-security.yml
 - type: LLMsTxt
