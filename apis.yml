@@ -132,6 +132,8 @@ apis:
   humanURL: https://prodaudiencebuilderapi.covatic.io/docs
   baseURL: https://prodaudiencebuilderapi.covatic.io
   tags:
+  - Authentication
+  tags_raw:
   - Auth
   properties:
   - type: OpenAPI
@@ -492,6 +494,8 @@ apis:
   humanURL: https://prodaudiencebuilderapi.covatic.io/docs
   baseURL: https://prodaudiencebuilderapi.covatic.io
   tags:
+  - User
+  tags_raw:
   - Users
   properties:
   - type: OpenAPI
