@@ -1,0 +1,674 @@
+openapi: 3.2.0
+info:
+  title: Audience builder Traits API
+  summary: Audience builder is an app for clients to create their campaigns.
+  version: 0.0.1
+servers:
+- url: https://prodaudiencebuilderapi.covatic.io
+  description: Production (Covatic Audience Builder)
+tags:
+- name: Traits
+paths:
+  /api/v1/trait/:
+    get:
+      tags:
+      - Traits
+      summary: Get Traits
+      operationId: get_traits_api_v1_trait__get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: parent_type
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Type
+        examples:
+          Octave:
+            value: company
+          Bauer UK:
+            value: sub-company
+          News UK:
+            value: sub-company
+      - name: parent_id
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Name
+        examples:
+          Octave:
+            value: Octave
+          Bauer UK:
+            value: Bauer UK
+          News UK:
+            value: News UK
+      - name: client_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            maxLength: 50
+          - type: 'null'
+          title: Client Id
+        examples:
+          Bauer Media:
+            value: 5db1c6f588976c89fcb6bd70
+          News UK Browser:
+            value: 63247594f1861e200ef5b102
+      responses:
+        '200':
+          description: trait retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models__trait__Response'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/trait/suggested:
+    post:
+      tags:
+      - Traits
+      summary: Get Suggested Traits
+      operationId: get_suggested_traits_api_v1_trait_suggested_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: num_suggestions
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          examples:
+          - 3
+          title: Num Suggestions
+      - name: parent_type
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Type
+        examples:
+          Octave:
+            value: company
+          Bauer UK:
+            value: sub-company
+          News UK:
+            value: sub-company
+      - name: parent_id
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Name
+        examples:
+          Octave:
+            value: Octave
+          Bauer UK:
+            value: Bauer UK
+          News UK:
+            value: News UK
+      - name: client_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            maxLength: 50
+          - type: 'null'
+          title: Client Id
+        examples:
+          Bauer Media:
+            value: 5db1c6f588976c89fcb6bd70
+          News UK Browser:
+            value: 63247594f1861e200ef5b102
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NestedTraits'
+              default:
+                nested_traits: []
+                exclusions: []
+                locations: []
+                platforms: []
+      responses:
+        '200':
+          description: suggested trait retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models__trait__Response'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/trait/estimation:
+    post:
+      tags:
+      - Traits
+      summary: Get Nested Traits Estimation
+      operationId: get_nested_traits_estimation_api_v1_trait_estimation_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: profile_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Profile Id
+        example: profile_123
+      - name: parent_type
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Type
+        examples:
+          Octave:
+            value: company
+          Bauer UK:
+            value: sub-company
+          News UK:
+            value: sub-company
+      - name: parent_id
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Name
+        examples:
+          Octave:
+            value: Octave
+          Bauer UK:
+            value: Bauer UK
+          News UK:
+            value: News UK
+      - name: client_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            maxLength: 50
+          - type: 'null'
+          title: Client Id
+        examples:
+          Bauer Media:
+            value: 5db1c6f588976c89fcb6bd70
+          News UK Browser:
+            value: 63247594f1861e200ef5b102
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NestedTraits'
+              default:
+                nested_traits: []
+                exclusions: []
+                locations: []
+                platforms: []
+      responses:
+        '200':
+          description: trait estimation retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models__trait__Response'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/trait/sec-group-stats:
+    post:
+      tags:
+      - Traits
+      summary: Get Sec Group Stats Nested
+      operationId: get_sec_group_stats_nested_api_v1_trait_sec_group_stats_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: parent_type
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Type
+        examples:
+          Octave:
+            value: company
+          Bauer UK:
+            value: sub-company
+          News UK:
+            value: sub-company
+      - name: parent_id
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Name
+        examples:
+          Octave:
+            value: Octave
+          Bauer UK:
+            value: Bauer UK
+          News UK:
+            value: News UK
+      - name: client_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            maxLength: 50
+          - type: 'null'
+          title: Client Id
+        examples:
+          Bauer Media:
+            value: 5db1c6f588976c89fcb6bd70
+          News UK Browser:
+            value: 63247594f1861e200ef5b102
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NestedTraits'
+              default:
+                nested_traits: []
+                exclusions: []
+                locations: []
+                platforms: []
+      responses:
+        '200':
+          description: group percentage retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models__trait__Response'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/trait/sec-trait-breakdown:
+    post:
+      tags:
+      - Traits
+      summary: Get Sec Trait Stats Nested
+      operationId: get_sec_trait_stats_nested_api_v1_trait_sec_trait_breakdown_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: trait_category
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 100
+          title: Trait Category
+        example: FINANCE|Household Annual Income
+      - name: parent_type
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Type
+        examples:
+          Octave:
+            value: company
+          Bauer UK:
+            value: sub-company
+          News UK:
+            value: sub-company
+      - name: parent_id
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Name
+        examples:
+          Octave:
+            value: Octave
+          Bauer UK:
+            value: Bauer UK
+          News UK:
+            value: News UK
+      - name: client_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            maxLength: 50
+          - type: 'null'
+          title: Client Id
+        examples:
+          Bauer Media:
+            value: 5db1c6f588976c89fcb6bd70
+          News UK Browser:
+            value: 63247594f1861e200ef5b102
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NestedTraits'
+              default:
+                nested_traits: []
+                exclusions: []
+                locations: []
+                platforms: []
+      responses:
+        '200':
+          description: group percentage retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models__trait__Response'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/trait/location-stats:
+    post:
+      tags:
+      - Traits
+      summary: Get Location Stats Nested
+      operationId: get_location_stats_nested_api_v1_trait_location_stats_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: parent_type
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Type
+        examples:
+          Octave:
+            value: company
+          Bauer UK:
+            value: sub-company
+          News UK:
+            value: sub-company
+      - name: parent_id
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Name
+        examples:
+          Octave:
+            value: Octave
+          Bauer UK:
+            value: Bauer UK
+          News UK:
+            value: News UK
+      - name: client_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            maxLength: 50
+          - type: 'null'
+          title: Client Id
+        examples:
+          Bauer Media:
+            value: 5db1c6f588976c89fcb6bd70
+          News UK Browser:
+            value: 63247594f1861e200ef5b102
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NestedTraits'
+              default:
+                nested_traits: []
+                exclusions: []
+                locations: []
+                platforms: []
+      responses:
+        '200':
+          description: Location percentages retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models__trait__Response'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/trait/platform-stats:
+    post:
+      tags:
+      - Traits
+      summary: Get Platform Stats Nested
+      operationId: get_platform_stats_nested_api_v1_trait_platform_stats_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: parent_type
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Type
+        examples:
+          Octave:
+            value: company
+          Bauer UK:
+            value: sub-company
+          News UK:
+            value: sub-company
+      - name: parent_id
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Name
+        examples:
+          Octave:
+            value: Octave
+          Bauer UK:
+            value: Bauer UK
+          News UK:
+            value: News UK
+      - name: client_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            maxLength: 50
+          - type: 'null'
+          title: Client Id
+        examples:
+          Bauer Media:
+            value: 5db1c6f588976c89fcb6bd70
+          News UK Browser:
+            value: 63247594f1861e200ef5b102
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NestedTraits'
+              default:
+                nested_traits: []
+                exclusions: []
+                locations: []
+                platforms: []
+      responses:
+        '200':
+          description: Location percentages retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models__trait__Response'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    NestedTraits:
+      properties:
+        nested_traits:
+          items:
+            additionalProperties: true
+            type: object
+          type: array
+          title: Nested Traits
+        exclusions:
+          items:
+            additionalProperties: true
+            type: object
+          type: array
+          title: Exclusions
+        locations:
+          items:
+            additionalProperties: true
+            type: object
+          type: array
+          title: Locations
+        platforms:
+          items:
+            additionalProperties: true
+            type: object
+          type: array
+          title: Platforms
+      type: object
+      title: NestedTraits
+      examples:
+      - exclusions:
+        - source: covatic
+          trait: Contextual|Connectivity|Vauxhall driver
+          trait_code: REL660824
+        locations:
+        - name: London, England
+          postcode: UKI
+        - name: South East, England
+          postcode: UKJ
+        nested_traits:
+        - traits:
+          - source: acorn
+            trait: CHANNEL PREFERENCE|Get info/marketing from car dealership or manufacturer|Email
+            trait_code: PROCHANNEL PREFERENCE|Get info/marketing from car dealership or manufacturer|Email
+        - operator: AND
+          traits:
+          - source: acorn
+            trait: POPULATION (16+)|Ethnicity|Black
+            trait_code: PROPOPULATION (16+)|Ethnicity|Black
+        - operator: OR
+          traits:
+          - source: covatic
+            trait: Contextual|Activity|Drivers
+            trait_code: REL2054
+          - source: covatic
+            trait: Contextual|Activity|Commuters
+            trait_code: REL2051
+        platforms:
+        - name: Web
+        - name: Mobile
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    models__trait__Response:
+      properties:
+        status_code:
+          type: integer
+          title: Status Code
+        response_type:
+          type: string
+          title: Response Type
+        description:
+          type: string
+          title: Description
+        data:
+          anyOf:
+          - {}
+          - type: 'null'
+          title: Data
+      type: object
+      required:
+      - status_code
+      - response_type
+      - description
+      - data
+      title: Response
+      example:
+        data: Sample data
+        description: Operation successful
+        response_type: success
+        status_code: 200
+  securitySchemes:
+    HTTPBearer:
+      type: http
+      scheme: bearer

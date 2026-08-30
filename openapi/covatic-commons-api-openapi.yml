@@ -1,0 +1,376 @@
+openapi: 3.2.0
+info:
+  title: Audience builder Commons API
+  summary: Audience builder is an app for clients to create their campaigns.
+  version: 0.0.1
+servers:
+- url: https://prodaudiencebuilderapi.covatic.io
+  description: Production (Covatic Audience Builder)
+tags:
+- name: Commons
+paths:
+  /api/v1/location:
+    get:
+      tags:
+      - Commons
+      summary: Get Locations
+      operationId: get_locations_api_v1_location_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          description: Page number
+          default: 1
+          title: Page
+        description: Page number
+      - name: size
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 100
+          minimum: 1
+          description: Page size
+          default: 50
+          title: Size
+        description: Page size
+      responses:
+        '200':
+          description: All locations
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Page_Location_'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/platform:
+    get:
+      tags:
+      - Commons
+      summary: Get Platforms
+      operationId: get_platforms_api_v1_platform_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          description: Page number
+          default: 1
+          title: Page
+        description: Page number
+      - name: size
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 100
+          minimum: 1
+          description: Page size
+          default: 50
+          title: Size
+        description: Page size
+      responses:
+        '200':
+          description: All platform
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Page_Platform_'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/created-by:
+    get:
+      tags:
+      - Commons
+      summary: Get Created By
+      operationId: get_created_by_api_v1_created_by_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          description: Page number
+          default: 1
+          title: Page
+        description: Page number
+      - name: size
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 100
+          minimum: 1
+          description: Page size
+          default: 50
+          title: Size
+        description: Page size
+      responses:
+        '200':
+          description: All created by users.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Page_str_'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/client-id:
+    get:
+      tags:
+      - Commons
+      summary: Get Client Id
+      operationId: get_client_id_api_v1_client_id_get
+      responses:
+        '200':
+          description: Client ID retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models__profile__Response'
+      security:
+      - HTTPBearer: []
+components:
+  schemas:
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    Page_Platform_:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/Platform'
+          type: array
+          title: Items
+        total:
+          type: integer
+          minimum: 0.0
+          title: Total
+        page:
+          type: integer
+          minimum: 1.0
+          title: Page
+        size:
+          type: integer
+          minimum: 1.0
+          title: Size
+        pages:
+          type: integer
+          minimum: 0.0
+          title: Pages
+      type: object
+      required:
+      - items
+      - total
+      - page
+      - size
+      - pages
+      title: Page[Platform]
+    Platform:
+      properties:
+        _id:
+          anyOf:
+          - type: string
+            example: 5eb7cf5a86d9755df3a6c593
+          - type: 'null'
+          title: Id
+          description: MongoDB document ObjectID
+        revision_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Revision Id
+          hidden: true
+        name:
+          type: string
+          title: Name
+      type: object
+      required:
+      - name
+      title: Platform
+      example:
+        name: Mobile
+    Page_str_:
+      properties:
+        items:
+          items:
+            type: string
+          type: array
+          title: Items
+        total:
+          type: integer
+          minimum: 0.0
+          title: Total
+        page:
+          type: integer
+          minimum: 1.0
+          title: Page
+        size:
+          type: integer
+          minimum: 1.0
+          title: Size
+        pages:
+          type: integer
+          minimum: 0.0
+          title: Pages
+      type: object
+      required:
+      - items
+      - total
+      - page
+      - size
+      - pages
+      title: Page[str]
+    Page_Location_:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/Location'
+          type: array
+          title: Items
+        total:
+          type: integer
+          minimum: 0.0
+          title: Total
+        page:
+          type: integer
+          minimum: 1.0
+          title: Page
+        size:
+          type: integer
+          minimum: 1.0
+          title: Size
+        pages:
+          type: integer
+          minimum: 0.0
+          title: Pages
+      type: object
+      required:
+      - items
+      - total
+      - page
+      - size
+      - pages
+      title: Page[Location]
+    Location:
+      properties:
+        _id:
+          anyOf:
+          - type: string
+            example: 5eb7cf5a86d9755df3a6c593
+          - type: 'null'
+          title: Id
+          description: MongoDB document ObjectID
+        revision_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Revision Id
+          hidden: true
+        name:
+          type: string
+          title: Name
+        postcode:
+          type: string
+          title: Postcode
+        country:
+          type: string
+          title: Country
+      type: object
+      required:
+      - name
+      - postcode
+      - country
+      title: Location
+      example:
+        name: North East, England
+        postcode: UKC
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    models__profile__Response:
+      properties:
+        status_code:
+          type: integer
+          title: Status Code
+        response_type:
+          type: string
+          title: Response Type
+        description:
+          type: string
+          title: Description
+        data:
+          anyOf:
+          - {}
+          - type: 'null'
+          title: Data
+      type: object
+      required:
+      - status_code
+      - response_type
+      - description
+      - data
+      title: Response
+      example:
+        data: []
+        description: Operation successful
+        response_type: success
+        status_code: 200
+  securitySchemes:
+    HTTPBearer:
+      type: http
+      scheme: bearer

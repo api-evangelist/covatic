@@ -1,0 +1,807 @@
+openapi: 3.2.0
+info:
+  title: Audience builder Users API
+  summary: Audience builder is an app for clients to create their campaigns.
+  version: 0.0.1
+servers:
+- url: https://prodaudiencebuilderapi.covatic.io
+  description: Production (Covatic Audience Builder)
+tags:
+- name: Users
+paths:
+  /api/v1/user/clients:
+    get:
+      tags:
+      - Users
+      summary: Get All Companies
+      operationId: get_all_companies_api_v1_user_clients_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: search
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            minLength: 3
+            maxLength: 20
+          - type: 'null'
+          title: Search tag
+          description: Query string to search the company
+        description: Query string to search the company
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          description: Page number
+          default: 1
+          title: Page
+        description: Page number
+      - name: size
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 100
+          minimum: 1
+          description: Page size
+          default: 50
+          title: Size
+        description: Page size
+      responses:
+        '200':
+          description: All clients
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Page_Company_'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/user/list:
+    post:
+      tags:
+      - Users
+      summary: Get Company Users
+      operationId: get_company_users_api_v1_user_list_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: search
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            minLength: 3
+            maxLength: 20
+          - type: 'null'
+          title: Search tag
+          description: Query string to search the user in a company
+        description: Query string to search the user in a company
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          description: Page number
+          default: 1
+          title: Page
+        description: Page number
+      - name: size
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 100
+          minimum: 1
+          description: Page size
+          default: 50
+          title: Size
+        description: Page size
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CompanyRequest'
+      responses:
+        '200':
+          description: All Company users
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Page_Any_'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/user/clients/default/{default_client_id}:
+    put:
+      tags:
+      - Users
+      summary: Update Default Client
+      operationId: update_default_client_api_v1_user_clients_default__default_client_id__put
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: default_client_id
+        in: path
+        required: true
+        schema:
+          type: string
+          example: 5eb7cf5a86d9755df3a6c593
+          title: Default Client Id
+      responses:
+        '200':
+          description: Client updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models__profile__Response'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/user/company/default:
+    post:
+      tags:
+      - Users
+      summary: Update Default Company
+      operationId: update_default_company_api_v1_user_company_default_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CompanyCreateUsersRequest'
+        required: true
+      responses:
+        '200':
+          description: Client updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models__profile__Response'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+      - HTTPBearer: []
+  /api/v1/user/update-user-association:
+    post:
+      tags:
+      - Users
+      summary: Update User Association
+      operationId: update_user_association_api_v1_user_update_user_association_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: parent_type
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Type
+        examples:
+          Octave:
+            value: company
+          Bauer UK:
+            value: sub-company
+          News UK:
+            value: sub-company
+      - name: parent_id
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Name
+        examples:
+          Octave:
+            value: Octave
+          Bauer UK:
+            value: Bauer UK
+          News UK:
+            value: News UK
+      - name: client_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            maxLength: 50
+          - type: 'null'
+          title: Client Id
+        examples:
+          Bauer Media:
+            value: 5db1c6f588976c89fcb6bd70
+          News UK Browser:
+            value: 63247594f1861e200ef5b102
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCompanyUsersRequest'
+      responses:
+        '200':
+          description: User linked
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/user/create-users-with-roles:
+    post:
+      tags:
+      - Users
+      summary: Create Users With Roles
+      description: "Creates multiple Cognito users in bulk with specific roles and associated companies.\n\nExpects payload like:\n{\n    \"emails\": [\"imran+bulk1@covatic.com\", \"imran+bulk2@covatic.com\"],\n    \"roles\": [\"super_admin\"],\n    \"associated_companies\": [\n        {\n            \"parent_id\": \"BBC\",\n            \"parent_type\": \"company\",\n            \"is_default\": true,\n            \"permissions\": [\"insights\", \"advertising\"]\n        }\n    ],\n    \"company\": {\n        \"parent_id\": \"BBC\",\n        \"parent_type\": \"company\"\n    }\n}"
+      operationId: create_users_with_roles_api_v1_user_create_users_with_roles_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: parent_type
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Type
+        examples:
+          Octave:
+            value: company
+          Bauer UK:
+            value: sub-company
+          News UK:
+            value: sub-company
+      - name: parent_id
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Name
+        examples:
+          Octave:
+            value: Octave
+          Bauer UK:
+            value: Bauer UK
+          News UK:
+            value: News UK
+      - name: client_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            maxLength: 50
+          - type: 'null'
+          title: Client Id
+        examples:
+          Bauer Media:
+            value: 5db1c6f588976c89fcb6bd70
+          News UK Browser:
+            value: 63247594f1861e200ef5b102
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUsersWithRolesRequest'
+      responses:
+        '200':
+          description: Users created with roles
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/user/resend-invite:
+    post:
+      tags:
+      - Users
+      summary: Resend Invite
+      description: Resend invite to an existing Cognito user
+      operationId: resend_invite_api_v1_user_resend_invite_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserEmailRequestModel'
+        required: true
+      responses:
+        '200':
+          description: User invite sent successfully
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+      - HTTPBearer: []
+  /api/v1/user/delete/{user_cognito_id}:
+    delete:
+      tags:
+      - Users
+      summary: Delete User
+      description: "Delete a user from Cognito, the database, and QuickSight.\n\nProcess:\n1. Retrieve user record from DB (to obtain email and company for QS cleanup)\n2. Attempt to delete from Cognito\n3. If user deleted from Cognito OR user doesn't exist in Cognito:\n   - Proceed to delete from database\n4. Best-effort removal from QuickSight (revoke dashboard + delete QS user)\n5. If Cognito deletion fails with an error:\n   - Do NOT delete from database to maintain data consistency\n   - Raise HTTP 500 error\n\nArgs:\n    user_cognito_id: The Cognito user ID to delete\n\nReturns:\n    Success response with deletion details\n\nRaises:\n    HTTPException: If Cognito deletion fails due to error or user not found anywhere"
+      operationId: delete_user_api_v1_user_delete__user_cognito_id__delete
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: user_cognito_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: User Cognito Id
+      responses:
+        '200':
+          description: User deleted successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models__profile__Response'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/user/update:
+    put:
+      tags:
+      - Users
+      summary: Update User
+      description: "Update user's associated companies and roles.\n\nExpects payload like:\n{\n    \"user_cognito_id\": \"3314b812-d061-7062-b980-5acc06868d34\",\n    \"associated_companies\": [\n        {\n            \"parent_id\": \"Covatic US\",\n            \"parent_type\": \"company\",\n            \"is_default\": false,\n            \"permissions\": [\"insights\", \"advertising\"]\n        },\n        {\n            \"parent_id\": \"Covatic\",\n            \"parent_type\": \"company\",\n            \"is_default\": true,\n            \"permissions\": [\"insights\", \"advertising\"]\n        }\n    ],\n    \"roles\": [\"admin\"]\n}"
+      operationId: update_user_api_v1_user_update_put
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateUserRequestModel'
+        required: true
+      responses:
+        '200':
+          description: User updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models__profile__Response'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+      - HTTPBearer: []
+components:
+  schemas:
+    Page_Company_:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/Company'
+          type: array
+          title: Items
+        total:
+          type: integer
+          minimum: 0.0
+          title: Total
+        page:
+          type: integer
+          minimum: 1.0
+          title: Page
+        size:
+          type: integer
+          minimum: 1.0
+          title: Size
+        pages:
+          type: integer
+          minimum: 0.0
+          title: Pages
+      type: object
+      required:
+      - items
+      - total
+      - page
+      - size
+      - pages
+      title: Page[Company]
+    SubCompany:
+      properties:
+        sub_company_name:
+          type: string
+          title: Sub Company Name
+        clients:
+          items:
+            $ref: '#/components/schemas/Client'
+          type: array
+          title: Clients
+        sub_company_permissions:
+          items:
+            type: string
+          type: array
+          title: Sub Company Permissions
+      type: object
+      required:
+      - sub_company_name
+      - clients
+      - sub_company_permissions
+      title: SubCompany
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    Page_Any_:
+      properties:
+        items:
+          items: {}
+          type: array
+          title: Items
+        total:
+          type: integer
+          minimum: 0.0
+          title: Total
+        page:
+          type: integer
+          minimum: 1.0
+          title: Page
+        size:
+          type: integer
+          minimum: 1.0
+          title: Size
+        pages:
+          type: integer
+          minimum: 0.0
+          title: Pages
+      type: object
+      required:
+      - items
+      - total
+      - page
+      - size
+      - pages
+      title: Page[Any]
+    CompanyRequest:
+      properties:
+        parent_id:
+          type: string
+          title: Parent Id
+        parent_type:
+          type: string
+          title: Parent Type
+      type: object
+      required:
+      - parent_id
+      - parent_type
+      title: CompanyRequest
+    UpdateUserRequestModel:
+      properties:
+        user_cognito_id:
+          type: string
+          title: User Cognito Id
+        associated_companies:
+          items:
+            $ref: '#/components/schemas/CompanyAccess'
+          type: array
+          title: Associated Companies
+        roles:
+          items:
+            type: string
+          type: array
+          title: Roles
+      type: object
+      required:
+      - user_cognito_id
+      - associated_companies
+      - roles
+      title: UpdateUserRequestModel
+    CompanyAccess:
+      properties:
+        parent_type:
+          type: string
+          title: Parent Type
+        parent_id:
+          type: string
+          title: Parent Id
+        is_default:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Is Default
+          default: false
+        permissions:
+          items:
+            type: string
+          type: array
+          title: Permissions
+      type: object
+      required:
+      - parent_type
+      - parent_id
+      - permissions
+      title: CompanyAccess
+    CreateUsersWithRolesRequest:
+      properties:
+        emails:
+          items:
+            type: string
+            format: email
+          type: array
+          title: Emails
+        roles:
+          items:
+            type: string
+          type: array
+          title: Roles
+        associated_companies:
+          items:
+            $ref: '#/components/schemas/CompanyAccess'
+          type: array
+          title: Associated Companies
+        company:
+          $ref: '#/components/schemas/CompanyCreateUsersRequest'
+      type: object
+      required:
+      - emails
+      - roles
+      - associated_companies
+      - company
+      title: CreateUsersWithRolesRequest
+    AudienceCodeFormat:
+      type: string
+      enum:
+      - numeric_6
+      - alphanumeric_3
+      title: AudienceCodeFormat
+      description: Audience code format enumeration
+    Company:
+      properties:
+        _id:
+          anyOf:
+          - type: string
+            example: 5eb7cf5a86d9755df3a6c593
+          - type: 'null'
+          title: Id
+          description: MongoDB document ObjectID
+        revision_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Revision Id
+          hidden: true
+        company_name:
+          type: string
+          minLength: 1
+          title: Company Name
+          description: Company name must not be empty.
+        company_permissions:
+          items:
+            type: string
+          type: array
+          title: Company Permissions
+        qs_dashboard:
+          additionalProperties:
+            type: string
+          type: object
+          title: Qs Dashboard
+          default: {}
+        sub_companies:
+          items:
+            $ref: '#/components/schemas/SubCompany'
+          type: array
+          title: Sub Companies
+        audience_code_format:
+          anyOf:
+          - $ref: '#/components/schemas/AudienceCodeFormat'
+          - type: 'null'
+          description: Format for generating audience codes. Defaults to 6-digit numeric.
+          default: numeric_6
+      type: object
+      required:
+      - company_name
+      - company_permissions
+      - sub_companies
+      title: Company
+      example:
+        audience_code_format: numeric_6
+        company_name: Octave
+        company_permissions:
+        - insights
+        - advertising
+        sub_companies:
+        - clients:
+          - client_id: '123'
+            client_name: Bauer UK Client 1
+            country: UK
+            platform: Web
+          sub_company_name: Bauer UK
+          sub_company_permissions:
+          - insights
+          - notifications
+        - clients:
+          - client_id: '789'
+            client_name: News UK Client 1
+          sub_company_name: News UK
+          sub_company_permissions:
+          - insights
+          - notifications
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    models__profile__Response:
+      properties:
+        status_code:
+          type: integer
+          title: Status Code
+        response_type:
+          type: string
+          title: Response Type
+        description:
+          type: string
+          title: Description
+        data:
+          anyOf:
+          - {}
+          - type: 'null'
+          title: Data
+      type: object
+      required:
+      - status_code
+      - response_type
+      - description
+      - data
+      title: Response
+      example:
+        data: []
+        description: Operation successful
+        response_type: success
+        status_code: 200
+    UserEmailRequestModel:
+      properties:
+        email:
+          type: string
+          format: email
+          title: Email
+      type: object
+      required:
+      - email
+      title: UserEmailRequestModel
+    Client:
+      properties:
+        client_id:
+          type: string
+          title: Client Id
+          example: 5eb7cf5a86d9755df3a6c593
+        client_name:
+          type: string
+          title: Client Name
+        platform:
+          type: string
+          title: Platform
+        location:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Location
+        country:
+          type: string
+          title: Country
+        sec_type:
+          type: string
+          title: Sec Type
+        bucket_name:
+          type: string
+          title: Bucket Name
+        code_name:
+          type: string
+          title: Code Name
+        cluster_reference:
+          type: string
+          title: Cluster Reference
+        restricted_access:
+          type: boolean
+          title: Restricted Access
+      type: object
+      required:
+      - client_id
+      - client_name
+      - platform
+      - country
+      - sec_type
+      - bucket_name
+      - code_name
+      - cluster_reference
+      - restricted_access
+      title: Client
+    CompanyCreateUsersRequest:
+      properties:
+        parent_id:
+          type: string
+          title: Parent Id
+        parent_type:
+          type: string
+          title: Parent Type
+      type: object
+      required:
+      - parent_id
+      - parent_type
+      title: CompanyCreateUsersRequest
+    CreateCompanyUsersRequest:
+      properties:
+        emails:
+          items:
+            type: string
+            format: email
+          type: array
+          title: Emails
+        company:
+          $ref: '#/components/schemas/CompanyCreateUsersRequest'
+      type: object
+      required:
+      - emails
+      - company
+      title: CreateCompanyUsersRequest
+  securitySchemes:
+    HTTPBearer:
+      type: http
+      scheme: bearer

@@ -1,0 +1,225 @@
+openapi: 3.2.0
+info:
+  title: Audience Builder Agent API
+  summary: Audience builder is an app for clients to create their campaigns.
+  version: 0.0.1
+servers:
+- url: https://prodaudiencebuilderapi.covatic.io
+  description: Production (Covatic Audience Builder)
+tags:
+- name: Audience Builder Agent
+paths:
+  /api/v1/ai_audience_agent/chat:
+    post:
+      tags:
+      - Audience Builder Agent
+      summary: Chat
+      description: 'Chat with the AI Audience Builder to create targeted audience segments.
+
+
+        Send a message describing your target audience and the assistant will help
+
+        you build it using available traits and reach estimates.
+
+
+        Query params: parent_type, parent_id, sec_threshold (optional, default 100)'
+      operationId: chat_api_v1_ai_audience_agent_chat_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: parent_type
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Type
+        examples:
+          Octave:
+            value: company
+          Bauer UK:
+            value: sub-company
+          News UK:
+            value: sub-company
+      - name: parent_id
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Name
+        examples:
+          Octave:
+            value: Octave
+          Bauer UK:
+            value: Bauer UK
+          News UK:
+            value: News UK
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChatRequest'
+      responses:
+        '200':
+          description: Chat response from AI Audience Builder
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChatResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    routes__ai_audience_agent__ChatMessage:
+      properties:
+        role:
+          type: string
+          title: Role
+          description: 'Message role: ''user'' or ''assistant'''
+        content:
+          title: Content
+          description: Message content
+      type: object
+      required:
+      - role
+      - content
+      title: ChatMessage
+    ChatRequest:
+      properties:
+        message:
+          type: string
+          maxLength: 2000
+          title: Message
+          description: User message
+        conversation_history:
+          items:
+            $ref: '#/components/schemas/routes__ai_audience_agent__ChatMessage'
+          type: array
+          title: Conversation History
+          description: Previous conversation messages. Pass empty list for first message.
+        model:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Model
+          description: 'Model to use: ''haiku'' (default), ''sonnet'', or ''opus'''
+          default: haiku
+      additionalProperties: false
+      type: object
+      required:
+      - message
+      title: ChatRequest
+      examples:
+      - conversation_history: []
+        message: I want to target affluent homeowners who are interested in luxury travel
+    SuggestedAudience:
+      properties:
+        nested_traits:
+          items:
+            additionalProperties: true
+            type: object
+          type: array
+          title: Nested Traits
+          description: The nested traits structure
+        four_week_reach:
+          type: integer
+          title: Four Week Reach
+          description: Estimated 4-week reach
+        percent_of_total:
+          type: number
+          title: Percent Of Total
+          description: Percentage of total audience
+      type: object
+      required:
+      - nested_traits
+      - four_week_reach
+      - percent_of_total
+      title: SuggestedAudience
+    ChatResponseData:
+      properties:
+        response:
+          type: string
+          title: Response
+          description: Claude's text response
+        conversation_history:
+          items:
+            additionalProperties: true
+            type: object
+          type: array
+          title: Conversation History
+          description: Updated conversation history to pass back
+        suggested_audience:
+          anyOf:
+          - $ref: '#/components/schemas/SuggestedAudience'
+          - type: 'null'
+          description: Present when Claude has generated and tested an audience
+      type: object
+      required:
+      - response
+      - conversation_history
+      title: ChatResponseData
+    ChatResponse:
+      properties:
+        status_code:
+          type: integer
+          title: Status Code
+        response_type:
+          type: string
+          title: Response Type
+        description:
+          type: string
+          title: Description
+        data:
+          $ref: '#/components/schemas/ChatResponseData'
+      type: object
+      required:
+      - status_code
+      - response_type
+      - description
+      - data
+      title: ChatResponse
+  securitySchemes:
+    HTTPBearer:
+      type: http
+      scheme: bearer

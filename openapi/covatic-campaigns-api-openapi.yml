@@ -1,0 +1,2106 @@
+openapi: 3.2.0
+info:
+  title: Audience builder Campaigns API
+  summary: Audience builder is an app for clients to create their campaigns.
+  version: 0.0.1
+servers:
+- url: https://prodaudiencebuilderapi.covatic.io
+  description: Production (Covatic Audience Builder)
+tags:
+- name: Campaigns
+paths:
+  /api/v1/campaigns/:
+    get:
+      tags:
+      - Campaigns
+      summary: Get Campaigns
+      description: 'Retrieve a paginated list of campaigns with optional filtering and sorting.
+
+
+        Supports:
+
+        - Pagination (page, size)
+
+        - Status filtering
+
+        - Search by name, orderId, and audienceCode
+
+        - Filter by tags, platforms, type, creator
+
+        - Date range filtering (by creation date)
+
+        - Multiple sort options'
+      operationId: get_campaigns_api_v1_campaigns__get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          description: Page number (1-indexed)
+          default: 1
+          title: Page
+        description: Page number (1-indexed)
+      - name: size
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 100
+          minimum: 1
+          description: Items per page (max 100)
+          default: 20
+          title: Size
+        description: Items per page (max 100)
+      - name: status
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Filter by status
+          title: Status
+        description: Filter by status
+      - name: sort
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: 'Sort option: latest, oldest, name-ascending, name-descending'
+          title: Sort
+        description: 'Sort option: latest, oldest, name-ascending, name-descending'
+      - name: search
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Search in name, orderId, and audienceCode
+          title: Search
+        description: Search in name, orderId, and audienceCode
+      - name: tag
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: array
+            items:
+              type: string
+          - type: 'null'
+          description: Filter by tags
+          title: Tag
+        description: Filter by tags
+      - name: platform
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: array
+            items:
+              type: string
+          - type: 'null'
+          description: Filter by platforms
+          title: Platform
+        description: Filter by platforms
+      - name: type
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: array
+            items:
+              type: string
+          - type: 'null'
+          description: Filter by campaign type
+          title: Type
+        description: Filter by campaign type
+      - name: createdBy
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: array
+            items:
+              type: string
+          - type: 'null'
+          description: Filter by creator
+          title: Createdby
+        description: Filter by creator
+      - name: startDate
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Filter by start date
+          title: Startdate
+        description: Filter by start date
+      - name: endDate
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Filter by end date
+          title: Enddate
+        description: Filter by end date
+      - name: parent_type
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Type
+        examples:
+          Octave:
+            value: company
+          Bauer UK:
+            value: sub-company
+          News UK:
+            value: sub-company
+      - name: parent_id
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Name
+        examples:
+          Octave:
+            value: Octave
+          Bauer UK:
+            value: Bauer UK
+          News UK:
+            value: News UK
+      responses:
+        '200':
+          description: Get paginated list of campaigns
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    post:
+      tags:
+      - Campaigns
+      summary: Create New Campaign
+      description: "Create a new campaign.\n\nArgs:\n    campaign_data: Campaign creation request body\n\nReturns:\n    Created campaign with generated unique audienceCode and optional orderId\n\nRaises:\n    400: Invalid request body or validation errors\n    409: Campaign with same name already exists"
+      operationId: create_new_campaign_api_v1_campaigns__post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: parent_type
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Type
+        examples:
+          Octave:
+            value: company
+          Bauer UK:
+            value: sub-company
+          News UK:
+            value: sub-company
+      - name: parent_id
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Name
+        examples:
+          Octave:
+            value: Octave
+          Bauer UK:
+            value: Bauer UK
+          News UK:
+            value: News UK
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CampaignCreateRequest'
+      responses:
+        '201':
+          description: Create a new campaign
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models__profile__Response'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/campaigns/created-by:
+    get:
+      tags:
+      - Campaigns
+      summary: Get Campaign Created By
+      description: "Retrieve unique list of createdBy values from campaigns.\n\nQuery Parameters:\n- parent_id: Filter by company/sub-company ID (from CompanyInfoQueryParams)\n- page: Page number for pagination\n- size: Items per page\n\nReturns:\n    Paginated list of unique createdBy values"
+      operationId: get_campaign_created_by_api_v1_campaigns_created_by_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: parent_type
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Type
+        examples:
+          Octave:
+            value: company
+          Bauer UK:
+            value: sub-company
+          News UK:
+            value: sub-company
+      - name: parent_id
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Name
+        examples:
+          Octave:
+            value: Octave
+          Bauer UK:
+            value: Bauer UK
+          News UK:
+            value: News UK
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          description: Page number
+          default: 1
+          title: Page
+        description: Page number
+      - name: size
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 100
+          minimum: 1
+          description: Page size
+          default: 50
+          title: Size
+        description: Page size
+      responses:
+        '200':
+          description: Get list of campaign creators
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Page_str_'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/campaigns/tracking-url:
+    get:
+      tags:
+      - Campaigns
+      summary: Get Tracking Url
+      description: "Get the tracking URL based on the parent_id (company or sub-company).\n\nQuery Parameters:\n    parent_id: Company or sub-company name (from CompanyInfoQueryParams)\n\nReturns:\n    Tracking URL for the specified parent with is_default flag\n\nExample Response (specific mapping):\n    {\n        \"status_code\": 200,\n        \"response_type\": \"success\",\n        \"description\": \"Tracking URL retrieved successfully\",\n        \"data\": {\n            \"tracking_url\": \"https://sca-cvc-prod.covatic.io/mobile/api/v1.0\",\n            \"is_default\": false\n        }\n    }\n\nExample Response (default/fallback):\n    {\n        \"status_code\": 200,\n        \"response_type\": \"success\",\n        \"description\": \"Tracking URL retrieved successfully\",\n        \"data\": {\n            \"tracking_url\": \"https://mobile-cvc-fra-cvc-dev.covatic.io/mobile/api/v1.0\",\n            \"is_default\": true\n        }\n    }"
+      operationId: get_tracking_url_api_v1_campaigns_tracking_url_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: parent_type
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Type
+        examples:
+          Octave:
+            value: company
+          Bauer UK:
+            value: sub-company
+          News UK:
+            value: sub-company
+      - name: parent_id
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Name
+        examples:
+          Octave:
+            value: Octave
+          Bauer UK:
+            value: Bauer UK
+          News UK:
+            value: News UK
+      responses:
+        '200':
+          description: Get tracking URL for the parent company
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models__profile__Response'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/campaigns/{campaignId}/insights/summary:
+    get:
+      tags:
+      - Campaigns
+      summary: Get Campaign Insights Summary
+      operationId: get_campaign_insights_summary_api_v1_campaigns__campaignId__insights_summary_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: campaignId
+        in: path
+        required: true
+        schema:
+          type: string
+          example: 5eb7cf5a86d9755df3a6c593
+          title: Campaignid
+      - name: parent_type
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Type
+        examples:
+          Octave:
+            value: company
+          Bauer UK:
+            value: sub-company
+          News UK:
+            value: sub-company
+      - name: parent_id
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Name
+        examples:
+          Octave:
+            value: Octave
+          Bauer UK:
+            value: Bauer UK
+          News UK:
+            value: News UK
+      responses:
+        '200':
+          description: Get campaign insights summary statistics
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models__profile__Response'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/campaigns/{campaignId}/insights/timeseries:
+    get:
+      tags:
+      - Campaigns
+      summary: Get Campaign Insights Timeseries
+      operationId: get_campaign_insights_timeseries_api_v1_campaigns__campaignId__insights_timeseries_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: campaignId
+        in: path
+        required: true
+        schema:
+          type: string
+          example: 5eb7cf5a86d9755df3a6c593
+          title: Campaignid
+      - name: parent_type
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Type
+        examples:
+          Octave:
+            value: company
+          Bauer UK:
+            value: sub-company
+          News UK:
+            value: sub-company
+      - name: parent_id
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Name
+        examples:
+          Octave:
+            value: Octave
+          Bauer UK:
+            value: Bauer UK
+          News UK:
+            value: News UK
+      responses:
+        '200':
+          description: Get campaign insights time series data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models__profile__Response'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/campaigns/{campaignId}/insights/targeting-changes:
+    get:
+      tags:
+      - Campaigns
+      summary: Get Campaign Insights Targeting Changes
+      operationId: get_campaign_insights_targeting_changes_api_v1_campaigns__campaignId__insights_targeting_changes_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: campaignId
+        in: path
+        required: true
+        schema:
+          type: string
+          example: 5eb7cf5a86d9755df3a6c593
+          title: Campaignid
+      - name: parent_type
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Type
+        examples:
+          Octave:
+            value: company
+          Bauer UK:
+            value: sub-company
+          News UK:
+            value: sub-company
+      - name: parent_id
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Name
+        examples:
+          Octave:
+            value: Octave
+          Bauer UK:
+            value: Bauer UK
+          News UK:
+            value: News UK
+      responses:
+        '200':
+          description: Get campaign insights targeting changes log
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models__profile__Response'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/campaigns/{campaignId}/insights/attribution:
+    get:
+      tags:
+      - Campaigns
+      summary: Get Campaign Attribution Insights
+      description: 'Retrieve the full pre-computed Attribution insights payload for a campaign.
+
+
+        Returns a single document containing `events`, `totals`, `chart`,
+
+        `performance_summary`, `sec_summary`, and `audience_summary`. Top-N
+
+        ranking, scope filtering, and conversion-rate rollups are all performed
+
+        on the frontend per PRO-138 / DATA-874.
+
+
+        Returns 404 if the campaign does not exist, no insights document exists,
+
+        or the stored insights document is not of type Attribution.'
+      operationId: get_campaign_attribution_insights_api_v1_campaigns__campaignId__insights_attribution_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: campaignId
+        in: path
+        required: true
+        schema:
+          type: string
+          example: 5eb7cf5a86d9755df3a6c593
+          title: Campaignid
+      - name: parent_type
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Type
+        examples:
+          Octave:
+            value: company
+          Bauer UK:
+            value: sub-company
+          News UK:
+            value: sub-company
+      - name: parent_id
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Name
+        examples:
+          Octave:
+            value: Octave
+          Bauer UK:
+            value: Bauer UK
+          News UK:
+            value: News UK
+      responses:
+        '200':
+          description: Get full Attribution insights document for a campaign
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models__profile__Response'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/campaigns/{campaignId}/suggestions/{suggestionId}/dismiss:
+    post:
+      tags:
+      - Campaigns
+      summary: Dismiss Suggestion
+      description: "Dismiss a suggested audience for a smart campaign.\n\n- Moves suggestion to DISMISSED status\n- Creates record in campaign_history collection\n- Removes from suggestions array in campaign\n\nArgs:\n    campaignId: Campaign ID\n    suggestionId: Audience code of the suggestion\n    dismissal_data: Optional reason for dismissal\n\nReturns:\n    Updated campaign without the dismissed suggestion\n\nRaises:\n    400: Not a Smart campaign\n    404: Campaign or suggestion not found"
+      operationId: dismiss_suggestion_api_v1_campaigns__campaignId__suggestions__suggestionId__dismiss_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: campaignId
+        in: path
+        required: true
+        schema:
+          type: string
+          example: 5eb7cf5a86d9755df3a6c593
+          title: Campaignid
+      - name: suggestionId
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Suggestionid
+      - name: parent_type
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Type
+        examples:
+          Octave:
+            value: company
+          Bauer UK:
+            value: sub-company
+          News UK:
+            value: sub-company
+      - name: parent_id
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Name
+        examples:
+          Octave:
+            value: Octave
+          Bauer UK:
+            value: Bauer UK
+          News UK:
+            value: News UK
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SuggestionDismissalRequest'
+              default: {}
+      responses:
+        '200':
+          description: Dismiss a suggested audience
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models__profile__Response'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/campaigns/{campaignId}/suggestions/{suggestionId}/accept:
+    post:
+      tags:
+      - Campaigns
+      summary: Accept Suggestion
+      description: "Accept a suggested audience and add it to the campaign audiences.\n\n- Moves suggestion to ACCEPTED status\n- Adds audience to audiences array\n- Removes from suggestions array\n- Re-estimates reach, duration, and updates nested_traits from all audiences\n\nArgs:\n    campaignId: Campaign ID\n    suggestionId: Audience code of the suggestion\n\nReturns:\n    Updated campaign with new audience added\n\nRaises:\n    400: Not a Smart campaign\n    404: Campaign or suggestion not found\n    409: Audience code already exists in campaign"
+      operationId: accept_suggestion_api_v1_campaigns__campaignId__suggestions__suggestionId__accept_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: campaignId
+        in: path
+        required: true
+        schema:
+          type: string
+          example: 5eb7cf5a86d9755df3a6c593
+          title: Campaignid
+      - name: suggestionId
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Suggestionid
+      - name: parent_type
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Type
+        examples:
+          Octave:
+            value: company
+          Bauer UK:
+            value: sub-company
+          News UK:
+            value: sub-company
+      - name: parent_id
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Name
+        examples:
+          Octave:
+            value: Octave
+          Bauer UK:
+            value: Bauer UK
+          News UK:
+            value: News UK
+      responses:
+        '200':
+          description: Accept and add suggested audience to campaign
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models__profile__Response'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/campaigns/{campaignId}/history:
+    get:
+      tags:
+      - Campaigns
+      summary: Get Campaign History
+      description: "Retrieve change history for a specific campaign.\n\nUseful for:\n- Data team to review what was dismissed (filter by suggestion_dismissed)\n- Users to see full audit trail\n- Analytics on suggestion quality\n- Compliance and reporting\n\nQuery Parameters:\n- change_type: Filter by specific type (suggestion_dismissed, suggestion_accepted,\n               performance_updated, audience_added, audience_removed, etc.)\n- page: Page number (1-indexed)\n- size: Items per page (max 100)\n\nArgs:\n    campaignId: Campaign ID\n    change_type: Optional filter for change type\n    page: Page number\n    size: Items per page\n\nReturns:\n    Paginated list of campaign history records"
+      operationId: get_campaign_history_api_v1_campaigns__campaignId__history_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: campaignId
+        in: path
+        required: true
+        schema:
+          type: string
+          example: 5eb7cf5a86d9755df3a6c593
+          title: Campaignid
+      - name: change_type
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Filter by change type
+          title: Change Type
+        description: Filter by change type
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          description: Page number (1-indexed)
+          default: 1
+          title: Page
+        description: Page number (1-indexed)
+      - name: size
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 100
+          minimum: 1
+          description: Items per page (max 100)
+          default: 20
+          title: Size
+        description: Items per page (max 100)
+      - name: parent_type
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Type
+        examples:
+          Octave:
+            value: company
+          Bauer UK:
+            value: sub-company
+          News UK:
+            value: sub-company
+      - name: parent_id
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Name
+        examples:
+          Octave:
+            value: Octave
+          Bauer UK:
+            value: Bauer UK
+          News UK:
+            value: News UK
+      responses:
+        '200':
+          description: Get change history for a campaign
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/campaigns/{campaignId}/suggestions:
+    get:
+      tags:
+      - Campaigns
+      summary: Get Campaign Suggestions
+      description: "Get all suggestions for a smart campaign.\n\nReturns the list of pending, accepted, and dismissed suggestions.\nFor full campaign details including audiences, use GET /campaigns/{campaignId}\n\nArgs:\n    campaignId: Campaign ID\n\nReturns:\n    List of suggestions with their status\n\nRaises:\n    400: Not a Smart campaign\n    404: Campaign not found"
+      operationId: get_campaign_suggestions_api_v1_campaigns__campaignId__suggestions_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: campaignId
+        in: path
+        required: true
+        schema:
+          type: string
+          example: 5eb7cf5a86d9755df3a6c593
+          title: Campaignid
+      - name: parent_type
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Type
+        examples:
+          Octave:
+            value: company
+          Bauer UK:
+            value: sub-company
+          News UK:
+            value: sub-company
+      - name: parent_id
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Name
+        examples:
+          Octave:
+            value: Octave
+          Bauer UK:
+            value: Bauer UK
+          News UK:
+            value: News UK
+      responses:
+        '200':
+          description: Get suggestions for a smart campaign
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models__profile__Response'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    post:
+      tags:
+      - Campaigns
+      summary: Add Campaign Suggestions
+      description: "Add new suggestions to a smart campaign (typically used by data team).\n\nThe system automatically:\n- Checks dismissal history to prevent re-suggesting dismissed audiences\n- Filters out suggestions with audience codes that already exist\n- Creates history records for each added suggestion\n\nArgs:\n    campaignId: Campaign ID\n    suggestions_data: Array of suggestions to add (max 20)\n\nReturns:\n    Summary with added and skipped suggestions\n\nRaises:\n    400: Not a Smart campaign or invalid data\n    404: Campaign not found"
+      operationId: add_campaign_suggestions_api_v1_campaigns__campaignId__suggestions_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: campaignId
+        in: path
+        required: true
+        schema:
+          type: string
+          example: 5eb7cf5a86d9755df3a6c593
+          title: Campaignid
+      - name: parent_type
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Type
+        examples:
+          Octave:
+            value: company
+          Bauer UK:
+            value: sub-company
+          News UK:
+            value: sub-company
+      - name: parent_id
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Name
+        examples:
+          Octave:
+            value: Octave
+          Bauer UK:
+            value: Bauer UK
+          News UK:
+            value: News UK
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddSuggestionsRequest'
+      responses:
+        '200':
+          description: Add suggestions to a smart campaign
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models__profile__Response'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/campaigns/{campaignId}/audiences/performance:
+    patch:
+      tags:
+      - Campaigns
+      summary: Update Audience Performance
+      description: "Update performance metrics for existing audiences in a smart campaign.\n\nTypically used by the data team to update performance ratings based on analytics.\nCreates history records for each performance update.\n\nArgs:\n    campaignId: Campaign ID\n    performance_data: Array of performance updates\n\nReturns:\n    Updated campaign with new performance ratings\n\nRaises:\n    400: Not a Smart campaign or invalid performance rating\n    404: Campaign or audience not found"
+      operationId: update_audience_performance_api_v1_campaigns__campaignId__audiences_performance_patch
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: campaignId
+        in: path
+        required: true
+        schema:
+          type: string
+          example: 5eb7cf5a86d9755df3a6c593
+          title: Campaignid
+      - name: parent_type
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Type
+        examples:
+          Octave:
+            value: company
+          Bauer UK:
+            value: sub-company
+          News UK:
+            value: sub-company
+      - name: parent_id
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Name
+        examples:
+          Octave:
+            value: Octave
+          Bauer UK:
+            value: Bauer UK
+          News UK:
+            value: News UK
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdatePerformanceRequest'
+      responses:
+        '200':
+          description: Update audience performance metrics
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models__profile__Response'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/campaigns/{campaignId}/audiences:
+    post:
+      tags:
+      - Campaigns
+      summary: Bulk Add Audiences
+      description: "Bulk add audiences to a smart campaign.\n\n- Adds each audience to the smart campaign audiences array\n- Skips audience codes that already exist in the campaign\n- Creates campaign_history records (change_type=\"audience_added\") for each\n- Re-estimates reach, duration, and nested_traits from all audiences\n\nArgs:\n    campaignId: Campaign ID\n    audiences_data: Array of audiences to add (max 50)\n\nReturns:\n    Summary with added/skipped audiences and updated campaign\n\nRaises:\n    400: Not a Smart campaign\n    404: Campaign not found"
+      operationId: bulk_add_audiences_api_v1_campaigns__campaignId__audiences_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: campaignId
+        in: path
+        required: true
+        schema:
+          type: string
+          example: 5eb7cf5a86d9755df3a6c593
+          title: Campaignid
+      - name: parent_type
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Type
+        examples:
+          Octave:
+            value: company
+          Bauer UK:
+            value: sub-company
+          News UK:
+            value: sub-company
+      - name: parent_id
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Name
+        examples:
+          Octave:
+            value: Octave
+          Bauer UK:
+            value: Bauer UK
+          News UK:
+            value: News UK
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BulkAddAudiencesRequest'
+      responses:
+        '200':
+          description: Bulk add audiences to a smart campaign
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models__profile__Response'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/campaigns/{campaignId}/audiences/{audienceCode}:
+    delete:
+      tags:
+      - Campaigns
+      summary: Remove Audience
+      description: "Remove an audience from a smart campaign.\n\n- Removes audience from audiences array\n- Re-estimates reach, duration, and updates nested_traits from remaining audiences\n- Creates record in campaign_history collection (change_type=\"audience_removed\")\n\nArgs:\n    campaignId: Campaign ID\n    audienceCode: Audience code to remove\n    removal_data: Optional reason for removal\n\nReturns:\n    Updated campaign without the removed audience\n\nRaises:\n    400: Not a Smart campaign\n    404: Campaign or audience not found"
+      operationId: remove_audience_api_v1_campaigns__campaignId__audiences__audienceCode__delete
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: campaignId
+        in: path
+        required: true
+        schema:
+          type: string
+          example: 5eb7cf5a86d9755df3a6c593
+          title: Campaignid
+      - name: audienceCode
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Audiencecode
+      - name: parent_type
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Type
+        examples:
+          Octave:
+            value: company
+          Bauer UK:
+            value: sub-company
+          News UK:
+            value: sub-company
+      - name: parent_id
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Name
+        examples:
+          Octave:
+            value: Octave
+          Bauer UK:
+            value: Bauer UK
+          News UK:
+            value: News UK
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AudienceRemovalRequest'
+              default: {}
+      responses:
+        '200':
+          description: Remove an audience from a smart campaign
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models__profile__Response'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/campaigns/{campaignId}:
+    get:
+      tags:
+      - Campaigns
+      summary: Get Campaign Detail
+      description: "Retrieve detailed information about a specific campaign.\n\nArgs:\n    campaignId: Campaign ID (MongoDB ObjectId)\n\nReturns:\n    Campaign details\n\nRaises:\n    404: Campaign not found"
+      operationId: get_campaign_detail_api_v1_campaigns__campaignId__get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: campaignId
+        in: path
+        required: true
+        schema:
+          type: string
+          example: 5eb7cf5a86d9755df3a6c593
+          title: Campaignid
+      - name: parent_type
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Type
+        examples:
+          Octave:
+            value: company
+          Bauer UK:
+            value: sub-company
+          News UK:
+            value: sub-company
+      - name: parent_id
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Name
+        examples:
+          Octave:
+            value: Octave
+          Bauer UK:
+            value: Bauer UK
+          News UK:
+            value: News UK
+      responses:
+        '200':
+          description: Get campaign details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models__profile__Response'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    patch:
+      tags:
+      - Campaigns
+      summary: Update Existing Campaign
+      description: "Update an existing campaign (partial update).\n\nArgs:\n    campaignId: Campaign ID to update\n    update_data: Partial update data (only send fields to update)\n\nReturns:\n    Updated campaign\n\nRaises:\n    400: Invalid request body\n    404: Campaign not found\n    409: Campaign name already exists"
+      operationId: update_existing_campaign_api_v1_campaigns__campaignId__patch
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: campaignId
+        in: path
+        required: true
+        schema:
+          type: string
+          example: 5eb7cf5a86d9755df3a6c593
+          title: Campaignid
+      - name: parent_type
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Type
+        examples:
+          Octave:
+            value: company
+          Bauer UK:
+            value: sub-company
+          News UK:
+            value: sub-company
+      - name: parent_id
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Name
+        examples:
+          Octave:
+            value: Octave
+          Bauer UK:
+            value: Bauer UK
+          News UK:
+            value: News UK
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CampaignUpdateRequest'
+      responses:
+        '200':
+          description: Update an existing campaign
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models__profile__Response'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - Campaigns
+      summary: Delete Existing Campaign
+      description: "Delete a campaign (soft delete).\n\nArgs:\n    campaignId: Campaign ID to delete\n\nReturns:\n    204 No Content on success\n\nRaises:\n    404: Campaign not found\n    409: Cannot delete active campaign"
+      operationId: delete_existing_campaign_api_v1_campaigns__campaignId__delete
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: campaignId
+        in: path
+        required: true
+        schema:
+          type: string
+          example: 5eb7cf5a86d9755df3a6c593
+          title: Campaignid
+      - name: parent_type
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Type
+        examples:
+          Octave:
+            value: company
+          Bauer UK:
+            value: sub-company
+          News UK:
+            value: sub-company
+      - name: parent_id
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Name
+        examples:
+          Octave:
+            value: Octave
+          Bauer UK:
+            value: Bauer UK
+          News UK:
+            value: News UK
+      responses:
+        '204':
+          description: Delete a campaign
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/campaigns/{campaignId}/status:
+    patch:
+      tags:
+      - Campaigns
+      summary: Update Campaign Status Endpoint
+      description: "Update only the status of a campaign.\n\nArgs:\n    campaignId: Campaign ID to update\n    status_data: New status\n\nReturns:\n    Updated campaign with new status\n\nRaises:\n    400: Invalid status value\n    404: Campaign not found"
+      operationId: update_campaign_status_endpoint_api_v1_campaigns__campaignId__status_patch
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: campaignId
+        in: path
+        required: true
+        schema:
+          type: string
+          example: 5eb7cf5a86d9755df3a6c593
+          title: Campaignid
+      - name: parent_type
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Type
+        examples:
+          Octave:
+            value: company
+          Bauer UK:
+            value: sub-company
+          News UK:
+            value: sub-company
+      - name: parent_id
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Name
+        examples:
+          Octave:
+            value: Octave
+          Bauer UK:
+            value: Bauer UK
+          News UK:
+            value: News UK
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CampaignStatusUpdateRequest'
+      responses:
+        '200':
+          description: Update campaign status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models__profile__Response'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    CampaignStatus:
+      type: string
+      enum:
+      - Live
+      - Draft
+      - Completed
+      title: CampaignStatus
+      description: Campaign status enumeration
+    CampaignCreateRequest:
+      properties:
+        name:
+          type: string
+          maxLength: 255
+          minLength: 3
+          title: Name
+          description: Campaign name
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+          description: Optional campaign description
+        tags:
+          items:
+            type: string
+          type: array
+          title: Tags
+          description: Array of tag names
+        type:
+          $ref: '#/components/schemas/CampaignType'
+          description: Campaign type
+        orderId:
+          anyOf:
+          - type: string
+            maxLength: 100
+          - type: 'null'
+          title: Orderid
+          description: Client-provided order ID (optional)
+        advertiserName:
+          anyOf:
+          - type: string
+            maxLength: 255
+          - type: 'null'
+          title: Advertisername
+          description: Advertiser name (optional)
+        startDate:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Startdate
+          description: Campaign start date (YYYY-MM-DD), defaults to current date if not provided
+        endDate:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Enddate
+          description: Campaign end date (YYYY-MM-DD), defaults to one month from start date if not provided
+        platforms:
+          items:
+            type: string
+          type: array
+          title: Platforms
+          description: Platforms (empty means all platforms)
+        status:
+          $ref: '#/components/schemas/CampaignStatus'
+          description: Campaign status
+          default: Draft
+        outcomes:
+          items:
+            $ref: '#/components/schemas/CampaignOutcome'
+          type: array
+          title: Outcomes
+          description: List of campaign outcomes
+        outcomePixels:
+          items:
+            $ref: '#/components/schemas/OutcomePixel'
+          type: array
+          title: Outcomepixels
+          description: List of outcome pixels with tracking codes
+        simple_campaign:
+          anyOf:
+          - $ref: '#/components/schemas/SimpleCampaign'
+          - type: 'null'
+          description: Simple campaign configuration (required for Simple campaigns)
+        smart_campaign:
+          anyOf:
+          - $ref: '#/components/schemas/SmartCampaign'
+          - type: 'null'
+          description: Smart campaign configuration (required for Smart campaigns)
+        createdBy:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Createdby
+          description: User email of campaign creator (optional, will use JWT sub if not provided)
+      type: object
+      required:
+      - name
+      - type
+      title: CampaignCreateRequest
+      description: Request model for creating a campaign
+    Page_str_:
+      properties:
+        items:
+          items:
+            type: string
+          type: array
+          title: Items
+        total:
+          type: integer
+          minimum: 0.0
+          title: Total
+        page:
+          type: integer
+          minimum: 1.0
+          title: Page
+        size:
+          type: integer
+          minimum: 1.0
+          title: Size
+        pages:
+          type: integer
+          minimum: 0.0
+          title: Pages
+      type: object
+      required:
+      - items
+      - total
+      - page
+      - size
+      - pages
+      title: Page[str]
+    BulkAddAudienceItem:
+      properties:
+        audience_code:
+          type: string
+          title: Audience Code
+          description: Audience code
+        name:
+          type: string
+          title: Name
+          description: Audience display name
+        reason:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Reason
+          description: Reason for adding this audience
+      type: object
+      required:
+      - audience_code
+      - name
+      title: BulkAddAudienceItem
+      description: Single audience item for bulk add
+    SuggestionDismissalRequest:
+      properties:
+        reason:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Reason
+          description: Optional reason for dismissal
+      type: object
+      title: SuggestionDismissalRequest
+      description: Request body for dismissing a suggestion
+    SmartCampaign:
+      properties:
+        estimated_duration:
+          type: number
+          minimum: 0.0
+          title: Estimated Duration
+          description: Duration in days
+        estimated_reach:
+          type: number
+          minimum: 0.0
+          title: Estimated Reach
+          description: Combined reach from all audiences
+        exclusions:
+          items: {}
+          type: array
+          title: Exclusions
+          description: Combined exclusions from all selected audiences
+        locations:
+          items: {}
+          type: array
+          title: Locations
+          description: Combined locations from all selected audiences
+        nested_traits:
+          items: {}
+          type: array
+          title: Nested Traits
+          description: Combined traits from all selected audiences
+        audiences:
+          items:
+            $ref: '#/components/schemas/SmartCampaignAudience'
+          type: array
+          title: Audiences
+          description: Array of audience details with performance metrics
+        suggestions:
+          items:
+            $ref: '#/components/schemas/SmartCampaignSuggestion'
+          type: array
+          title: Suggestions
+          description: Array of suggested audiences from data team
+        recommendation_cadence:
+          $ref: '#/components/schemas/RecommendationCadence'
+          description: How often the AI generates audience suggestions (daily or weekly)
+          default: daily
+      type: object
+      required:
+      - estimated_duration
+      - estimated_reach
+      title: SmartCampaign
+      description: Smart campaign configuration with performance tracking and suggestions
+    RecommendationCadence:
+      type: string
+      enum:
+      - daily
+      - weekly
+      title: RecommendationCadence
+      description: Controls how often the AI generates audience suggestions for Smart Campaigns
+    CampaignType:
+      type: string
+      enum:
+      - Attribution
+      - Smart
+      - Notification
+      - Simple
+      title: CampaignType
+      description: Campaign type enumeration
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    CampaignStatusUpdateRequest:
+      properties:
+        status:
+          $ref: '#/components/schemas/CampaignStatus'
+          description: New campaign status
+      type: object
+      required:
+      - status
+      title: CampaignStatusUpdateRequest
+      description: Request model for updating campaign status only
+    AdEngine:
+      type: string
+      enum:
+      - google_ad_manager
+      - adswizz
+      title: AdEngine
+      description: Ad engine enumeration - different ad serving platforms
+    SmartCampaignAudience:
+      properties:
+        audience_code:
+          type: string
+          title: Audience Code
+          description: Audience code
+        name:
+          type: string
+          title: Name
+          description: Audience name
+        reach:
+          type: number
+          minimum: 0.0
+          title: Reach
+          description: Audience reach
+        performance:
+          anyOf:
+          - $ref: '#/components/schemas/PerformanceRating'
+          - type: 'null'
+          description: 'Performance rating: Excellent, Good, Average, or Poor'
+      type: object
+      required:
+      - audience_code
+      - name
+      - reach
+      title: SmartCampaignAudience
+      description: Audience information for smart campaign with performance tracking
+    CampaignOutcome:
+      type: string
+      enum:
+      - click_through
+      - view
+      - purchase
+      - form_fill
+      - sign_up
+      - add_to_cart
+      - page_view
+      - download
+      - video_view
+      - custom
+      title: CampaignOutcome
+      description: Campaign outcome enumeration - trackable outcomes/events for attribution campaigns
+    models__profile__Response:
+      properties:
+        status_code:
+          type: integer
+          title: Status Code
+        response_type:
+          type: string
+          title: Response Type
+        description:
+          type: string
+          title: Description
+        data:
+          anyOf:
+          - {}
+          - type: 'null'
+          title: Data
+      type: object
+      required:
+      - status_code
+      - response_type
+      - description
+      - data
+      title: Response
+      example:
+        data: []
+        description: Operation successful
+        response_type: success
+        status_code: 200
+    CampaignUpdateRequest:
+      properties:
+        name:
+          anyOf:
+          - type: string
+            maxLength: 255
+            minLength: 3
+          - type: 'null'
+          title: Name
+          description: Campaign name
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+        tags:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Tags
+        type:
+          anyOf:
+          - $ref: '#/components/schemas/CampaignType'
+          - type: 'null'
+        orderId:
+          anyOf:
+          - type: string
+            maxLength: 100
+          - type: 'null'
+          title: Orderid
+          description: Client-provided order ID
+        advertiserName:
+          anyOf:
+          - type: string
+            maxLength: 255
+          - type: 'null'
+          title: Advertisername
+          description: Advertiser name (optional)
+        startDate:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Startdate
+        endDate:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Enddate
+        platforms:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Platforms
+        status:
+          anyOf:
+          - $ref: '#/components/schemas/CampaignStatus'
+          - type: 'null'
+        outcomes:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/CampaignOutcome'
+            type: array
+          - type: 'null'
+          title: Outcomes
+        outcomePixels:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/OutcomePixel'
+            type: array
+          - type: 'null'
+          title: Outcomepixels
+        simple_campaign:
+          anyOf:
+          - $ref: '#/components/schemas/SimpleCampaign'
+          - type: 'null'
+        smart_campaign:
+          anyOf:
+          - $ref: '#/components/schemas/SmartCampaign'
+          - type: 'null'
+      type: object
+      title: CampaignUpdateRequest
+      description: Request model for updating a campaign (partial update)
+    SuggestionStatus:
+      type: string
+      enum:
+      - pending
+      - accepted
+      - dismissed
+      title: SuggestionStatus
+      description: Suggestion status enumeration
+    SimpleCampaign:
+      properties:
+        estimated_duration:
+          type: number
+          minimum: 0.0
+          title: Estimated Duration
+          description: Duration in days (can be 0 or greater)
+        estimated_reach:
+          type: number
+          minimum: 0.0
+          title: Estimated Reach
+          description: Combined reach from all audiences (can be 0 or greater)
+        exclusions:
+          items: {}
+          type: array
+          title: Exclusions
+          description: Combined exclusions from all selected audiences
+        locations:
+          items: {}
+          type: array
+          title: Locations
+          description: Combined locations from all selected audiences
+        nested_traits:
+          items: {}
+          type: array
+          title: Nested Traits
+          description: Combined traits from all selected audiences
+        audiences:
+          items:
+            $ref: '#/components/schemas/SimpleCampaignAudience'
+          type: array
+          title: Audiences
+          description: Array of audience details
+      type: object
+      required:
+      - estimated_duration
+      - estimated_reach
+      title: SimpleCampaign
+      description: Simple campaign configuration with audience data
+    UpdatePerformanceRequest:
+      properties:
+        performance_updates:
+          items:
+            $ref: '#/components/schemas/PerformanceUpdate'
+          type: array
+          minItems: 1
+          title: Performance Updates
+      type: object
+      required:
+      - performance_updates
+      title: UpdatePerformanceRequest
+      description: Request body for updating performance
+    AddSuggestionsRequest:
+      properties:
+        suggestions:
+          items:
+            $ref: '#/components/schemas/AddSuggestionItem'
+          type: array
+          maxItems: 20
+          minItems: 1
+          title: Suggestions
+      type: object
+      required:
+      - suggestions
+      title: AddSuggestionsRequest
+      description: Request body for adding suggestions
+    Pixel:
+      properties:
+        outcome:
+          $ref: '#/components/schemas/CampaignOutcome'
+          description: Campaign outcome type
+        engine:
+          $ref: '#/components/schemas/AdEngine'
+          description: Ad serving platform
+        code:
+          type: string
+          title: Code
+          description: Pixel tracking code
+        customEventName:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Customeventname
+          description: Custom event name (required when outcome is 'custom')
+      type: object
+      required:
+      - outcome
+      - engine
+      - code
+      title: Pixel
+      description: Individual pixel tracking code for an ad engine
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    SmartCampaignSuggestion:
+      properties:
+        audience_code:
+          type: string
+          title: Audience Code
+          description: Suggested audience code (unique identifier)
+        name:
+          type: string
+          title: Name
+          description: Suggested audience name
+        reach:
+          type: number
+          minimum: 0.0
+          title: Reach
+          description: Estimated audience reach
+        performance:
+          anyOf:
+          - $ref: '#/components/schemas/PerformanceRating'
+          - type: 'null'
+          description: 'Expected performance rating: Excellent, Good, Average, or Poor'
+        reason:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Reason
+          description: Reason why this audience is suggested (from data team)
+        status:
+          $ref: '#/components/schemas/SuggestionStatus'
+          description: Current status of the suggestion
+          default: pending
+        suggested_at:
+          type: string
+          format: date-time
+          title: Suggested At
+          description: When this suggestion was created
+        suggested_by:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Suggested By
+          description: Data team member who suggested this audience
+      type: object
+      required:
+      - audience_code
+      - name
+      - reach
+      title: SmartCampaignSuggestion
+      description: Suggested audience for smart campaign
+    OutcomePixel:
+      properties:
+        outcome:
+          $ref: '#/components/schemas/CampaignOutcome'
+          description: Campaign outcome type
+        pixels:
+          items:
+            $ref: '#/components/schemas/Pixel'
+          type: array
+          title: Pixels
+          description: List of pixels for different ad engines
+      type: object
+      required:
+      - outcome
+      title: OutcomePixel
+      description: Outcome with associated pixels
+    SimpleCampaignAudience:
+      properties:
+        audience_code:
+          type: string
+          title: Audience Code
+          description: Audience code
+        name:
+          type: string
+          title: Name
+          description: Audience name
+        reach:
+          type: number
+          minimum: 0.0
+          title: Reach
+          description: Audience reach (can be 0 or greater)
+      type: object
+      required:
+      - audience_code
+      - name
+      - reach
+      title: SimpleCampaignAudience
+      description: Audience information for simple campaign
+    PerformanceRating:
+      type: string
+      enum:
+      - Excellent
+      - Good
+      - Average
+      - Poor
+      - Deleted
+      title: PerformanceRating
+      description: Performance rating enumeration for audience performance tracking
+    BulkAddAudiencesRequest:
+      properties:
+        audiences:
+          items:
+            $ref: '#/components/schemas/BulkAddAudienceItem'
+          type: array
+          maxItems: 50
+          minItems: 1
+          title: Audiences
+      type: object
+      required:
+      - audiences
+      title: BulkAddAudiencesRequest
+      description: Request body for bulk adding audiences to a smart campaign
+    PerformanceUpdate:
+      properties:
+        audience_code:
+          type: string
+          title: Audience Code
+        performance:
+          $ref: '#/components/schemas/PerformanceRating'
+      type: object
+      required:
+      - audience_code
+      - performance
+      title: PerformanceUpdate
+      description: Single performance update
+    AudienceRemovalRequest:
+      properties:
+        reason:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Reason
+          description: Optional reason for removal
+      type: object
+      title: AudienceRemovalRequest
+      description: Request body for removing an audience
+    AddSuggestionItem:
+      properties:
+        audience_code:
+          type: string
+          title: Audience Code
+        name:
+          type: string
+          title: Name
+        reach:
+          type: number
+          minimum: 0.0
+          title: Reach
+        performance:
+          anyOf:
+          - $ref: '#/components/schemas/PerformanceRating'
+          - type: 'null'
+        reason:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Reason
+        suggested_by:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Suggested By
+      type: object
+      required:
+      - audience_code
+      - name
+      - reach
+      title: AddSuggestionItem
+      description: Single suggestion item to add
+  securitySchemes:
+    HTTPBearer:
+      type: http
+      scheme: bearer

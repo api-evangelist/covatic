@@ -1,0 +1,245 @@
+openapi: 3.2.0
+info:
+  title: Audience builder Seeders API
+  summary: Audience builder is an app for clients to create their campaigns.
+  version: 0.0.1
+servers:
+- url: https://prodaudiencebuilderapi.covatic.io
+  description: Production (Covatic Audience Builder)
+tags:
+- name: Seeders
+paths:
+  /api/v1/seed/platforms:
+    get:
+      tags:
+      - Seeders
+      summary: Seed Platforms
+      operationId: seed_platforms_api_v1_seed_platforms_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+      security:
+      - HTTPBearer: []
+  /api/v1/seed/locations:
+    get:
+      tags:
+      - Seeders
+      summary: Seed Locations
+      operationId: seed_locations_api_v1_seed_locations_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+      security:
+      - HTTPBearer: []
+  /api/v1/seed/clients:
+    get:
+      tags:
+      - Seeders
+      summary: Seed Clients
+      operationId: seed_clients_api_v1_seed_clients_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+      security:
+      - HTTPBearer: []
+  /api/v1/seed/media-property-options:
+    get:
+      tags:
+      - Seeders
+      summary: Seed Media Property Options Endpoint
+      operationId: seed_media_property_options_endpoint_api_v1_seed_media_property_options_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+      security:
+      - HTTPBearer: []
+  /api/v1/seed/smart-campaigns:
+    get:
+      tags:
+      - Seeders
+      summary: Seed Smart Campaigns
+      description: "Seed Smart Campaigns with performance data and AI-generated suggestions.\n\nThis endpoint populates Smart Campaigns with:\n- Performance ratings (Excellent/Good/Average/Poor) for existing audiences\n- AI-generated audience suggestions with realistic data\n- Proper audit trail in campaign_history collection\n\nQuery Parameters:\n- campaign_id: Seed a specific campaign (optional, if not provided seeds all)\n- parent_id: Filter campaigns by company/sub-company (optional)\n- num_suggestions: Number of suggestions to add per campaign (1-20, default: 5)\n- add_performance: Whether to add performance data to audiences (default: true)\n- add_suggestions: Whether to add AI suggestions (default: true)\n\nExamples:\n- Seed all smart campaigns: GET /seed/smart-campaigns\n- Seed specific campaign: GET /seed/smart-campaigns?campaign_id=6957d233ed139f90b161370c\n- Seed for a company: GET /seed/smart-campaigns?parent_id=Octave\n- Add 10 suggestions: GET /seed/smart-campaigns?num_suggestions=10\n- Only add suggestions: GET /seed/smart-campaigns?add_performance=false\n- Only add performance: GET /seed/smart-campaigns?add_suggestions=false\n\nReturns:\n    Summary of seeding operation including campaigns processed and changes made"
+      operationId: seed_smart_campaigns_api_v1_seed_smart_campaigns_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: campaign_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Specific campaign ID to seed
+          title: Campaign Id
+        description: Specific campaign ID to seed
+      - name: parent_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Filter campaigns by parent_id
+          title: Parent Id
+        description: Filter campaigns by parent_id
+      - name: num_suggestions
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 20
+          minimum: 1
+          description: Number of suggestions per campaign
+          default: 5
+          title: Num Suggestions
+        description: Number of suggestions per campaign
+      - name: add_performance
+        in: query
+        required: false
+        schema:
+          type: boolean
+          description: Add performance data to audiences
+          default: true
+          title: Add Performance
+        description: Add performance data to audiences
+      - name: add_suggestions
+        in: query
+        required: false
+        schema:
+          type: boolean
+          description: Add AI suggestions
+          default: true
+          title: Add Suggestions
+        description: Add AI suggestions
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/seed/campaign-insights:
+    get:
+      tags:
+      - Seeders
+      summary: Seed Campaign Insights Endpoint
+      description: 'Seed the campaign_insights collection with realistic sample data.
+
+
+        Generates 90 days of time series, 7 targeting change batches with
+
+        20 total audience operations, and derived summary statistics.
+
+
+        If a campaign already has insights data it will be replaced.
+
+
+        Query Parameters:
+
+        - campaign_id: Seed insights for a specific campaign (optional)
+
+        - parent_id: Seed insights for all campaigns under a company (optional)
+
+
+        Examples:
+
+        - Seed all campaigns: GET /seed/campaign-insights
+
+        - Seed specific campaign: GET /seed/campaign-insights?campaign_id=6957d233ed139f90b161370c
+
+        - Seed for a company: GET /seed/campaign-insights?parent_id=Octave'
+      operationId: seed_campaign_insights_endpoint_api_v1_seed_campaign_insights_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: campaign_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Specific campaign ID to seed insights for
+          title: Campaign Id
+        description: Specific campaign ID to seed insights for
+      - name: parent_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Filter campaigns by parent_id
+          title: Parent Id
+        description: Filter campaigns by parent_id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+  securitySchemes:
+    HTTPBearer:
+      type: http
+      scheme: bearer

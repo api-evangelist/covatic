@@ -1,0 +1,44 @@
+openapi: 3.2.0
+info:
+  title: Audience builder Auth API
+  summary: Audience builder is an app for clients to create their campaigns.
+  version: 0.0.1
+servers:
+- url: https://prodaudiencebuilderapi.covatic.io
+  description: Production (Covatic Audience Builder)
+tags:
+- name: Auth
+paths:
+  /access/:
+    get:
+      tags:
+      - Auth
+      summary: Secure Access
+      operationId: secure_access_access__get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+      security:
+      - HTTPBearer: []
+  /user/:
+    get:
+      tags:
+      - Auth
+      summary: Secure User
+      operationId: secure_user_user__get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+      security:
+      - HTTPBearer: []
+components:
+  securitySchemes:
+    HTTPBearer:
+      type: http
+      scheme: bearer

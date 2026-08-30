@@ -1,0 +1,138 @@
+openapi: 3.2.0
+info:
+  title: Audience Builder API
+  summary: Audience builder is an app for clients to create their campaigns.
+  version: 0.0.1
+servers:
+- url: https://prodaudiencebuilderapi.covatic.io
+  description: Production (Covatic Audience Builder)
+tags:
+- name: Audience Builder
+paths:
+  /api/v1/ai_audience/create-audiences:
+    get:
+      tags:
+      - Audience Builder
+      summary: Get Audiences
+      operationId: get_audiences_api_v1_ai_audience_create_audiences_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: audience_description
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 1500
+          title: Audience Description
+        example: Affluent renters who use public transport
+      - name: parent_type
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Type
+        examples:
+          Octave:
+            value: company
+          Bauer UK:
+            value: sub-company
+          News UK:
+            value: sub-company
+      - name: parent_id
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Name
+        examples:
+          Octave:
+            value: Octave
+          Bauer UK:
+            value: Bauer UK
+          News UK:
+            value: News UK
+      responses:
+        '200':
+          description: Audiences created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models__trait__Response'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    models__trait__Response:
+      properties:
+        status_code:
+          type: integer
+          title: Status Code
+        response_type:
+          type: string
+          title: Response Type
+        description:
+          type: string
+          title: Description
+        data:
+          anyOf:
+          - {}
+          - type: 'null'
+          title: Data
+      type: object
+      required:
+      - status_code
+      - response_type
+      - description
+      - data
+      title: Response
+      example:
+        data: Sample data
+        description: Operation successful
+        response_type: success
+        status_code: 200
+  securitySchemes:
+    HTTPBearer:
+      type: http
+      scheme: bearer

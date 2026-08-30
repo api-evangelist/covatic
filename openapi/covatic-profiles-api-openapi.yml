@@ -1,0 +1,1085 @@
+openapi: 3.2.0
+info:
+  title: Audience builder Profiles API
+  summary: Audience builder is an app for clients to create their campaigns.
+  version: 0.0.1
+servers:
+- url: https://prodaudiencebuilderapi.covatic.io
+  description: Production (Covatic Audience Builder)
+tags:
+- name: Profiles
+paths:
+  /api/v1/profile/:
+    get:
+      tags:
+      - Profiles
+      summary: Get Profiles
+      operationId: get_profiles_api_v1_profile__get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: parent_type
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Type
+        examples:
+          Octave:
+            value: company
+          Bauer UK:
+            value: sub-company
+          News UK:
+            value: sub-company
+      - name: parent_id
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Name
+        examples:
+          Octave:
+            value: Octave
+          Bauer UK:
+            value: Bauer UK
+          News UK:
+            value: News UK
+      - name: client_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            maxLength: 50
+          - type: 'null'
+          title: Client Id
+        examples:
+          Bauer Media:
+            value: 5db1c6f588976c89fcb6bd70
+          News UK Browser:
+            value: 63247594f1861e200ef5b102
+      - name: search
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            minLength: 3
+            maxLength: 20
+          - type: 'null'
+          title: Profile status
+          description: Query string to search the profile
+        description: Query string to search the profile
+      - name: status
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            minLength: 3
+            maxLength: 50
+          - type: 'null'
+          title: Profile status
+          description: Query string to filter the profile for status
+          examples:
+          - live
+          - draft
+          - completed
+        description: Query string to filter the profile for status
+      - name: location
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+          title: Locations
+          examples:
+          - value: live
+          - value: draft
+          - value: completed
+          default: []
+      - name: platform
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+          title: Platforms
+          default: []
+      - name: tag
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+          title: Tags
+          default: []
+      - name: sort
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            minLength: 3
+            maxLength: 20
+          - type: 'null'
+          title: Profile sort
+          description: Query string to sort profiles
+        description: Query string to sort profiles
+        example: latest
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          description: Page number
+          default: 1
+          title: Page
+        description: Page number
+      - name: size
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 100
+          minimum: 1
+          description: Page size
+          default: 50
+          title: Size
+        description: Page size
+      responses:
+        '200':
+          description: profiles retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Page_Any_'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    post:
+      tags:
+      - Profiles
+      summary: Add Profile Data
+      operationId: add_profile_data_api_v1_profile__post
+      security:
+      - HTTPBearer: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SharedProfile'
+      responses:
+        '200':
+          description: Profile data added into the database
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models__profile__Response'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/profile/v2_profiles:
+    get:
+      tags:
+      - Profiles
+      summary: Get Profiles V2
+      operationId: get_profiles_v2_api_v1_profile_v2_profiles_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: parent_type
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Type
+        examples:
+          Octave:
+            value: company
+          Bauer UK:
+            value: sub-company
+          News UK:
+            value: sub-company
+      - name: parent_id
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Name
+        examples:
+          Octave:
+            value: Octave
+          Bauer UK:
+            value: Bauer UK
+          News UK:
+            value: News UK
+      - name: client_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            maxLength: 50
+          - type: 'null'
+          title: Client Id
+        examples:
+          Bauer Media:
+            value: 5db1c6f588976c89fcb6bd70
+          News UK Browser:
+            value: 63247594f1861e200ef5b102
+      - name: search
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            minLength: 3
+            maxLength: 20
+          - type: 'null'
+          title: Profile status
+          description: Query string to search the profile
+        description: Query string to search the profile
+      - name: status
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            minLength: 3
+            maxLength: 50
+          - type: 'null'
+          title: Profile status
+          description: Query string to filter the profile for status
+          examples:
+          - live
+          - draft
+          - completed
+        description: Query string to filter the profile for status
+      - name: location
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+          title: Locations
+          examples:
+          - value: live
+          - value: draft
+          - value: completed
+          default: []
+      - name: platform
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+          title: Platforms
+          default: []
+      - name: tag
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+          title: Tags
+          default: []
+      - name: sort
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            minLength: 3
+            maxLength: 20
+          - type: 'null'
+          title: Profile sort
+          description: Query string to sort profiles
+        description: Query string to sort profiles
+        example: latest
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          description: Page number
+          default: 1
+          title: Page
+        description: Page number
+      - name: size
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 100
+          minimum: 1
+          description: Page size
+          default: 50
+          title: Size
+        description: Page size
+      responses:
+        '200':
+          description: profiles retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Page_Any_'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/profile/v2/{id}:
+    get:
+      tags:
+      - Profiles
+      summary: Get Profile Data
+      operationId: get_profile_data_api_v1_profile_v2__id__get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          example: 5eb7cf5a86d9755df3a6c593
+          title: Id
+      - name: parent_type
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Type
+        examples:
+          Octave:
+            value: company
+          Bauer UK:
+            value: sub-company
+          News UK:
+            value: sub-company
+      - name: parent_id
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Name
+        examples:
+          Octave:
+            value: Octave
+          Bauer UK:
+            value: Bauer UK
+          News UK:
+            value: News UK
+      - name: client_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            maxLength: 50
+          - type: 'null'
+          title: Client Id
+        examples:
+          Bauer Media:
+            value: 5db1c6f588976c89fcb6bd70
+          News UK Browser:
+            value: 63247594f1861e200ef5b102
+      responses:
+        '200':
+          description: Profile data retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models__profile__Response'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/profile/{id}:
+    delete:
+      tags:
+      - Profiles
+      summary: Delete Profile Data
+      operationId: delete_profile_data_api_v1_profile__id__delete
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          example: 5eb7cf5a86d9755df3a6c593
+          title: Id
+      - name: parent_type
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Type
+        examples:
+          Octave:
+            value: company
+          Bauer UK:
+            value: sub-company
+          News UK:
+            value: sub-company
+      - name: parent_id
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Name
+        examples:
+          Octave:
+            value: Octave
+          Bauer UK:
+            value: Bauer UK
+          News UK:
+            value: News UK
+      - name: client_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            maxLength: 50
+          - type: 'null'
+          title: Client Id
+        examples:
+          Bauer Media:
+            value: 5db1c6f588976c89fcb6bd70
+          News UK Browser:
+            value: 63247594f1861e200ef5b102
+      responses:
+        '200':
+          description: Profile data deleted from the database
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    patch:
+      tags:
+      - Profiles
+      summary: Partial Update Profile
+      operationId: partial_update_profile_api_v1_profile__id__patch
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          example: 5eb7cf5a86d9755df3a6c593
+          title: Id
+      - name: parent_type
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Type
+        examples:
+          Octave:
+            value: company
+          Bauer UK:
+            value: sub-company
+          News UK:
+            value: sub-company
+      - name: parent_id
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Name
+        examples:
+          Octave:
+            value: Octave
+          Bauer UK:
+            value: Bauer UK
+          News UK:
+            value: News UK
+      - name: client_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            maxLength: 50
+          - type: 'null'
+          title: Client Id
+        examples:
+          Bauer Media:
+            value: 5db1c6f588976c89fcb6bd70
+          News UK Browser:
+            value: 63247594f1861e200ef5b102
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateProfile'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models__profile__Response'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/profile/duplicate/{id}:
+    post:
+      tags:
+      - Profiles
+      summary: Duplicate Profile
+      operationId: duplicate_profile_api_v1_profile_duplicate__id__post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          example: 5eb7cf5a86d9755df3a6c593
+          title: Id
+      - name: parent_type
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Type
+        examples:
+          Octave:
+            value: company
+          Bauer UK:
+            value: sub-company
+          News UK:
+            value: sub-company
+      - name: parent_id
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Name
+        examples:
+          Octave:
+            value: Octave
+          Bauer UK:
+            value: Bauer UK
+          News UK:
+            value: News UK
+      - name: client_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            maxLength: 50
+          - type: 'null'
+          title: Client Id
+        examples:
+          Bauer Media:
+            value: 5db1c6f588976c89fcb6bd70
+          News UK Browser:
+            value: 63247594f1861e200ef5b102
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models__profile__Response'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/profile/{id}/status:
+    patch:
+      tags:
+      - Profiles
+      summary: Update Profile Status
+      operationId: update_profile_status_api_v1_profile__id__status_patch
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          example: 5eb7cf5a86d9755df3a6c593
+          title: Id
+      - name: parent_type
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Type
+        examples:
+          Octave:
+            value: company
+          Bauer UK:
+            value: sub-company
+          News UK:
+            value: sub-company
+      - name: parent_id
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Name
+        examples:
+          Octave:
+            value: Octave
+          Bauer UK:
+            value: Bauer UK
+          News UK:
+            value: News UK
+      - name: client_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            maxLength: 50
+          - type: 'null'
+          title: Client Id
+        examples:
+          Bauer Media:
+            value: 5db1c6f588976c89fcb6bd70
+          News UK Browser:
+            value: 63247594f1861e200ef5b102
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+              title: Status Fields
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models__profile__Response'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    Page_Any_:
+      properties:
+        items:
+          items: {}
+          type: array
+          title: Items
+        total:
+          type: integer
+          minimum: 0.0
+          title: Total
+        page:
+          type: integer
+          minimum: 1.0
+          title: Page
+        size:
+          type: integer
+          minimum: 1.0
+          title: Size
+        pages:
+          type: integer
+          minimum: 0.0
+          title: Pages
+      type: object
+      required:
+      - items
+      - total
+      - page
+      - size
+      - pages
+      title: Page[Any]
+    UpdateMetadata:
+      properties:
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+        update_every:
+          type: integer
+          title: Update Every
+        expires:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Expires
+        cvcql_version:
+          type: string
+          title: Cvcql Version
+        flags:
+          anyOf:
+          - $ref: '#/components/schemas/Flags'
+          - type: 'null'
+        annotations:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Annotations
+        tags:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Tags
+        client_id:
+          anyOf:
+          - type: string
+            example: 5eb7cf5a86d9755df3a6c593
+          - type: 'null'
+          title: Client Id
+        profile_version:
+          type: integer
+          title: Profile Version
+      type: object
+      required:
+      - update_every
+      - cvcql_version
+      - profile_version
+      title: UpdateMetadata
+    SharedProfile:
+      properties:
+        metadata:
+          $ref: '#/components/schemas/Metadata'
+        nested_query:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Nested Query
+        query:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Query
+      type: object
+      required:
+      - metadata
+      title: SharedProfile
+      example:
+        metadata:
+          annotations:
+            ad_campaign_estimator:
+              created_by: test@covatic.com
+              estimated_duration: 4
+              estimated_reach: 308000
+            insights/display-name: Audience builder version 2.0 record 1
+            insights/last-updated: '2020-11-01T14:15:57.253Z'
+          cvcql_version: 0.1.0
+          expires: '2200-12-31T00:00:00'
+          flags:
+            deleted: false
+            released: true
+          profile_version: 1
+          tags: []
+          update_every: 7
+        query:
+          exclusions:
+          - source: covatic
+            trait: Contextual|Connectivity|Vauxhall driver
+            trait_code: REL660824
+          locations:
+          - id: 64edd22c91e2cc2d5867f515
+            name: West Midlands, England
+          - id: 64edd22c91e2cc2d5867f516
+            name: East of England
+          - id: 64edd22c91e2cc2d5867f517
+            name: London, England
+          platforms:
+          - id: 64e707e43f77650a53a84e3d
+            name: Smart Speaker
+          - id: 64e707e43f77650a53a84e3b
+            name: Mobile
+          - id: 64e707e43f77650a53a84e3c
+            name: Browser
+          query:
+          - traits:
+            - source: acorn
+              trait: HOUSING|House Type|Detached house
+              trait_code: PROHOUSING|House Type|Detached house
+          - operator: AND
+            traits:
+            - source: covatic
+              trait: Contextual|Connectivity|Audi driver
+              trait_code: REL522705
+            - source: covatic
+              trait: Contextual|Connectivity|Toyota driver
+              trait_code: REL113563
+          - operator: AND
+            traits:
+            - source: acorn
+              trait: 'HOUSING|House Size|Number of Beds : 3'
+              trait_code: 'PROHOUSING|House Size|Number of Beds : 3'
+            - source: acorn
+              trait: 'HOUSING|House Size|Number of Beds : 4'
+              trait_code: 'PROHOUSING|House Size|Number of Beds : 4'
+    UpdateProfile:
+      properties:
+        metadata:
+          $ref: '#/components/schemas/UpdateMetadata'
+        nested_query:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Nested Query
+        query:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Query
+      type: object
+      required:
+      - metadata
+      title: UpdateProfile
+      example:
+        metadata:
+          annotations:
+            ad_campaign_estimator:
+              created_by: test@covatic.com
+              estimated_duration: 4
+              estimated_reach: 308000
+            insights/display-name: Audience builder version 2.0 record 1
+            insights/last-updated: '2020-11-01T14:15:57.253Z'
+          cvcql_version: 0.1.0
+          expires: '2200-12-31T00:00:00'
+          flags:
+            deleted: false
+            released: true
+          name: Audience builder version 2.0 record 1
+          profile_version: 1
+          tags: []
+          update_every: 7
+        query:
+          exclusions:
+          - source: covatic
+            trait: Contextual|Connectivity|Vauxhall driver
+            trait_code: REL660824
+          locations:
+          - id: 64edd22c91e2cc2d5867f515
+            name: West Midlands, England
+          - id: 64edd22c91e2cc2d5867f516
+            name: East of England
+          - id: 64edd22c91e2cc2d5867f517
+            name: London, England
+          platforms:
+          - id: 64e707e43f77650a53a84e3d
+            name: Smart Speaker
+          - id: 64e707e43f77650a53a84e3b
+            name: Mobile
+          - id: 64e707e43f77650a53a84e3c
+            name: Browser
+          query:
+          - traits:
+            - source: acorn
+              trait: HOUSING|House Type|Detached house
+              trait_code: PROHOUSING|House Type|Detached house
+          - operator: AND
+            traits:
+            - source: covatic
+              trait: Contextual|Connectivity|Audi driver
+              trait_code: REL522705
+            - source: covatic
+              trait: Contextual|Connectivity|Toyota driver
+              trait_code: REL113563
+          - operator: AND
+            traits:
+            - source: acorn
+              trait: 'HOUSING|House Size|Number of Beds : 3'
+              trait_code: 'PROHOUSING|House Size|Number of Beds : 3'
+            - source: acorn
+              trait: 'HOUSING|House Size|Number of Beds : 4'
+              trait_code: 'PROHOUSING|House Size|Number of Beds : 4'
+    Flags:
+      properties:
+        released:
+          type: boolean
+          title: Released
+        deleted:
+          type: boolean
+          title: Deleted
+      type: object
+      required:
+      - released
+      - deleted
+      title: Flags
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    models__profile__Response:
+      properties:
+        status_code:
+          type: integer
+          title: Status Code
+        response_type:
+          type: string
+          title: Response Type
+        description:
+          type: string
+          title: Description
+        data:
+          anyOf:
+          - {}
+          - type: 'null'
+          title: Data
+      type: object
+      required:
+      - status_code
+      - response_type
+      - description
+      - data
+      title: Response
+      example:
+        data: []
+        description: Operation successful
+        response_type: success
+        status_code: 200
+    Metadata:
+      properties:
+        name:
+          type: string
+          title: Name
+        update_every:
+          type: integer
+          title: Update Every
+        expires:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Expires
+        cvcql_version:
+          type: string
+          title: Cvcql Version
+        flags:
+          anyOf:
+          - $ref: '#/components/schemas/Flags'
+          - type: 'null'
+        annotations:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Annotations
+        tags:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Tags
+        client_id:
+          anyOf:
+          - type: string
+            example: 5eb7cf5a86d9755df3a6c593
+          - type: 'null'
+          title: Client Id
+        profile_version:
+          type: integer
+          title: Profile Version
+      type: object
+      required:
+      - update_every
+      - cvcql_version
+      - profile_version
+      title: Metadata
+  securitySchemes:
+    HTTPBearer:
+      type: http
+      scheme: bearer

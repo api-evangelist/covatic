@@ -1,0 +1,140 @@
+openapi: 3.2.0
+info:
+  title: Audience builder Chat GPT API
+  summary: Audience builder is an app for clients to create their campaigns.
+  version: 0.0.1
+servers:
+- url: https://prodaudiencebuilderapi.covatic.io
+  description: Production (Covatic Audience Builder)
+tags:
+- name: ChatGPT
+paths:
+  /api/v1/chat-gpt/completions:
+    post:
+      tags:
+      - ChatGPT
+      summary: Streaming chat completion proxy
+      description: Proxies an OpenAI Chat Completions request on behalf of the caller and streams the response back as Server-Sent Events in the exact format OpenAI uses.
+      operationId: chat_completions_api_v1_chat_gpt_completions_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: parent_type
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Type
+        examples:
+          Octave:
+            value: company
+          Bauer UK:
+            value: sub-company
+          News UK:
+            value: sub-company
+      - name: parent_id
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Name
+        examples:
+          Octave:
+            value: Octave
+          Bauer UK:
+            value: Bauer UK
+          News UK:
+            value: News UK
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChatCompletionRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    routes__chat_gpt__ChatMessage:
+      properties:
+        role:
+          type: string
+          title: Role
+        content:
+          type: string
+          title: Content
+      type: object
+      required:
+      - role
+      - content
+      title: ChatMessage
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ChatCompletionRequest:
+      properties:
+        model:
+          type: string
+          title: Model
+          default: gpt-3.5-turbo
+        stream:
+          type: boolean
+          title: Stream
+          default: true
+        messages:
+          items:
+            $ref: '#/components/schemas/routes__chat_gpt__ChatMessage'
+          type: array
+          title: Messages
+      type: object
+      required:
+      - messages
+      title: ChatCompletionRequest
+  securitySchemes:
+    HTTPBearer:
+      type: http
+      scheme: bearer

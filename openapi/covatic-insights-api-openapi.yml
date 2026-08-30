@@ -1,0 +1,176 @@
+openapi: 3.2.0
+info:
+  title: Audience builder Insights API
+  summary: Audience builder is an app for clients to create their campaigns.
+  version: 0.0.1
+servers:
+- url: https://prodaudiencebuilderapi.covatic.io
+  description: Production (Covatic Audience Builder)
+tags:
+- name: Insights
+paths:
+  /api/v1/insights/get-qs-dashboard:
+    post:
+      tags:
+      - Insights
+      summary: Get Qs Dashborad Url
+      operationId: get_qs_dashborad_url_api_v1_insights_get_qs_dashboard_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: parent_type
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Type
+        examples:
+          Octave:
+            value: company
+          Bauer UK:
+            value: sub-company
+          News UK:
+            value: sub-company
+      - name: parent_id
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Name
+        examples:
+          Octave:
+            value: Octave
+          Bauer UK:
+            value: Bauer UK
+          News UK:
+            value: News UK
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QSInput'
+      responses:
+        '200':
+          description: Dashboard link retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models__trait__Response'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/insights/qs-groups:
+    get:
+      tags:
+      - Insights
+      summary: List Qs Groups
+      description: 'Return all QuickSight groups in the account.
+
+
+        Used by the frontend to populate a group selector when configuring
+
+        a company''s QuickSight dashboard settings.  Falls back to a known
+
+        list if the QuickSight API is unreachable.'
+      operationId: list_qs_groups_api_v1_insights_qs_groups_get
+      responses:
+        '200':
+          description: QuickSight groups retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models__trait__Response'
+      security:
+      - HTTPBearer: []
+components:
+  schemas:
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    QSInput:
+      properties:
+        id_token:
+          type: string
+          title: Id Token
+        user_name:
+          type: string
+          title: User Name
+        q_bar:
+          type: boolean
+          title: Q Bar
+      type: object
+      required:
+      - id_token
+      - user_name
+      - q_bar
+      title: QSInput
+    models__trait__Response:
+      properties:
+        status_code:
+          type: integer
+          title: Status Code
+        response_type:
+          type: string
+          title: Response Type
+        description:
+          type: string
+          title: Description
+        data:
+          anyOf:
+          - {}
+          - type: 'null'
+          title: Data
+      type: object
+      required:
+      - status_code
+      - response_type
+      - description
+      - data
+      title: Response
+      example:
+        data: Sample data
+        description: Operation successful
+        response_type: success
+        status_code: 200
+  securitySchemes:
+    HTTPBearer:
+      type: http
+      scheme: bearer

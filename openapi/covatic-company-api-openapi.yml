@@ -1,0 +1,516 @@
+openapi: 3.2.0
+info:
+  title: Audience builder Company API
+  summary: Audience builder is an app for clients to create their campaigns.
+  version: 0.0.1
+servers:
+- url: https://prodaudiencebuilderapi.covatic.io
+  description: Production (Covatic Audience Builder)
+tags:
+- name: Company
+paths:
+  /api/v1/company/add:
+    post:
+      tags:
+      - Company
+      summary: Onboard Company
+      operationId: onboard_company_api_v1_company_add_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: parent_type
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Type
+        examples:
+          Octave:
+            value: company
+          Bauer UK:
+            value: sub-company
+          News UK:
+            value: sub-company
+      - name: parent_id
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Name
+        examples:
+          Octave:
+            value: Octave
+          Bauer UK:
+            value: Bauer UK
+          News UK:
+            value: News UK
+      - name: client_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            maxLength: 50
+          - type: 'null'
+          title: Client Id
+        examples:
+          Bauer Media:
+            value: 5db1c6f588976c89fcb6bd70
+          News UK Browser:
+            value: 63247594f1861e200ef5b102
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Company'
+      responses:
+        '200':
+          description: Company added
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/company/{id}:
+    get:
+      tags:
+      - Company
+      summary: Get Company Data
+      operationId: get_company_data_api_v1_company__id__get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          example: 5eb7cf5a86d9755df3a6c593
+          title: Id
+      - name: parent_type
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Type
+        examples:
+          Octave:
+            value: company
+          Bauer UK:
+            value: sub-company
+          News UK:
+            value: sub-company
+      - name: parent_id
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Name
+        examples:
+          Octave:
+            value: Octave
+          Bauer UK:
+            value: Bauer UK
+          News UK:
+            value: News UK
+      - name: client_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            maxLength: 50
+          - type: 'null'
+          title: Client Id
+        examples:
+          Bauer Media:
+            value: 5db1c6f588976c89fcb6bd70
+          News UK Browser:
+            value: 63247594f1861e200ef5b102
+      responses:
+        '200':
+          description: Company data retrieved
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    put:
+      tags:
+      - Company
+      summary: Update Company Data
+      description: 'Update a company by ID with the provided data.
+
+        Only the fields provided in the request body will be updated.'
+      operationId: update_company_data_api_v1_company__id__put
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          example: 5eb7cf5a86d9755df3a6c593
+          title: Id
+      - name: parent_type
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Type
+        examples:
+          Octave:
+            value: company
+          Bauer UK:
+            value: sub-company
+          News UK:
+            value: sub-company
+      - name: parent_id
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Name
+        examples:
+          Octave:
+            value: Octave
+          Bauer UK:
+            value: Bauer UK
+          News UK:
+            value: News UK
+      - name: client_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            maxLength: 50
+          - type: 'null'
+          title: Client Id
+        examples:
+          Bauer Media:
+            value: 5db1c6f588976c89fcb6bd70
+          News UK Browser:
+            value: 63247594f1861e200ef5b102
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+              title: Company Update
+      responses:
+        '200':
+          description: Company updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models__common__Response'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - Company
+      summary: Delete Company
+      operationId: delete_company_api_v1_company__id__delete
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          example: 5eb7cf5a86d9755df3a6c593
+          title: Id
+      - name: parent_type
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Type
+        examples:
+          Octave:
+            value: company
+          Bauer UK:
+            value: sub-company
+          News UK:
+            value: sub-company
+      - name: parent_id
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Name
+        examples:
+          Octave:
+            value: Octave
+          Bauer UK:
+            value: Bauer UK
+          News UK:
+            value: News UK
+      - name: client_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            maxLength: 50
+          - type: 'null'
+          title: Client Id
+        examples:
+          Bauer Media:
+            value: 5db1c6f588976c89fcb6bd70
+          News UK Browser:
+            value: 63247594f1861e200ef5b102
+      responses:
+        '200':
+          description: Company deleted from the database
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    SubCompany:
+      properties:
+        sub_company_name:
+          type: string
+          title: Sub Company Name
+        clients:
+          items:
+            $ref: '#/components/schemas/Client'
+          type: array
+          title: Clients
+        sub_company_permissions:
+          items:
+            type: string
+          type: array
+          title: Sub Company Permissions
+      type: object
+      required:
+      - sub_company_name
+      - clients
+      - sub_company_permissions
+      title: SubCompany
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    models__common__Response:
+      properties:
+        status_code:
+          type: integer
+          title: Status Code
+        response_type:
+          type: string
+          title: Response Type
+        description:
+          type: string
+          title: Description
+        data:
+          anyOf:
+          - {}
+          - type: 'null'
+          title: Data
+      type: object
+      required:
+      - status_code
+      - response_type
+      - description
+      - data
+      title: Response
+      example:
+        data: Sample data
+        description: Operation successful
+        response_type: success
+        status_code: 200
+    AudienceCodeFormat:
+      type: string
+      enum:
+      - numeric_6
+      - alphanumeric_3
+      title: AudienceCodeFormat
+      description: Audience code format enumeration
+    Company:
+      properties:
+        _id:
+          anyOf:
+          - type: string
+            example: 5eb7cf5a86d9755df3a6c593
+          - type: 'null'
+          title: Id
+          description: MongoDB document ObjectID
+        revision_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Revision Id
+          hidden: true
+        company_name:
+          type: string
+          minLength: 1
+          title: Company Name
+          description: Company name must not be empty.
+        company_permissions:
+          items:
+            type: string
+          type: array
+          title: Company Permissions
+        qs_dashboard:
+          additionalProperties:
+            type: string
+          type: object
+          title: Qs Dashboard
+          default: {}
+        sub_companies:
+          items:
+            $ref: '#/components/schemas/SubCompany'
+          type: array
+          title: Sub Companies
+        audience_code_format:
+          anyOf:
+          - $ref: '#/components/schemas/AudienceCodeFormat'
+          - type: 'null'
+          description: Format for generating audience codes. Defaults to 6-digit numeric.
+          default: numeric_6
+      type: object
+      required:
+      - company_name
+      - company_permissions
+      - sub_companies
+      title: Company
+      example:
+        audience_code_format: numeric_6
+        company_name: Octave
+        company_permissions:
+        - insights
+        - advertising
+        sub_companies:
+        - clients:
+          - client_id: '123'
+            client_name: Bauer UK Client 1
+            country: UK
+            platform: Web
+          sub_company_name: Bauer UK
+          sub_company_permissions:
+          - insights
+          - notifications
+        - clients:
+          - client_id: '789'
+            client_name: News UK Client 1
+          sub_company_name: News UK
+          sub_company_permissions:
+          - insights
+          - notifications
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    Client:
+      properties:
+        client_id:
+          type: string
+          title: Client Id
+          example: 5eb7cf5a86d9755df3a6c593
+        client_name:
+          type: string
+          title: Client Name
+        platform:
+          type: string
+          title: Platform
+        location:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Location
+        country:
+          type: string
+          title: Country
+        sec_type:
+          type: string
+          title: Sec Type
+        bucket_name:
+          type: string
+          title: Bucket Name
+        code_name:
+          type: string
+          title: Code Name
+        cluster_reference:
+          type: string
+          title: Cluster Reference
+        restricted_access:
+          type: boolean
+          title: Restricted Access
+      type: object
+      required:
+      - client_id
+      - client_name
+      - platform
+      - country
+      - sec_type
+      - bucket_name
+      - code_name
+      - cluster_reference
+      - restricted_access
+      title: Client
+  securitySchemes:
+    HTTPBearer:
+      type: http
+      scheme: bearer

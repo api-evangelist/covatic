@@ -1,0 +1,473 @@
+openapi: 3.2.0
+info:
+  title: Audience builder Notes API
+  summary: Audience builder is an app for clients to create their campaigns.
+  version: 0.0.1
+servers:
+- url: https://prodaudiencebuilderapi.covatic.io
+  description: Production (Covatic Audience Builder)
+tags:
+- name: Notes
+paths:
+  /api/v1/notes/:
+    post:
+      tags:
+      - Notes
+      summary: Create Note
+      description: 'Create a new note for an audience or campaign.
+
+
+        Requires:
+
+        - Valid JWT token
+
+        - CAMPAIGNS or ADVERTISING feature permission
+
+        - CREATE role permission (super_admin, admin, editor)'
+      operationId: create_note_api_v1_notes__post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: parent_type
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Type
+        examples:
+          Octave:
+            value: company
+          Bauer UK:
+            value: sub-company
+          News UK:
+            value: sub-company
+      - name: parent_id
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Name
+        examples:
+          Octave:
+            value: Octave
+          Bauer UK:
+            value: Bauer UK
+          News UK:
+            value: News UK
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NoteCreateRequest'
+      responses:
+        '200':
+          description: Create a new note
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    get:
+      tags:
+      - Notes
+      summary: Get Notes By Entity
+      description: 'Retrieve paginated notes for a specific entity (audience or campaign).
+
+        Notes are returned in reverse chronological order (newest first).
+
+
+        Requires:
+
+        - Valid JWT token
+
+        - CAMPAIGNS or ADVERTISING feature permission
+
+        - VIEW role permission (all roles)'
+      operationId: get_notes_by_entity_api_v1_notes__get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: entity_type
+        in: query
+        required: true
+        schema:
+          $ref: '#/components/schemas/NoteEntityType'
+          description: Entity type (audience or campaign)
+        description: Entity type (audience or campaign)
+      - name: entity_id
+        in: query
+        required: true
+        schema:
+          type: string
+          description: Entity ID (audience_code or campaign _id)
+          title: Entity Id
+        description: Entity ID (audience_code or campaign _id)
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          description: Page number (1-indexed)
+          default: 1
+          title: Page
+        description: Page number (1-indexed)
+      - name: size
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 100
+          minimum: 1
+          description: Items per page (max 100)
+          default: 20
+          title: Size
+        description: Items per page (max 100)
+      - name: parent_type
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Type
+        examples:
+          Octave:
+            value: company
+          Bauer UK:
+            value: sub-company
+          News UK:
+            value: sub-company
+      - name: parent_id
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Name
+        examples:
+          Octave:
+            value: Octave
+          Bauer UK:
+            value: Bauer UK
+          News UK:
+            value: News UK
+      responses:
+        '200':
+          description: Get paginated notes for a specific entity
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/notes/{note_id}:
+    get:
+      tags:
+      - Notes
+      summary: Get Note
+      description: 'Retrieve a single note by its ID.
+
+
+        Requires:
+
+        - Valid JWT token
+
+        - CAMPAIGNS or ADVERTISING feature permission
+
+        - VIEW role permission (all roles)'
+      operationId: get_note_api_v1_notes__note_id__get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: note_id
+        in: path
+        required: true
+        schema:
+          type: string
+          description: Note ID
+          title: Note Id
+        description: Note ID
+      - name: parent_type
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Type
+        examples:
+          Octave:
+            value: company
+          Bauer UK:
+            value: sub-company
+          News UK:
+            value: sub-company
+      - name: parent_id
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Name
+        examples:
+          Octave:
+            value: Octave
+          Bauer UK:
+            value: Bauer UK
+          News UK:
+            value: News UK
+      responses:
+        '200':
+          description: Get a single note by ID
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    put:
+      tags:
+      - Notes
+      summary: Update Note
+      description: 'Update an existing note.
+
+
+        Requires:
+
+        - Valid JWT token
+
+        - CAMPAIGNS or ADVERTISING feature permission
+
+        - EDIT role permission (super_admin, admin, editor)'
+      operationId: update_note_api_v1_notes__note_id__put
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: note_id
+        in: path
+        required: true
+        schema:
+          type: string
+          description: Note ID
+          title: Note Id
+        description: Note ID
+      - name: parent_type
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Type
+        examples:
+          Octave:
+            value: company
+          Bauer UK:
+            value: sub-company
+          News UK:
+            value: sub-company
+      - name: parent_id
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Name
+        examples:
+          Octave:
+            value: Octave
+          Bauer UK:
+            value: Bauer UK
+          News UK:
+            value: News UK
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NoteUpdateRequest'
+      responses:
+        '200':
+          description: Update a note
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - Notes
+      summary: Delete Note
+      description: 'Soft delete a note.
+
+
+        Requires:
+
+        - Valid JWT token
+
+        - CAMPAIGNS or ADVERTISING feature permission
+
+        - DELETE role permission (super_admin, admin, editor)'
+      operationId: delete_note_api_v1_notes__note_id__delete
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: note_id
+        in: path
+        required: true
+        schema:
+          type: string
+          description: Note ID
+          title: Note Id
+        description: Note ID
+      - name: parent_type
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Type
+        examples:
+          Octave:
+            value: company
+          Bauer UK:
+            value: sub-company
+          News UK:
+            value: sub-company
+      - name: parent_id
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Name
+        examples:
+          Octave:
+            value: Octave
+          Bauer UK:
+            value: Bauer UK
+          News UK:
+            value: News UK
+      responses:
+        '200':
+          description: Delete a note
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    NoteCreateRequest:
+      properties:
+        title:
+          type: string
+          maxLength: 255
+          minLength: 1
+          title: Title
+          description: Note title
+        content:
+          type: string
+          minLength: 1
+          title: Content
+          description: Note content
+        entity_type:
+          $ref: '#/components/schemas/NoteEntityType'
+          description: Type of entity (audience/campaign)
+        entity_id:
+          type: string
+          title: Entity Id
+          description: Entity identifier (audience_code or campaign _id)
+      type: object
+      required:
+      - title
+      - content
+      - entity_type
+      - entity_id
+      title: NoteCreateRequest
+      description: Request model for creating a note
+    NoteEntityType:
+      type: string
+      enum:
+      - audience
+      - campaign
+      title: NoteEntityType
+      description: Entity type for notes - can be attached to audiences or campaigns
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    NoteUpdateRequest:
+      properties:
+        title:
+          anyOf:
+          - type: string
+            maxLength: 255
+            minLength: 1
+          - type: 'null'
+          title: Title
+          description: Note title
+        content:
+          anyOf:
+          - type: string
+            minLength: 1
+          - type: 'null'
+          title: Content
+          description: Note content
+      type: object
+      title: NoteUpdateRequest
+      description: Request model for updating a note (partial update)
+  securitySchemes:
+    HTTPBearer:
+      type: http
+      scheme: bearer

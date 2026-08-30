@@ -1,0 +1,1021 @@
+openapi: 3.2.0
+info:
+  title: Audience builder Event Traits API
+  summary: Audience builder is an app for clients to create their campaigns.
+  version: 0.0.1
+servers:
+- url: https://prodaudiencebuilderapi.covatic.io
+  description: Production (Covatic Audience Builder)
+tags:
+- name: Event Traits
+paths:
+  /api/v1/event-trait/:
+    get:
+      tags:
+      - Event Traits
+      summary: Get Event Traits
+      description: 'Get all event traits for a specific parent_id, optionally filtered by smart_match category.
+
+        If category is provided, only returns traits that start with that category.'
+      operationId: get_event_traits_api_v1_event_trait__get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: category
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            maxLength: 50
+          - type: 'null'
+          title: Category
+        example: Rugby
+      - name: parent_type
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Type
+        examples:
+          Octave:
+            value: company
+          Bauer UK:
+            value: sub-company
+          News UK:
+            value: sub-company
+      - name: parent_id
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Name
+        examples:
+          Octave:
+            value: Octave
+          Bauer UK:
+            value: Bauer UK
+          News UK:
+            value: News UK
+      - name: client_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            maxLength: 50
+          - type: 'null'
+          title: Client Id
+        examples:
+          Bauer Media:
+            value: 5db1c6f588976c89fcb6bd70
+          News UK Browser:
+            value: 63247594f1861e200ef5b102
+      responses:
+        '200':
+          description: event traits retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models__trait__Response'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    post:
+      tags:
+      - Event Traits
+      summary: Create Event Trait
+      description: 'Create a new event trait with auto-generated unique trait_code.
+
+        Either smart_match or keywords must be provided.'
+      operationId: create_event_trait_api_v1_event_trait__post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: parent_type
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Type
+        examples:
+          Octave:
+            value: company
+          Bauer UK:
+            value: sub-company
+          News UK:
+            value: sub-company
+      - name: parent_id
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Name
+        examples:
+          Octave:
+            value: Octave
+          Bauer UK:
+            value: Bauer UK
+          News UK:
+            value: News UK
+      - name: client_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            maxLength: 50
+          - type: 'null'
+          title: Client Id
+        examples:
+          Bauer Media:
+            value: 5db1c6f588976c89fcb6bd70
+          News UK Browser:
+            value: 63247594f1861e200ef5b102
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EventTraitCreate'
+      responses:
+        '200':
+          description: event trait created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models__trait__Response'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/event-trait/media-property-options:
+    post:
+      tags:
+      - Event Traits
+      summary: Create Media Property Option
+      description: Create a new media property option.
+      operationId: create_media_property_option_api_v1_event_trait_media_property_options_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: parent_type
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Type
+        examples:
+          Octave:
+            value: company
+          Bauer UK:
+            value: sub-company
+          News UK:
+            value: sub-company
+      - name: parent_id
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Name
+        examples:
+          Octave:
+            value: Octave
+          Bauer UK:
+            value: Bauer UK
+          News UK:
+            value: News UK
+      - name: client_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            maxLength: 50
+          - type: 'null'
+          title: Client Id
+        examples:
+          Bauer Media:
+            value: 5db1c6f588976c89fcb6bd70
+          News UK Browser:
+            value: 63247594f1861e200ef5b102
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MediaPropertyOptionsCreate'
+      responses:
+        '200':
+          description: media property option created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models__trait__Response'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    get:
+      tags:
+      - Event Traits
+      summary: Get Media Property Options
+      description: Get media property options filtered by parent_id with pagination.
+      operationId: get_media_property_options_api_v1_event_trait_media_property_options_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: parent_type
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Type
+        examples:
+          Octave:
+            value: company
+          Bauer UK:
+            value: sub-company
+          News UK:
+            value: sub-company
+      - name: parent_id
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Name
+        examples:
+          Octave:
+            value: Octave
+          Bauer UK:
+            value: Bauer UK
+          News UK:
+            value: News UK
+      - name: client_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            maxLength: 50
+          - type: 'null'
+          title: Client Id
+        examples:
+          Bauer Media:
+            value: 5db1c6f588976c89fcb6bd70
+          News UK Browser:
+            value: 63247594f1861e200ef5b102
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          description: Page number
+          default: 1
+          title: Page
+        description: Page number
+      - name: size
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 100
+          minimum: 1
+          description: Page size
+          default: 50
+          title: Size
+        description: Page size
+      responses:
+        '200':
+          description: media property options retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Page_MediaPropertyOptions_'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/event-trait/media-property-options/{property_id}:
+    patch:
+      tags:
+      - Event Traits
+      summary: Update Media Property Option
+      description: Update an existing media property option.
+      operationId: update_media_property_option_api_v1_event_trait_media_property_options__property_id__patch
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: property_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Property Id
+      - name: parent_type
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Type
+        examples:
+          Octave:
+            value: company
+          Bauer UK:
+            value: sub-company
+          News UK:
+            value: sub-company
+      - name: parent_id
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Name
+        examples:
+          Octave:
+            value: Octave
+          Bauer UK:
+            value: Bauer UK
+          News UK:
+            value: News UK
+      - name: client_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            maxLength: 50
+          - type: 'null'
+          title: Client Id
+        examples:
+          Bauer Media:
+            value: 5db1c6f588976c89fcb6bd70
+          News UK Browser:
+            value: 63247594f1861e200ef5b102
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MediaPropertyOptionsUpdate'
+      responses:
+        '200':
+          description: media property option updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models__trait__Response'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - Event Traits
+      summary: Delete Media Property Option
+      description: Delete a media property option.
+      operationId: delete_media_property_option_api_v1_event_trait_media_property_options__property_id__delete
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: property_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Property Id
+      - name: parent_type
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Type
+        examples:
+          Octave:
+            value: company
+          Bauer UK:
+            value: sub-company
+          News UK:
+            value: sub-company
+      - name: parent_id
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Name
+        examples:
+          Octave:
+            value: Octave
+          Bauer UK:
+            value: Bauer UK
+          News UK:
+            value: News UK
+      - name: client_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            maxLength: 50
+          - type: 'null'
+          title: Client Id
+        examples:
+          Bauer Media:
+            value: 5db1c6f588976c89fcb6bd70
+          News UK Browser:
+            value: 63247594f1861e200ef5b102
+      responses:
+        '200':
+          description: media property option deleted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models__trait__Response'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/event-trait/{trait_code}:
+    put:
+      tags:
+      - Event Traits
+      summary: Update Event Trait
+      description: 'Update an existing event trait and all audiences that use it.
+
+        The trait_code remains unchanged, so no CVCQL reprocessing is needed.'
+      operationId: update_event_trait_api_v1_event_trait__trait_code__put
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: trait_code
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Trait Code
+      - name: parent_type
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Type
+        examples:
+          Octave:
+            value: company
+          Bauer UK:
+            value: sub-company
+          News UK:
+            value: sub-company
+      - name: parent_id
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Name
+        examples:
+          Octave:
+            value: Octave
+          Bauer UK:
+            value: Bauer UK
+          News UK:
+            value: News UK
+      - name: client_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            maxLength: 50
+          - type: 'null'
+          title: Client Id
+        examples:
+          Bauer Media:
+            value: 5db1c6f588976c89fcb6bd70
+          News UK Browser:
+            value: 63247594f1861e200ef5b102
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EventTraitUpdate'
+      responses:
+        '200':
+          description: event trait updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models__trait__Response'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - Event Traits
+      summary: Delete Event Trait
+      description: 'Delete an event trait and remove it from all audiences that use it.
+
+        This will also re-evaluate the CVCQL for affected audiences.'
+      operationId: delete_event_trait_api_v1_event_trait__trait_code__delete
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: trait_code
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Trait Code
+      - name: parent_type
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Type
+        examples:
+          Octave:
+            value: company
+          Bauer UK:
+            value: sub-company
+          News UK:
+            value: sub-company
+      - name: parent_id
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Name
+        examples:
+          Octave:
+            value: Octave
+          Bauer UK:
+            value: Bauer UK
+          News UK:
+            value: News UK
+      - name: client_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            maxLength: 50
+          - type: 'null'
+          title: Client Id
+        examples:
+          Bauer Media:
+            value: 5db1c6f588976c89fcb6bd70
+          News UK Browser:
+            value: 63247594f1861e200ef5b102
+      responses:
+        '200':
+          description: event trait deleted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models__trait__Response'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/event-trait/{trait_code}/audiences:
+    get:
+      tags:
+      - Event Traits
+      summary: Get Audience Profiles By Event Trait
+      description: 'Get all audience profiles that are using a specific event trait.
+
+        The event trait information is stored in the nested_query.traits structure.'
+      operationId: get_audience_profiles_by_event_trait_api_v1_event_trait__trait_code__audiences_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: trait_code
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Trait Code
+      - name: parent_type
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Type
+        examples:
+          Octave:
+            value: company
+          Bauer UK:
+            value: sub-company
+          News UK:
+            value: sub-company
+      - name: parent_id
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Name
+        examples:
+          Octave:
+            value: Octave
+          Bauer UK:
+            value: Bauer UK
+          News UK:
+            value: News UK
+      - name: client_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            maxLength: 50
+          - type: 'null'
+          title: Client Id
+        examples:
+          Bauer Media:
+            value: 5db1c6f588976c89fcb6bd70
+          News UK Browser:
+            value: 63247594f1861e200ef5b102
+      responses:
+        '200':
+          description: audience profiles using event trait retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models__trait__Response'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    MediaPropertyOptions:
+      properties:
+        _id:
+          anyOf:
+          - type: string
+            example: 5eb7cf5a86d9755df3a6c593
+          - type: 'null'
+          title: Id
+          description: MongoDB document ObjectID
+        revision_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Revision Id
+          hidden: true
+        domains:
+          items:
+            type: string
+          type: array
+          maxItems: 110
+          title: Domains
+        platform:
+          items:
+            type: string
+          type: array
+          title: Platform
+        display_name:
+          type: string
+          maxLength: 200
+          title: Display Name
+        parent_id:
+          type: string
+          title: Parent Id
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+        updated_at:
+          type: string
+          format: date-time
+          title: Updated At
+      type: object
+      required:
+      - display_name
+      - parent_id
+      title: MediaPropertyOptions
+      example:
+        display_name: talkSPORT - Web
+        domains:
+        - talksport.com
+        - iframe.talksport.com
+        parent_id: News UK
+        platform:
+        - web
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    Frequency:
+      properties:
+        count:
+          type: integer
+          title: Count
+        time:
+          type: integer
+          title: Time
+        period:
+          type: string
+          title: Period
+      type: object
+      required:
+      - count
+      - time
+      - period
+      title: Frequency
+    MediaPropertyOptionsCreate:
+      properties:
+        domains:
+          items:
+            type: string
+          type: array
+          maxItems: 110
+          minItems: 1
+          title: Domains
+        platform:
+          items:
+            type: string
+          type: array
+          minItems: 1
+          title: Platform
+        display_name:
+          type: string
+          maxLength: 200
+          title: Display Name
+      type: object
+      required:
+      - domains
+      - platform
+      - display_name
+      title: MediaPropertyOptionsCreate
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    MediaPropertyOptionsUpdate:
+      properties:
+        domains:
+          anyOf:
+          - items:
+              type: string
+            type: array
+            maxItems: 110
+            minItems: 1
+          - type: 'null'
+          title: Domains
+        platform:
+          anyOf:
+          - items:
+              type: string
+            type: array
+            minItems: 1
+          - type: 'null'
+          title: Platform
+        display_name:
+          anyOf:
+          - type: string
+            maxLength: 200
+          - type: 'null'
+          title: Display Name
+      type: object
+      title: MediaPropertyOptionsUpdate
+    EventTypes:
+      properties:
+        audioContent:
+          type: boolean
+          title: Audiocontent
+          default: false
+        videoContent:
+          type: boolean
+          title: Videocontent
+          default: false
+        pageView:
+          type: boolean
+          title: Pageview
+          default: false
+        customEvent:
+          type: boolean
+          title: Customevent
+          default: false
+      type: object
+      title: EventTypes
+    Page_MediaPropertyOptions_:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/MediaPropertyOptions'
+          type: array
+          title: Items
+        total:
+          type: integer
+          minimum: 0.0
+          title: Total
+        page:
+          type: integer
+          minimum: 1.0
+          title: Page
+        size:
+          type: integer
+          minimum: 1.0
+          title: Size
+        pages:
+          type: integer
+          minimum: 0.0
+          title: Pages
+      type: object
+      required:
+      - items
+      - total
+      - page
+      - size
+      - pages
+      title: Page[MediaPropertyOptions]
+    EventTraitUpdate:
+      properties:
+        smart_match:
+          anyOf:
+          - type: string
+            maxLength: 500
+          - type: 'null'
+          title: Smart Match
+          description: Smart match description (max 500 characters)
+        keywords:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Keywords
+        url:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Url
+        media_properties:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Media Properties
+        media_properties_display_names:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Media Properties Display Names
+        frequency:
+          anyOf:
+          - $ref: '#/components/schemas/Frequency'
+          - type: 'null'
+        event_types:
+          anyOf:
+          - $ref: '#/components/schemas/EventTypes'
+          - type: 'null'
+      type: object
+      title: EventTraitUpdate
+    models__trait__Response:
+      properties:
+        status_code:
+          type: integer
+          title: Status Code
+        response_type:
+          type: string
+          title: Response Type
+        description:
+          type: string
+          title: Description
+        data:
+          anyOf:
+          - {}
+          - type: 'null'
+          title: Data
+      type: object
+      required:
+      - status_code
+      - response_type
+      - description
+      - data
+      title: Response
+      example:
+        data: Sample data
+        description: Operation successful
+        response_type: success
+        status_code: 200
+    EventTraitCreate:
+      properties:
+        smart_match:
+          anyOf:
+          - type: string
+            maxLength: 500
+          - type: 'null'
+          title: Smart Match
+          description: Smart match description (max 500 characters)
+        keywords:
+          items:
+            type: string
+          type: array
+          title: Keywords
+          default: []
+        url:
+          items:
+            type: string
+          type: array
+          title: Url
+          default: []
+        media_properties:
+          items:
+            type: string
+          type: array
+          title: Media Properties
+          default: []
+        media_properties_display_names:
+          items:
+            type: string
+          type: array
+          title: Media Properties Display Names
+          default: []
+        frequency:
+          anyOf:
+          - $ref: '#/components/schemas/Frequency'
+          - type: 'null'
+        event_types:
+          anyOf:
+          - $ref: '#/components/schemas/EventTypes'
+          - type: 'null'
+      type: object
+      title: EventTraitCreate
+  securitySchemes:
+    HTTPBearer:
+      type: http
+      scheme: bearer

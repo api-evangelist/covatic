@@ -1,0 +1,96 @@
+openapi: 3.2.0
+info:
+  title: Audience builder QA and Debug API
+  summary: Audience builder is an app for clients to create their campaigns.
+  version: 0.0.1
+servers:
+- url: https://prodaudiencebuilderapi.covatic.io
+  description: Production (Covatic Audience Builder)
+tags:
+- name: QA and Debug
+paths:
+  /api/v1/qa-debug/audience:
+    post:
+      tags:
+      - QA and Debug
+      summary: Debug Audience
+      operationId: debug_audience_api_v1_qa_debug_audience_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QARequest'
+        required: true
+      responses:
+        '200':
+          description: Audience data retrieved
+          content:
+            application/json:
+              schema:
+                title: Response Debug Audience Api V1 Qa Debug Audience Post
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+      - HTTPBearer: []
+components:
+  schemas:
+    QARequest:
+      properties:
+        parent_id:
+          type: string
+          title: Parent Id
+        parent_type:
+          type: string
+          title: Parent Type
+        audience_code:
+          type: string
+          title: Audience Code
+      type: object
+      required:
+      - parent_id
+      - parent_type
+      - audience_code
+      title: QARequest
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+  securitySchemes:
+    HTTPBearer:
+      type: http
+      scheme: bearer

@@ -1,0 +1,466 @@
+openapi: 3.2.0
+info:
+  title: Audience builder Retargeting Traits API
+  summary: Audience builder is an app for clients to create their campaigns.
+  version: 0.0.1
+servers:
+- url: https://prodaudiencebuilderapi.covatic.io
+  description: Production (Covatic Audience Builder)
+tags:
+- name: Retargeting Traits
+paths:
+  /api/v1/retargeting-trait/:
+    get:
+      tags:
+      - Retargeting Traits
+      summary: Get Retargeting Traits
+      description: Get all retargeting traits for a specific parent_id.
+      operationId: get_retargeting_traits_api_v1_retargeting_trait__get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: parent_type
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Type
+        examples:
+          Octave:
+            value: company
+          Bauer UK:
+            value: sub-company
+          News UK:
+            value: sub-company
+      - name: parent_id
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Name
+        examples:
+          Octave:
+            value: Octave
+          Bauer UK:
+            value: Bauer UK
+          News UK:
+            value: News UK
+      - name: client_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            maxLength: 50
+          - type: 'null'
+          title: Client Id
+        examples:
+          Bauer Media:
+            value: 5db1c6f588976c89fcb6bd70
+          News UK Browser:
+            value: 63247594f1861e200ef5b102
+      responses:
+        '200':
+          description: retargeting traits retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models__trait__Response'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    post:
+      tags:
+      - Retargeting Traits
+      summary: Create Retargeting Trait
+      description: Create a new retargeting trait with auto-generated unique trait_code (RET prefix).
+      operationId: create_retargeting_trait_api_v1_retargeting_trait__post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: parent_type
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Type
+        examples:
+          Octave:
+            value: company
+          Bauer UK:
+            value: sub-company
+          News UK:
+            value: sub-company
+      - name: parent_id
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Name
+        examples:
+          Octave:
+            value: Octave
+          Bauer UK:
+            value: Bauer UK
+          News UK:
+            value: News UK
+      - name: client_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            maxLength: 50
+          - type: 'null'
+          title: Client Id
+        examples:
+          Bauer Media:
+            value: 5db1c6f588976c89fcb6bd70
+          News UK Browser:
+            value: 63247594f1861e200ef5b102
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RetargetingTraitCreate'
+      responses:
+        '200':
+          description: retargeting trait created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models__trait__Response'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/retargeting-trait/{trait_code}:
+    put:
+      tags:
+      - Retargeting Traits
+      summary: Update Retargeting Trait
+      description: Update an existing retargeting trait and all audiences that use it.
+      operationId: update_retargeting_trait_api_v1_retargeting_trait__trait_code__put
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: trait_code
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Trait Code
+      - name: parent_type
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Type
+        examples:
+          Octave:
+            value: company
+          Bauer UK:
+            value: sub-company
+          News UK:
+            value: sub-company
+      - name: parent_id
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Name
+        examples:
+          Octave:
+            value: Octave
+          Bauer UK:
+            value: Bauer UK
+          News UK:
+            value: News UK
+      - name: client_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            maxLength: 50
+          - type: 'null'
+          title: Client Id
+        examples:
+          Bauer Media:
+            value: 5db1c6f588976c89fcb6bd70
+          News UK Browser:
+            value: 63247594f1861e200ef5b102
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RetargetingTraitUpdate'
+      responses:
+        '200':
+          description: retargeting trait updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models__trait__Response'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - Retargeting Traits
+      summary: Delete Retargeting Trait
+      description: Delete a retargeting trait and remove it from all audiences that use it.
+      operationId: delete_retargeting_trait_api_v1_retargeting_trait__trait_code__delete
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: trait_code
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Trait Code
+      - name: parent_type
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Type
+        examples:
+          Octave:
+            value: company
+          Bauer UK:
+            value: sub-company
+          News UK:
+            value: sub-company
+      - name: parent_id
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Name
+        examples:
+          Octave:
+            value: Octave
+          Bauer UK:
+            value: Bauer UK
+          News UK:
+            value: News UK
+      - name: client_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            maxLength: 50
+          - type: 'null'
+          title: Client Id
+        examples:
+          Bauer Media:
+            value: 5db1c6f588976c89fcb6bd70
+          News UK Browser:
+            value: 63247594f1861e200ef5b102
+      responses:
+        '200':
+          description: retargeting trait deleted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models__trait__Response'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/retargeting-trait/{trait_code}/audiences:
+    get:
+      tags:
+      - Retargeting Traits
+      summary: Get Audience Profiles By Retargeting Trait
+      description: Get all audience profiles that are using a specific retargeting trait.
+      operationId: get_audience_profiles_by_retargeting_trait_api_v1_retargeting_trait__trait_code__audiences_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: trait_code
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Trait Code
+      - name: parent_type
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Type
+        examples:
+          Octave:
+            value: company
+          Bauer UK:
+            value: sub-company
+          News UK:
+            value: sub-company
+      - name: parent_id
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 50
+          title: Parent Name
+        examples:
+          Octave:
+            value: Octave
+          Bauer UK:
+            value: Bauer UK
+          News UK:
+            value: News UK
+      - name: client_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            maxLength: 50
+          - type: 'null'
+          title: Client Id
+        examples:
+          Bauer Media:
+            value: 5db1c6f588976c89fcb6bd70
+          News UK Browser:
+            value: 63247594f1861e200ef5b102
+      responses:
+        '200':
+          description: audience profiles using retargeting trait retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models__trait__Response'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    RetargetingTraitCreate:
+      properties:
+        campaign_name:
+          type: string
+          maxLength: 30
+          title: Campaign Name
+          description: Campaign name (max 30 characters)
+        campaign_id:
+          type: string
+          title: Campaign Id
+          description: Campaign ID
+      type: object
+      required:
+      - campaign_name
+      - campaign_id
+      title: RetargetingTraitCreate
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    models__trait__Response:
+      properties:
+        status_code:
+          type: integer
+          title: Status Code
+        response_type:
+          type: string
+          title: Response Type
+        description:
+          type: string
+          title: Description
+        data:
+          anyOf:
+          - {}
+          - type: 'null'
+          title: Data
+      type: object
+      required:
+      - status_code
+      - response_type
+      - description
+      - data
+      title: Response
+      example:
+        data: Sample data
+        description: Operation successful
+        response_type: success
+        status_code: 200
+    RetargetingTraitUpdate:
+      properties:
+        campaign_name:
+          anyOf:
+          - type: string
+            maxLength: 30
+          - type: 'null'
+          title: Campaign Name
+          description: Campaign name (max 30 characters)
+        campaign_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Campaign Id
+          description: Campaign ID
+      type: object
+      title: RetargetingTraitUpdate
+  securitySchemes:
+    HTTPBearer:
+      type: http
+      scheme: bearer
