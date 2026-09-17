@@ -176,30 +176,6 @@ apis:
     url: data-model/covatic-data-model.yml
   - type: RateLimits
     url: rate-limits/covatic-rate-limits.yml
-- aid: covatic:covatic-chatgpt-api
-  name: Covatic Chat GPT API
-  description: The ChatGPT API from Covatic — 1 operation(s) for chatgpt.
-  humanURL: https://prodaudiencebuilderapi.covatic.io/docs
-  baseURL: https://prodaudiencebuilderapi.covatic.io
-  tags:
-  - ChatGPT
-  properties:
-  - type: OpenAPI
-    url: openapi/covatic-chatgpt-api-openapi.yml
-  - type: APIReference
-    url: https://prodaudiencebuilderapi.covatic.io/docs
-  - type: Documentation
-    url: https://prodaudiencebuilderapi.covatic.io/redoc
-  - type: Authentication
-    url: authentication/covatic-authentication.yml
-  - type: Conventions
-    url: conventions/covatic-conventions.yml
-  - type: ErrorCatalog
-    url: errors/covatic-problem-types.yml
-  - type: DataModel
-    url: data-model/covatic-data-model.yml
-  - type: RateLimits
-    url: rate-limits/covatic-rate-limits.yml
 - aid: covatic:covatic-commons-api
   name: Covatic Commons API
   description: The Commons API from Covatic — 4 operation(s) for commons.
@@ -500,6 +476,30 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/covatic-users-api-openapi.yml
+  - type: APIReference
+    url: https://prodaudiencebuilderapi.covatic.io/docs
+  - type: Documentation
+    url: https://prodaudiencebuilderapi.covatic.io/redoc
+  - type: Authentication
+    url: authentication/covatic-authentication.yml
+  - type: Conventions
+    url: conventions/covatic-conventions.yml
+  - type: ErrorCatalog
+    url: errors/covatic-problem-types.yml
+  - type: DataModel
+    url: data-model/covatic-data-model.yml
+  - type: RateLimits
+    url: rate-limits/covatic-rate-limits.yml
+- aid: covatic:covatic-chat-gpt-api
+  name: Covatic Chat GPT API
+  description: The Chat GPT API from Covatic — 1 operation(s) for chat gpt.
+  humanURL: https://prodaudiencebuilderapi.covatic.io/docs
+  baseURL: https://prodaudiencebuilderapi.covatic.io
+  tags:
+  - Chat GPT
+  properties:
+  - type: OpenAPI
+    url: openapi/covatic-chat-gpt-api-openapi.yml
   - type: APIReference
     url: https://prodaudiencebuilderapi.covatic.io/docs
   - type: Documentation
