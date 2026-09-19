@@ -496,6 +496,8 @@ apis:
   humanURL: https://prodaudiencebuilderapi.covatic.io/docs
   baseURL: https://prodaudiencebuilderapi.covatic.io
   tags:
+  - ChatGPT
+  tags_raw:
   - Chat GPT
   properties:
   - type: OpenAPI
