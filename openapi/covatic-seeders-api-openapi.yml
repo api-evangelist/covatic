@@ -3,9 +3,6 @@ info:
   title: Audience builder Seeders API
   summary: Audience builder is an app for clients to create their campaigns.
   version: 0.0.1
-servers:
-- url: https://prodaudiencebuilderapi.covatic.io
-  description: Production (Covatic Audience Builder)
 tags:
 - name: Seeders
 paths:
@@ -70,7 +67,49 @@ paths:
       tags:
       - Seeders
       summary: Seed Smart Campaigns
-      description: "Seed Smart Campaigns with performance data and AI-generated suggestions.\n\nThis endpoint populates Smart Campaigns with:\n- Performance ratings (Excellent/Good/Average/Poor) for existing audiences\n- AI-generated audience suggestions with realistic data\n- Proper audit trail in campaign_history collection\n\nQuery Parameters:\n- campaign_id: Seed a specific campaign (optional, if not provided seeds all)\n- parent_id: Filter campaigns by company/sub-company (optional)\n- num_suggestions: Number of suggestions to add per campaign (1-20, default: 5)\n- add_performance: Whether to add performance data to audiences (default: true)\n- add_suggestions: Whether to add AI suggestions (default: true)\n\nExamples:\n- Seed all smart campaigns: GET /seed/smart-campaigns\n- Seed specific campaign: GET /seed/smart-campaigns?campaign_id=6957d233ed139f90b161370c\n- Seed for a company: GET /seed/smart-campaigns?parent_id=Octave\n- Add 10 suggestions: GET /seed/smart-campaigns?num_suggestions=10\n- Only add suggestions: GET /seed/smart-campaigns?add_performance=false\n- Only add performance: GET /seed/smart-campaigns?add_suggestions=false\n\nReturns:\n    Summary of seeding operation including campaigns processed and changes made"
+      description: 'Seed Smart Campaigns with performance data and AI-generated suggestions.
+
+
+        This endpoint populates Smart Campaigns with:
+
+        - Performance ratings (Excellent/Good/Average/Poor) for existing audiences
+
+        - AI-generated audience suggestions with realistic data
+
+        - Proper audit trail in campaign_history collection
+
+
+        Query Parameters:
+
+        - campaign_id: Seed a specific campaign (optional, if not provided seeds all)
+
+        - parent_id: Filter campaigns by company/sub-company (optional)
+
+        - num_suggestions: Number of suggestions to add per campaign (1-20, default: 5)
+
+        - add_performance: Whether to add performance data to audiences (default: true)
+
+        - add_suggestions: Whether to add AI suggestions (default: true)
+
+
+        Examples:
+
+        - Seed all smart campaigns: GET /seed/smart-campaigns
+
+        - Seed specific campaign: GET /seed/smart-campaigns?campaign_id=6957d233ed139f90b161370c
+
+        - Seed for a company: GET /seed/smart-campaigns?parent_id=Octave
+
+        - Add 10 suggestions: GET /seed/smart-campaigns?num_suggestions=10
+
+        - Only add suggestions: GET /seed/smart-campaigns?add_performance=false
+
+        - Only add performance: GET /seed/smart-campaigns?add_suggestions=false
+
+
+        Returns:
+
+        Summary of seeding operation including campaigns processed and changes made'
       operationId: seed_smart_campaigns_api_v1_seed_smart_campaigns_get
       security:
       - HTTPBearer: []

@@ -3,9 +3,6 @@ info:
   title: Audience builder Company API
   summary: Audience builder is an app for clients to create their campaigns.
   version: 0.0.1
-servers:
-- url: https://prodaudiencebuilderapi.covatic.io
-  description: Production (Covatic Audience Builder)
 tags:
 - name: Company
 paths:
@@ -321,32 +318,62 @@ components:
       - clients
       - sub_company_permissions
       title: SubCompany
-    ValidationError:
+    HTTPValidationError:
       properties:
-        loc:
+        detail:
           items:
-            anyOf:
-            - type: string
-            - type: integer
+            $ref: '#/components/schemas/ValidationError'
           type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    Client:
+      properties:
+        client_id:
+          type: string
+          title: Client Id
+          example: 5eb7cf5a86d9755df3a6c593
+        client_name:
+          type: string
+          title: Client Name
+        platform:
+          type: string
+          title: Platform
+        location:
+          anyOf:
+          - type: string
+          - type: 'null'
           title: Location
-        msg:
+        country:
           type: string
-          title: Message
-        type:
+          title: Country
+        sec_type:
           type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
+          title: Sec Type
+        bucket_name:
+          type: string
+          title: Bucket Name
+        code_name:
+          type: string
+          title: Code Name
+        cluster_reference:
+          type: string
+          title: Cluster Reference
+        restricted_access:
+          type: boolean
+          title: Restricted Access
       type: object
       required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
+      - client_id
+      - client_name
+      - platform
+      - country
+      - sec_type
+      - bucket_name
+      - code_name
+      - cluster_reference
+      - restricted_access
+      title: Client
     models__common__Response:
       properties:
         status_code:
@@ -375,6 +402,32 @@ components:
         description: Operation successful
         response_type: success
         status_code: 200
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
     AudienceCodeFormat:
       type: string
       enum:
@@ -454,62 +507,6 @@ components:
           sub_company_permissions:
           - insights
           - notifications
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    Client:
-      properties:
-        client_id:
-          type: string
-          title: Client Id
-          example: 5eb7cf5a86d9755df3a6c593
-        client_name:
-          type: string
-          title: Client Name
-        platform:
-          type: string
-          title: Platform
-        location:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Location
-        country:
-          type: string
-          title: Country
-        sec_type:
-          type: string
-          title: Sec Type
-        bucket_name:
-          type: string
-          title: Bucket Name
-        code_name:
-          type: string
-          title: Code Name
-        cluster_reference:
-          type: string
-          title: Cluster Reference
-        restricted_access:
-          type: boolean
-          title: Restricted Access
-      type: object
-      required:
-      - client_id
-      - client_name
-      - platform
-      - country
-      - sec_type
-      - bucket_name
-      - code_name
-      - cluster_reference
-      - restricted_access
-      title: Client
   securitySchemes:
     HTTPBearer:
       type: http

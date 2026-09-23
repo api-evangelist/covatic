@@ -3,9 +3,6 @@ info:
   title: Audience builder Retargeting Traits API
   summary: Audience builder is an app for clients to create their campaigns.
   version: 0.0.1
-servers:
-- url: https://prodaudiencebuilderapi.covatic.io
-  description: Production (Covatic Audience Builder)
 tags:
 - name: Retargeting Traits
 paths:
@@ -364,6 +361,15 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     ValidationError:
       properties:
         loc:
@@ -406,15 +412,23 @@ components:
       - campaign_name
       - campaign_id
       title: RetargetingTraitCreate
-    HTTPValidationError:
+    RetargetingTraitUpdate:
       properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
+        campaign_name:
+          anyOf:
+          - type: string
+            maxLength: 30
+          - type: 'null'
+          title: Campaign Name
+          description: Campaign name (max 30 characters)
+        campaign_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Campaign Id
+          description: Campaign ID
       type: object
-      title: HTTPValidationError
+      title: RetargetingTraitUpdate
     models__trait__Response:
       properties:
         status_code:
@@ -443,23 +457,6 @@ components:
         description: Operation successful
         response_type: success
         status_code: 200
-    RetargetingTraitUpdate:
-      properties:
-        campaign_name:
-          anyOf:
-          - type: string
-            maxLength: 30
-          - type: 'null'
-          title: Campaign Name
-          description: Campaign name (max 30 characters)
-        campaign_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Campaign Id
-          description: Campaign ID
-      type: object
-      title: RetargetingTraitUpdate
   securitySchemes:
     HTTPBearer:
       type: http

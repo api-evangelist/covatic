@@ -3,9 +3,6 @@ info:
   title: Audience builder Event Traits API
   summary: Audience builder is an app for clients to create their campaigns.
   version: 0.0.1
-servers:
-- url: https://prodaudiencebuilderapi.covatic.io
-  description: Production (Covatic Audience Builder)
 tags:
 - name: Event Traits
 paths:
@@ -687,185 +684,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    MediaPropertyOptions:
-      properties:
-        _id:
-          anyOf:
-          - type: string
-            example: 5eb7cf5a86d9755df3a6c593
-          - type: 'null'
-          title: Id
-          description: MongoDB document ObjectID
-        revision_id:
-          anyOf:
-          - type: string
-            format: uuid
-          - type: 'null'
-          title: Revision Id
-          hidden: true
-        domains:
-          items:
-            type: string
-          type: array
-          maxItems: 110
-          title: Domains
-        platform:
-          items:
-            type: string
-          type: array
-          title: Platform
-        display_name:
-          type: string
-          maxLength: 200
-          title: Display Name
-        parent_id:
-          type: string
-          title: Parent Id
-        created_at:
-          type: string
-          format: date-time
-          title: Created At
-        updated_at:
-          type: string
-          format: date-time
-          title: Updated At
-      type: object
-      required:
-      - display_name
-      - parent_id
-      title: MediaPropertyOptions
-      example:
-        display_name: talkSPORT - Web
-        domains:
-        - talksport.com
-        - iframe.talksport.com
-        parent_id: News UK
-        platform:
-        - web
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    Frequency:
-      properties:
-        count:
-          type: integer
-          title: Count
-        time:
-          type: integer
-          title: Time
-        period:
-          type: string
-          title: Period
-      type: object
-      required:
-      - count
-      - time
-      - period
-      title: Frequency
-    MediaPropertyOptionsCreate:
-      properties:
-        domains:
-          items:
-            type: string
-          type: array
-          maxItems: 110
-          minItems: 1
-          title: Domains
-        platform:
-          items:
-            type: string
-          type: array
-          minItems: 1
-          title: Platform
-        display_name:
-          type: string
-          maxLength: 200
-          title: Display Name
-      type: object
-      required:
-      - domains
-      - platform
-      - display_name
-      title: MediaPropertyOptionsCreate
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    MediaPropertyOptionsUpdate:
-      properties:
-        domains:
-          anyOf:
-          - items:
-              type: string
-            type: array
-            maxItems: 110
-            minItems: 1
-          - type: 'null'
-          title: Domains
-        platform:
-          anyOf:
-          - items:
-              type: string
-            type: array
-            minItems: 1
-          - type: 'null'
-          title: Platform
-        display_name:
-          anyOf:
-          - type: string
-            maxLength: 200
-          - type: 'null'
-          title: Display Name
-      type: object
-      title: MediaPropertyOptionsUpdate
-    EventTypes:
-      properties:
-        audioContent:
-          type: boolean
-          title: Audiocontent
-          default: false
-        videoContent:
-          type: boolean
-          title: Videocontent
-          default: false
-        pageView:
-          type: boolean
-          title: Pageview
-          default: false
-        customEvent:
-          type: boolean
-          title: Customevent
-          default: false
-      type: object
-      title: EventTypes
     Page_MediaPropertyOptions_:
       properties:
         items:
@@ -944,34 +762,35 @@ components:
           - type: 'null'
       type: object
       title: EventTraitUpdate
-    models__trait__Response:
+    HTTPValidationError:
       properties:
-        status_code:
-          type: integer
-          title: Status Code
-        response_type:
-          type: string
-          title: Response Type
-        description:
-          type: string
-          title: Description
-        data:
-          anyOf:
-          - {}
-          - type: 'null'
-          title: Data
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
       type: object
-      required:
-      - status_code
-      - response_type
-      - description
-      - data
-      title: Response
-      example:
-        data: Sample data
-        description: Operation successful
-        response_type: success
-        status_code: 200
+      title: HTTPValidationError
+    EventTypes:
+      properties:
+        audioContent:
+          type: boolean
+          title: Audiocontent
+          default: false
+        videoContent:
+          type: boolean
+          title: Videocontent
+          default: false
+        pageView:
+          type: boolean
+          title: Pageview
+          default: false
+        customEvent:
+          type: boolean
+          title: Customevent
+          default: false
+      type: object
+      title: EventTypes
     EventTraitCreate:
       properties:
         smart_match:
@@ -1015,6 +834,184 @@ components:
           - type: 'null'
       type: object
       title: EventTraitCreate
+    MediaPropertyOptionsUpdate:
+      properties:
+        domains:
+          anyOf:
+          - items:
+              type: string
+            type: array
+            maxItems: 110
+            minItems: 1
+          - type: 'null'
+          title: Domains
+        platform:
+          anyOf:
+          - items:
+              type: string
+            type: array
+            minItems: 1
+          - type: 'null'
+          title: Platform
+        display_name:
+          anyOf:
+          - type: string
+            maxLength: 200
+          - type: 'null'
+          title: Display Name
+      type: object
+      title: MediaPropertyOptionsUpdate
+    MediaPropertyOptionsCreate:
+      properties:
+        domains:
+          items:
+            type: string
+          type: array
+          maxItems: 110
+          minItems: 1
+          title: Domains
+        platform:
+          items:
+            type: string
+          type: array
+          minItems: 1
+          title: Platform
+        display_name:
+          type: string
+          maxLength: 200
+          title: Display Name
+      type: object
+      required:
+      - domains
+      - platform
+      - display_name
+      title: MediaPropertyOptionsCreate
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    MediaPropertyOptions:
+      properties:
+        _id:
+          anyOf:
+          - type: string
+            example: 5eb7cf5a86d9755df3a6c593
+          - type: 'null'
+          title: Id
+          description: MongoDB document ObjectID
+        revision_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Revision Id
+          hidden: true
+        domains:
+          items:
+            type: string
+          type: array
+          maxItems: 110
+          title: Domains
+        platform:
+          items:
+            type: string
+          type: array
+          title: Platform
+        display_name:
+          type: string
+          maxLength: 200
+          title: Display Name
+        parent_id:
+          type: string
+          title: Parent Id
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+        updated_at:
+          type: string
+          format: date-time
+          title: Updated At
+      type: object
+      required:
+      - display_name
+      - parent_id
+      title: MediaPropertyOptions
+      example:
+        display_name: talkSPORT - Web
+        domains:
+        - talksport.com
+        - iframe.talksport.com
+        parent_id: News UK
+        platform:
+        - web
+    models__trait__Response:
+      properties:
+        status_code:
+          type: integer
+          title: Status Code
+        response_type:
+          type: string
+          title: Response Type
+        description:
+          type: string
+          title: Description
+        data:
+          anyOf:
+          - {}
+          - type: 'null'
+          title: Data
+      type: object
+      required:
+      - status_code
+      - response_type
+      - description
+      - data
+      title: Response
+      example:
+        data: Sample data
+        description: Operation successful
+        response_type: success
+        status_code: 200
+    Frequency:
+      properties:
+        count:
+          type: integer
+          title: Count
+        time:
+          type: integer
+          title: Time
+        period:
+          type: string
+          title: Period
+      type: object
+      required:
+      - count
+      - time
+      - period
+      title: Frequency
   securitySchemes:
     HTTPBearer:
       type: http

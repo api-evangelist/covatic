@@ -3,9 +3,6 @@ info:
   title: Audience builder Notes API
   summary: Audience builder is an app for clients to create their campaigns.
   version: 0.0.1
-servers:
-- url: https://prodaudiencebuilderapi.covatic.io
-  description: Production (Covatic Audience Builder)
 tags:
 - name: Notes
 paths:
@@ -377,6 +374,15 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     ValidationError:
       properties:
         loc:
@@ -403,6 +409,33 @@ components:
       - msg
       - type
       title: ValidationError
+    NoteEntityType:
+      type: string
+      enum:
+      - audience
+      - campaign
+      title: NoteEntityType
+      description: Entity type for notes - can be attached to audiences or campaigns
+    NoteUpdateRequest:
+      properties:
+        title:
+          anyOf:
+          - type: string
+            maxLength: 255
+            minLength: 1
+          - type: 'null'
+          title: Title
+          description: Note title
+        content:
+          anyOf:
+          - type: string
+            minLength: 1
+          - type: 'null'
+          title: Content
+          description: Note content
+      type: object
+      title: NoteUpdateRequest
+      description: Request model for updating a note (partial update)
     NoteCreateRequest:
       properties:
         title:
@@ -431,42 +464,6 @@ components:
       - entity_id
       title: NoteCreateRequest
       description: Request model for creating a note
-    NoteEntityType:
-      type: string
-      enum:
-      - audience
-      - campaign
-      title: NoteEntityType
-      description: Entity type for notes - can be attached to audiences or campaigns
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    NoteUpdateRequest:
-      properties:
-        title:
-          anyOf:
-          - type: string
-            maxLength: 255
-            minLength: 1
-          - type: 'null'
-          title: Title
-          description: Note title
-        content:
-          anyOf:
-          - type: string
-            minLength: 1
-          - type: 'null'
-          title: Content
-          description: Note content
-      type: object
-      title: NoteUpdateRequest
-      description: Request model for updating a note (partial update)
   securitySchemes:
     HTTPBearer:
       type: http

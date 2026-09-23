@@ -3,16 +3,13 @@ info:
   title: Audience builder Chat GPT API
   summary: Audience builder is an app for clients to create their campaigns.
   version: 0.0.1
-servers:
-- url: https://prodaudiencebuilderapi.covatic.io
-  description: Production (Covatic Audience Builder)
 tags:
-- name: ChatGPT
+- name: Chat GPT
 paths:
   /api/v1/chat-gpt/completions:
     post:
       tags:
-      - ChatGPT
+      - Chat GPT
       summary: Streaming chat completion proxy
       description: Proxies an OpenAI Chat Completions request on behalf of the caller and streams the response back as Server-Sent Events in the exact format OpenAI uses.
       operationId: chat_completions_api_v1_chat_gpt_completions_post
@@ -80,6 +77,15 @@ components:
       - role
       - content
       title: ChatMessage
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     ValidationError:
       properties:
         loc:
@@ -106,15 +112,6 @@ components:
       - msg
       - type
       title: ValidationError
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
     ChatCompletionRequest:
       properties:
         model:

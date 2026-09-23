@@ -3,9 +3,6 @@ info:
   title: Audience Builder Agent API
   summary: Audience builder is an app for clients to create their campaigns.
   version: 0.0.1
-servers:
-- url: https://prodaudiencebuilderapi.covatic.io
-  description: Production (Covatic Audience Builder)
 tags:
 - name: Audience Builder Agent
 paths:
@@ -76,32 +73,29 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    ValidationError:
+    SuggestedAudience:
       properties:
-        loc:
+        nested_traits:
           items:
-            anyOf:
-            - type: string
-            - type: integer
+            additionalProperties: true
+            type: object
           type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
+          title: Nested Traits
+          description: The nested traits structure
+        four_week_reach:
+          type: integer
+          title: Four Week Reach
+          description: Estimated 4-week reach
+        percent_of_total:
+          type: number
+          title: Percent Of Total
+          description: Percentage of total audience
       type: object
       required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
+      - nested_traits
+      - four_week_reach
+      - percent_of_total
+      title: SuggestedAudience
     HTTPValidationError:
       properties:
         detail:
@@ -111,20 +105,26 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
-    routes__ai_audience_agent__ChatMessage:
+    ChatResponse:
       properties:
-        role:
+        status_code:
+          type: integer
+          title: Status Code
+        response_type:
           type: string
-          title: Role
-          description: 'Message role: ''user'' or ''assistant'''
-        content:
-          title: Content
-          description: Message content
+          title: Response Type
+        description:
+          type: string
+          title: Description
+        data:
+          $ref: '#/components/schemas/ChatResponseData'
       type: object
       required:
-      - role
-      - content
-      title: ChatMessage
+      - status_code
+      - response_type
+      - description
+      - data
+      title: ChatResponse
     ChatRequest:
       properties:
         message:
@@ -153,29 +153,46 @@ components:
       examples:
       - conversation_history: []
         message: I want to target affluent homeowners who are interested in luxury travel
-    SuggestedAudience:
+    routes__ai_audience_agent__ChatMessage:
       properties:
-        nested_traits:
-          items:
-            additionalProperties: true
-            type: object
-          type: array
-          title: Nested Traits
-          description: The nested traits structure
-        four_week_reach:
-          type: integer
-          title: Four Week Reach
-          description: Estimated 4-week reach
-        percent_of_total:
-          type: number
-          title: Percent Of Total
-          description: Percentage of total audience
+        role:
+          type: string
+          title: Role
+          description: 'Message role: ''user'' or ''assistant'''
+        content:
+          title: Content
+          description: Message content
       type: object
       required:
-      - nested_traits
-      - four_week_reach
-      - percent_of_total
-      title: SuggestedAudience
+      - role
+      - content
+      title: ChatMessage
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
     ChatResponseData:
       properties:
         response:
@@ -199,26 +216,6 @@ components:
       - response
       - conversation_history
       title: ChatResponseData
-    ChatResponse:
-      properties:
-        status_code:
-          type: integer
-          title: Status Code
-        response_type:
-          type: string
-          title: Response Type
-        description:
-          type: string
-          title: Description
-        data:
-          $ref: '#/components/schemas/ChatResponseData'
-      type: object
-      required:
-      - status_code
-      - response_type
-      - description
-      - data
-      title: ChatResponse
   securitySchemes:
     HTTPBearer:
       type: http

@@ -3,9 +3,6 @@ info:
   title: Audience builder Commons API
   summary: Audience builder is an app for clients to create their campaigns.
   version: 0.0.1
-servers:
-- url: https://prodaudiencebuilderapi.covatic.io
-  description: Production (Covatic Audience Builder)
 tags:
 - name: Commons
 paths:
@@ -155,6 +152,15 @@ paths:
       - HTTPBearer: []
 components:
   schemas:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     ValidationError:
       properties:
         loc:
@@ -212,31 +218,6 @@ components:
       - size
       - pages
       title: Page[Platform]
-    Platform:
-      properties:
-        _id:
-          anyOf:
-          - type: string
-            example: 5eb7cf5a86d9755df3a6c593
-          - type: 'null'
-          title: Id
-          description: MongoDB document ObjectID
-        revision_id:
-          anyOf:
-          - type: string
-            format: uuid
-          - type: 'null'
-          title: Revision Id
-          hidden: true
-        name:
-          type: string
-          title: Name
-      type: object
-      required:
-      - name
-      title: Platform
-      example:
-        name: Mobile
     Page_str_:
       properties:
         items:
@@ -268,37 +249,6 @@ components:
       - size
       - pages
       title: Page[str]
-    Page_Location_:
-      properties:
-        items:
-          items:
-            $ref: '#/components/schemas/Location'
-          type: array
-          title: Items
-        total:
-          type: integer
-          minimum: 0.0
-          title: Total
-        page:
-          type: integer
-          minimum: 1.0
-          title: Page
-        size:
-          type: integer
-          minimum: 1.0
-          title: Size
-        pages:
-          type: integer
-          minimum: 0.0
-          title: Pages
-      type: object
-      required:
-      - items
-      - total
-      - page
-      - size
-      - pages
-      title: Page[Location]
     Location:
       properties:
         _id:
@@ -333,15 +283,31 @@ components:
       example:
         name: North East, England
         postcode: UKC
-    HTTPValidationError:
+    Platform:
       properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
+        _id:
+          anyOf:
+          - type: string
+            example: 5eb7cf5a86d9755df3a6c593
+          - type: 'null'
+          title: Id
+          description: MongoDB document ObjectID
+        revision_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Revision Id
+          hidden: true
+        name:
+          type: string
+          title: Name
       type: object
-      title: HTTPValidationError
+      required:
+      - name
+      title: Platform
+      example:
+        name: Mobile
     models__profile__Response:
       properties:
         status_code:
@@ -370,6 +336,37 @@ components:
         description: Operation successful
         response_type: success
         status_code: 200
+    Page_Location_:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/Location'
+          type: array
+          title: Items
+        total:
+          type: integer
+          minimum: 0.0
+          title: Total
+        page:
+          type: integer
+          minimum: 1.0
+          title: Page
+        size:
+          type: integer
+          minimum: 1.0
+          title: Size
+        pages:
+          type: integer
+          minimum: 0.0
+          title: Pages
+      type: object
+      required:
+      - items
+      - total
+      - page
+      - size
+      - pages
+      title: Page[Location]
   securitySchemes:
     HTTPBearer:
       type: http
