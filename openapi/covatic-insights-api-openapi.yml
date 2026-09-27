@@ -87,6 +87,49 @@ paths:
       - HTTPBearer: []
 components:
   schemas:
+    QSInput:
+      properties:
+        id_token:
+          type: string
+          title: Id Token
+        user_name:
+          type: string
+          title: User Name
+        q_bar:
+          type: boolean
+          title: Q Bar
+      type: object
+      required:
+      - id_token
+      - user_name
+      - q_bar
+      title: QSInput
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
     HTTPValidationError:
       properties:
         detail:
@@ -124,49 +167,6 @@ components:
         description: Operation successful
         response_type: success
         status_code: 200
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    QSInput:
-      properties:
-        id_token:
-          type: string
-          title: Id Token
-        user_name:
-          type: string
-          title: User Name
-        q_bar:
-          type: boolean
-          title: Q Bar
-      type: object
-      required:
-      - id_token
-      - user_name
-      - q_bar
-      title: QSInput
   securitySchemes:
     HTTPBearer:
       type: http

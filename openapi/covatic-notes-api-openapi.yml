@@ -374,68 +374,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    NoteEntityType:
-      type: string
-      enum:
-      - audience
-      - campaign
-      title: NoteEntityType
-      description: Entity type for notes - can be attached to audiences or campaigns
-    NoteUpdateRequest:
-      properties:
-        title:
-          anyOf:
-          - type: string
-            maxLength: 255
-            minLength: 1
-          - type: 'null'
-          title: Title
-          description: Note title
-        content:
-          anyOf:
-          - type: string
-            minLength: 1
-          - type: 'null'
-          title: Content
-          description: Note content
-      type: object
-      title: NoteUpdateRequest
-      description: Request model for updating a note (partial update)
     NoteCreateRequest:
       properties:
         title:
@@ -464,6 +402,68 @@ components:
       - entity_id
       title: NoteCreateRequest
       description: Request model for creating a note
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    NoteEntityType:
+      type: string
+      enum:
+      - audience
+      - campaign
+      title: NoteEntityType
+      description: Entity type for notes - can be attached to audiences or campaigns
+    NoteUpdateRequest:
+      properties:
+        title:
+          anyOf:
+          - type: string
+            maxLength: 255
+            minLength: 1
+          - type: 'null'
+          title: Title
+          description: Note title
+        content:
+          anyOf:
+          - type: string
+            minLength: 1
+          - type: 'null'
+          title: Content
+          description: Note content
+      type: object
+      title: NoteUpdateRequest
+      description: Request model for updating a note (partial update)
   securitySchemes:
     HTTPBearer:
       type: http

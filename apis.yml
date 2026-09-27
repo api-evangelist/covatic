@@ -61,6 +61,23 @@ created: '2026-07-17'
 modified: '2026-08-12'
 tags:
 - Company
+- AdTech
+- Audience Intelligence
+- Data Management Platform
+- Connected TV
+- Privacy
+- On-Device Processing
+- Attribution
+- Audio
+- Campaigns
+- Retargeting
+- Publishing
+- Broadcasting
+- Media
+- B Corp
+- United Kingdom
+tags_raw:
+- Company
 - Advertising Technology
 - AdTech
 - Audience Intelligence
@@ -496,8 +513,6 @@ apis:
   humanURL: https://prodaudiencebuilderapi.covatic.io/docs
   baseURL: https://prodaudiencebuilderapi.covatic.io
   tags:
-  - ChatGPT
-  tags_raw:
   - Chat GPT
   properties:
   - type: OpenAPI

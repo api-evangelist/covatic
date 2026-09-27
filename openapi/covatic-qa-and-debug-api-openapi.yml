@@ -35,32 +35,6 @@ paths:
       - HTTPBearer: []
 components:
   schemas:
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    QARequest:
-      properties:
-        parent_id:
-          type: string
-          title: Parent Id
-        parent_type:
-          type: string
-          title: Parent Type
-        audience_code:
-          type: string
-          title: Audience Code
-      type: object
-      required:
-      - parent_id
-      - parent_type
-      - audience_code
-      title: QARequest
     ValidationError:
       properties:
         loc:
@@ -87,6 +61,32 @@ components:
       - msg
       - type
       title: ValidationError
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    QARequest:
+      properties:
+        parent_id:
+          type: string
+          title: Parent Id
+        parent_type:
+          type: string
+          title: Parent Type
+        audience_code:
+          type: string
+          title: Audience Code
+      type: object
+      required:
+      - parent_id
+      - parent_type
+      - audience_code
+      title: QARequest
   securitySchemes:
     HTTPBearer:
       type: http

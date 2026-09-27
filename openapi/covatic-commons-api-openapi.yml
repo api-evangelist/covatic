@@ -187,6 +187,62 @@ components:
       - msg
       - type
       title: ValidationError
+    Page_Location_:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/Location'
+          type: array
+          title: Items
+        total:
+          type: integer
+          minimum: 0.0
+          title: Total
+        page:
+          type: integer
+          minimum: 1.0
+          title: Page
+        size:
+          type: integer
+          minimum: 1.0
+          title: Size
+        pages:
+          type: integer
+          minimum: 0.0
+          title: Pages
+      type: object
+      required:
+      - items
+      - total
+      - page
+      - size
+      - pages
+      title: Page[Location]
+    Platform:
+      properties:
+        _id:
+          anyOf:
+          - type: string
+            example: 5eb7cf5a86d9755df3a6c593
+          - type: 'null'
+          title: Id
+          description: MongoDB document ObjectID
+        revision_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Revision Id
+          hidden: true
+        name:
+          type: string
+          title: Name
+      type: object
+      required:
+      - name
+      title: Platform
+      example:
+        name: Mobile
     Page_Platform_:
       properties:
         items:
@@ -218,37 +274,6 @@ components:
       - size
       - pages
       title: Page[Platform]
-    Page_str_:
-      properties:
-        items:
-          items:
-            type: string
-          type: array
-          title: Items
-        total:
-          type: integer
-          minimum: 0.0
-          title: Total
-        page:
-          type: integer
-          minimum: 1.0
-          title: Page
-        size:
-          type: integer
-          minimum: 1.0
-          title: Size
-        pages:
-          type: integer
-          minimum: 0.0
-          title: Pages
-      type: object
-      required:
-      - items
-      - total
-      - page
-      - size
-      - pages
-      title: Page[str]
     Location:
       properties:
         _id:
@@ -283,31 +308,37 @@ components:
       example:
         name: North East, England
         postcode: UKC
-    Platform:
+    Page_str_:
       properties:
-        _id:
-          anyOf:
-          - type: string
-            example: 5eb7cf5a86d9755df3a6c593
-          - type: 'null'
-          title: Id
-          description: MongoDB document ObjectID
-        revision_id:
-          anyOf:
-          - type: string
-            format: uuid
-          - type: 'null'
-          title: Revision Id
-          hidden: true
-        name:
-          type: string
-          title: Name
+        items:
+          items:
+            type: string
+          type: array
+          title: Items
+        total:
+          type: integer
+          minimum: 0.0
+          title: Total
+        page:
+          type: integer
+          minimum: 1.0
+          title: Page
+        size:
+          type: integer
+          minimum: 1.0
+          title: Size
+        pages:
+          type: integer
+          minimum: 0.0
+          title: Pages
       type: object
       required:
-      - name
-      title: Platform
-      example:
-        name: Mobile
+      - items
+      - total
+      - page
+      - size
+      - pages
+      title: Page[str]
     models__profile__Response:
       properties:
         status_code:
@@ -336,37 +367,6 @@ components:
         description: Operation successful
         response_type: success
         status_code: 200
-    Page_Location_:
-      properties:
-        items:
-          items:
-            $ref: '#/components/schemas/Location'
-          type: array
-          title: Items
-        total:
-          type: integer
-          minimum: 0.0
-          title: Total
-        page:
-          type: integer
-          minimum: 1.0
-          title: Page
-        size:
-          type: integer
-          minimum: 1.0
-          title: Size
-        pages:
-          type: integer
-          minimum: 0.0
-          title: Pages
-      type: object
-      required:
-      - items
-      - total
-      - page
-      - size
-      - pages
-      title: Page[Location]
   securitySchemes:
     HTTPBearer:
       type: http

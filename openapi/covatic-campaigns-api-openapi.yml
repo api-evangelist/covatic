@@ -1774,6 +1774,165 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    PerformanceRating:
+      type: string
+      enum:
+      - Excellent
+      - Good
+      - Average
+      - Poor
+      - Deleted
+      title: PerformanceRating
+      description: Performance rating enumeration for audience performance tracking
+    BulkAddAudienceItem:
+      properties:
+        audience_code:
+          type: string
+          title: Audience Code
+          description: Audience code
+        name:
+          type: string
+          title: Name
+          description: Audience display name
+        reason:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Reason
+          description: Reason for adding this audience
+      type: object
+      required:
+      - audience_code
+      - name
+      title: BulkAddAudienceItem
+      description: Single audience item for bulk add
+    CampaignType:
+      type: string
+      enum:
+      - Attribution
+      - Smart
+      - Notification
+      - Simple
+      title: CampaignType
+      description: Campaign type enumeration
+    Pixel:
+      properties:
+        outcome:
+          $ref: '#/components/schemas/CampaignOutcome'
+          description: Campaign outcome type
+        engine:
+          $ref: '#/components/schemas/AdEngine'
+          description: Ad serving platform
+        code:
+          type: string
+          title: Code
+          description: Pixel tracking code
+        customEventName:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Customeventname
+          description: Custom event name (required when outcome is 'custom')
+      type: object
+      required:
+      - outcome
+      - engine
+      - code
+      title: Pixel
+      description: Individual pixel tracking code for an ad engine
+    CampaignOutcome:
+      type: string
+      enum:
+      - click_through
+      - view
+      - purchase
+      - form_fill
+      - sign_up
+      - add_to_cart
+      - page_view
+      - download
+      - video_view
+      - custom
+      title: CampaignOutcome
+      description: Campaign outcome enumeration - trackable outcomes/events for attribution campaigns
+    AudienceRemovalRequest:
+      properties:
+        reason:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Reason
+          description: Optional reason for removal
+      type: object
+      title: AudienceRemovalRequest
+      description: Request body for removing an audience
+    SimpleCampaign:
+      properties:
+        estimated_duration:
+          type: number
+          minimum: 0.0
+          title: Estimated Duration
+          description: Duration in days (can be 0 or greater)
+        estimated_reach:
+          type: number
+          minimum: 0.0
+          title: Estimated Reach
+          description: Combined reach from all audiences (can be 0 or greater)
+        exclusions:
+          items: {}
+          type: array
+          title: Exclusions
+          description: Combined exclusions from all selected audiences
+        locations:
+          items: {}
+          type: array
+          title: Locations
+          description: Combined locations from all selected audiences
+        nested_traits:
+          items: {}
+          type: array
+          title: Nested Traits
+          description: Combined traits from all selected audiences
+        audiences:
+          items:
+            $ref: '#/components/schemas/SimpleCampaignAudience'
+          type: array
+          title: Audiences
+          description: Array of audience details
+      type: object
+      required:
+      - estimated_duration
+      - estimated_reach
+      title: SimpleCampaign
+      description: Simple campaign configuration with audience data
+    models__profile__Response:
+      properties:
+        status_code:
+          type: integer
+          title: Status Code
+        response_type:
+          type: string
+          title: Response Type
+        description:
+          type: string
+          title: Description
+        data:
+          anyOf:
+          - {}
+          - type: 'null'
+          title: Data
+      type: object
+      required:
+      - status_code
+      - response_type
+      - description
+      - data
+      title: Response
+      example:
+        data: []
+        description: Operation successful
+        response_type: success
+        status_code: 200
     SmartCampaignAudience:
       properties:
         audience_code:
@@ -1814,53 +1973,6 @@ components:
       - performance_updates
       title: UpdatePerformanceRequest
       description: Request body for updating performance
-    AddSuggestionsRequest:
-      properties:
-        suggestions:
-          items:
-            $ref: '#/components/schemas/AddSuggestionItem'
-          type: array
-          maxItems: 20
-          minItems: 1
-          title: Suggestions
-      type: object
-      required:
-      - suggestions
-      title: AddSuggestionsRequest
-      description: Request body for adding suggestions
-    AddSuggestionItem:
-      properties:
-        audience_code:
-          type: string
-          title: Audience Code
-        name:
-          type: string
-          title: Name
-        reach:
-          type: number
-          minimum: 0.0
-          title: Reach
-        performance:
-          anyOf:
-          - $ref: '#/components/schemas/PerformanceRating'
-          - type: 'null'
-        reason:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Reason
-        suggested_by:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Suggested By
-      type: object
-      required:
-      - audience_code
-      - name
-      - reach
-      title: AddSuggestionItem
-      description: Single suggestion item to add
     CampaignCreateRequest:
       properties:
         name:
@@ -1954,75 +2066,6 @@ components:
       - type
       title: CampaignCreateRequest
       description: Request model for creating a campaign
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    AudienceRemovalRequest:
-      properties:
-        reason:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Reason
-          description: Optional reason for removal
-      type: object
-      title: AudienceRemovalRequest
-      description: Request body for removing an audience
-    SmartCampaign:
-      properties:
-        estimated_duration:
-          type: number
-          minimum: 0.0
-          title: Estimated Duration
-          description: Duration in days
-        estimated_reach:
-          type: number
-          minimum: 0.0
-          title: Estimated Reach
-          description: Combined reach from all audiences
-        exclusions:
-          items: {}
-          type: array
-          title: Exclusions
-          description: Combined exclusions from all selected audiences
-        locations:
-          items: {}
-          type: array
-          title: Locations
-          description: Combined locations from all selected audiences
-        nested_traits:
-          items: {}
-          type: array
-          title: Nested Traits
-          description: Combined traits from all selected audiences
-        audiences:
-          items:
-            $ref: '#/components/schemas/SmartCampaignAudience'
-          type: array
-          title: Audiences
-          description: Array of audience details with performance metrics
-        suggestions:
-          items:
-            $ref: '#/components/schemas/SmartCampaignSuggestion'
-          type: array
-          title: Suggestions
-          description: Array of suggested audiences from data team
-        recommendation_cadence:
-          $ref: '#/components/schemas/RecommendationCadence'
-          description: How often the AI generates audience suggestions (daily or weekly)
-          default: daily
-      type: object
-      required:
-      - estimated_duration
-      - estimated_reach
-      title: SmartCampaign
-      description: Smart campaign configuration with performance tracking and suggestions
     SuggestionStatus:
       type: string
       enum:
@@ -2039,6 +2082,13 @@ components:
       - Completed
       title: CampaignStatus
       description: Campaign status enumeration
+    RecommendationCadence:
+      type: string
+      enum:
+      - daily
+      - weekly
+      title: RecommendationCadence
+      description: Controls how often the AI generates audience suggestions for Smart Campaigns
     BulkAddAudiencesRequest:
       properties:
         audiences:
@@ -2053,183 +2103,13 @@ components:
       - audiences
       title: BulkAddAudiencesRequest
       description: Request body for bulk adding audiences to a smart campaign
-    SimpleCampaign:
-      properties:
-        estimated_duration:
-          type: number
-          minimum: 0.0
-          title: Estimated Duration
-          description: Duration in days (can be 0 or greater)
-        estimated_reach:
-          type: number
-          minimum: 0.0
-          title: Estimated Reach
-          description: Combined reach from all audiences (can be 0 or greater)
-        exclusions:
-          items: {}
-          type: array
-          title: Exclusions
-          description: Combined exclusions from all selected audiences
-        locations:
-          items: {}
-          type: array
-          title: Locations
-          description: Combined locations from all selected audiences
-        nested_traits:
-          items: {}
-          type: array
-          title: Nested Traits
-          description: Combined traits from all selected audiences
-        audiences:
-          items:
-            $ref: '#/components/schemas/SimpleCampaignAudience'
-          type: array
-          title: Audiences
-          description: Array of audience details
-      type: object
-      required:
-      - estimated_duration
-      - estimated_reach
-      title: SimpleCampaign
-      description: Simple campaign configuration with audience data
-    SmartCampaignSuggestion:
-      properties:
-        audience_code:
-          type: string
-          title: Audience Code
-          description: Suggested audience code (unique identifier)
-        name:
-          type: string
-          title: Name
-          description: Suggested audience name
-        reach:
-          type: number
-          minimum: 0.0
-          title: Reach
-          description: Estimated audience reach
-        performance:
-          anyOf:
-          - $ref: '#/components/schemas/PerformanceRating'
-          - type: 'null'
-          description: 'Expected performance rating: Excellent, Good, Average, or Poor'
-        reason:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Reason
-          description: Reason why this audience is suggested (from data team)
-        status:
-          $ref: '#/components/schemas/SuggestionStatus'
-          description: Current status of the suggestion
-          default: pending
-        suggested_at:
-          type: string
-          format: date-time
-          title: Suggested At
-          description: When this suggestion was created
-        suggested_by:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Suggested By
-          description: Data team member who suggested this audience
-      type: object
-      required:
-      - audience_code
-      - name
-      - reach
-      title: SmartCampaignSuggestion
-      description: Suggested audience for smart campaign
-    OutcomePixel:
-      properties:
-        outcome:
-          $ref: '#/components/schemas/CampaignOutcome'
-          description: Campaign outcome type
-        pixels:
-          items:
-            $ref: '#/components/schemas/Pixel'
-          type: array
-          title: Pixels
-          description: List of pixels for different ad engines
-      type: object
-      required:
-      - outcome
-      title: OutcomePixel
-      description: Outcome with associated pixels
-    Page_str_:
-      properties:
-        items:
-          items:
-            type: string
-          type: array
-          title: Items
-        total:
-          type: integer
-          minimum: 0.0
-          title: Total
-        page:
-          type: integer
-          minimum: 1.0
-          title: Page
-        size:
-          type: integer
-          minimum: 1.0
-          title: Size
-        pages:
-          type: integer
-          minimum: 0.0
-          title: Pages
-      type: object
-      required:
-      - items
-      - total
-      - page
-      - size
-      - pages
-      title: Page[str]
-    SuggestionDismissalRequest:
-      properties:
-        reason:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Reason
-          description: Optional reason for dismissal
-      type: object
-      title: SuggestionDismissalRequest
-      description: Request body for dismissing a suggestion
-    SimpleCampaignAudience:
-      properties:
-        audience_code:
-          type: string
-          title: Audience Code
-          description: Audience code
-        name:
-          type: string
-          title: Name
-          description: Audience name
-        reach:
-          type: number
-          minimum: 0.0
-          title: Reach
-          description: Audience reach (can be 0 or greater)
-      type: object
-      required:
-      - audience_code
-      - name
-      - reach
-      title: SimpleCampaignAudience
-      description: Audience information for simple campaign
-    PerformanceRating:
+    AdEngine:
       type: string
       enum:
-      - Excellent
-      - Good
-      - Average
-      - Poor
-      - Deleted
-      title: PerformanceRating
-      description: Performance rating enumeration for audience performance tracking
+      - google_ad_manager
+      - adswizz
+      title: AdEngine
+      description: Ad engine enumeration - different ad serving platforms
     CampaignUpdateRequest:
       properties:
         name:
@@ -2316,47 +2196,20 @@ components:
       type: object
       title: CampaignUpdateRequest
       description: Request model for updating a campaign (partial update)
-    CampaignOutcome:
-      type: string
-      enum:
-      - click_through
-      - view
-      - purchase
-      - form_fill
-      - sign_up
-      - add_to_cart
-      - page_view
-      - download
-      - video_view
-      - custom
-      title: CampaignOutcome
-      description: Campaign outcome enumeration - trackable outcomes/events for attribution campaigns
-    Pixel:
+    PerformanceUpdate:
       properties:
-        outcome:
-          $ref: '#/components/schemas/CampaignOutcome'
-          description: Campaign outcome type
-        engine:
-          $ref: '#/components/schemas/AdEngine'
-          description: Ad serving platform
-        code:
+        audience_code:
           type: string
-          title: Code
-          description: Pixel tracking code
-        customEventName:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Customeventname
-          description: Custom event name (required when outcome is 'custom')
+          title: Audience Code
+        performance:
+          $ref: '#/components/schemas/PerformanceRating'
       type: object
       required:
-      - outcome
-      - engine
-      - code
-      title: Pixel
-      description: Individual pixel tracking code for an ad engine
-    BulkAddAudienceItem:
+      - audience_code
+      - performance
+      title: PerformanceUpdate
+      description: Single performance update
+    SimpleCampaignAudience:
       properties:
         audience_code:
           type: string
@@ -2365,19 +2218,133 @@ components:
         name:
           type: string
           title: Name
-          description: Audience display name
+          description: Audience name
+        reach:
+          type: number
+          minimum: 0.0
+          title: Reach
+          description: Audience reach (can be 0 or greater)
+      type: object
+      required:
+      - audience_code
+      - name
+      - reach
+      title: SimpleCampaignAudience
+      description: Audience information for simple campaign
+    Page_str_:
+      properties:
+        items:
+          items:
+            type: string
+          type: array
+          title: Items
+        total:
+          type: integer
+          minimum: 0.0
+          title: Total
+        page:
+          type: integer
+          minimum: 1.0
+          title: Page
+        size:
+          type: integer
+          minimum: 1.0
+          title: Size
+        pages:
+          type: integer
+          minimum: 0.0
+          title: Pages
+      type: object
+      required:
+      - items
+      - total
+      - page
+      - size
+      - pages
+      title: Page[str]
+    SuggestionDismissalRequest:
+      properties:
         reason:
           anyOf:
           - type: string
           - type: 'null'
           title: Reason
-          description: Reason for adding this audience
+          description: Optional reason for dismissal
+      type: object
+      title: SuggestionDismissalRequest
+      description: Request body for dismissing a suggestion
+    AddSuggestionsRequest:
+      properties:
+        suggestions:
+          items:
+            $ref: '#/components/schemas/AddSuggestionItem'
+          type: array
+          maxItems: 20
+          minItems: 1
+          title: Suggestions
       type: object
       required:
-      - audience_code
-      - name
-      title: BulkAddAudienceItem
-      description: Single audience item for bulk add
+      - suggestions
+      title: AddSuggestionsRequest
+      description: Request body for adding suggestions
+    SmartCampaign:
+      properties:
+        estimated_duration:
+          type: number
+          minimum: 0.0
+          title: Estimated Duration
+          description: Duration in days
+        estimated_reach:
+          type: number
+          minimum: 0.0
+          title: Estimated Reach
+          description: Combined reach from all audiences
+        exclusions:
+          items: {}
+          type: array
+          title: Exclusions
+          description: Combined exclusions from all selected audiences
+        locations:
+          items: {}
+          type: array
+          title: Locations
+          description: Combined locations from all selected audiences
+        nested_traits:
+          items: {}
+          type: array
+          title: Nested Traits
+          description: Combined traits from all selected audiences
+        audiences:
+          items:
+            $ref: '#/components/schemas/SmartCampaignAudience'
+          type: array
+          title: Audiences
+          description: Array of audience details with performance metrics
+        suggestions:
+          items:
+            $ref: '#/components/schemas/SmartCampaignSuggestion'
+          type: array
+          title: Suggestions
+          description: Array of suggested audiences from data team
+        recommendation_cadence:
+          $ref: '#/components/schemas/RecommendationCadence'
+          description: How often the AI generates audience suggestions (daily or weekly)
+          default: daily
+      type: object
+      required:
+      - estimated_duration
+      - estimated_reach
+      title: SmartCampaign
+      description: Smart campaign configuration with performance tracking and suggestions
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     ValidationError:
       properties:
         loc:
@@ -2404,54 +2371,55 @@ components:
       - msg
       - type
       title: ValidationError
-    AdEngine:
-      type: string
-      enum:
-      - google_ad_manager
-      - adswizz
-      title: AdEngine
-      description: Ad engine enumeration - different ad serving platforms
-    models__profile__Response:
+    OutcomePixel:
       properties:
-        status_code:
-          type: integer
-          title: Status Code
-        response_type:
-          type: string
-          title: Response Type
-        description:
-          type: string
-          title: Description
-        data:
-          anyOf:
-          - {}
-          - type: 'null'
-          title: Data
+        outcome:
+          $ref: '#/components/schemas/CampaignOutcome'
+          description: Campaign outcome type
+        pixels:
+          items:
+            $ref: '#/components/schemas/Pixel'
+          type: array
+          title: Pixels
+          description: List of pixels for different ad engines
       type: object
       required:
-      - status_code
-      - response_type
-      - description
-      - data
-      title: Response
-      example:
-        data: []
-        description: Operation successful
-        response_type: success
-        status_code: 200
-    PerformanceUpdate:
+      - outcome
+      title: OutcomePixel
+      description: Outcome with associated pixels
+    AddSuggestionItem:
       properties:
         audience_code:
           type: string
           title: Audience Code
+        name:
+          type: string
+          title: Name
+        reach:
+          type: number
+          minimum: 0.0
+          title: Reach
         performance:
-          $ref: '#/components/schemas/PerformanceRating'
+          anyOf:
+          - $ref: '#/components/schemas/PerformanceRating'
+          - type: 'null'
+        reason:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Reason
+        suggested_by:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Suggested By
       type: object
       required:
       - audience_code
-      - performance
-      title: PerformanceUpdate
-      description: Single performance update
+      - name
+      - reach
+      title: AddSuggestionItem
+      description: Single suggestion item to add
     CampaignStatusUpdateRequest:
       properties:
         status:
@@ -2462,22 +2430,54 @@ components:
       - status
       title: CampaignStatusUpdateRequest
       description: Request model for updating campaign status only
-    RecommendationCadence:
-      type: string
-      enum:
-      - daily
-      - weekly
-      title: RecommendationCadence
-      description: Controls how often the AI generates audience suggestions for Smart Campaigns
-    CampaignType:
-      type: string
-      enum:
-      - Attribution
-      - Smart
-      - Notification
-      - Simple
-      title: CampaignType
-      description: Campaign type enumeration
+    SmartCampaignSuggestion:
+      properties:
+        audience_code:
+          type: string
+          title: Audience Code
+          description: Suggested audience code (unique identifier)
+        name:
+          type: string
+          title: Name
+          description: Suggested audience name
+        reach:
+          type: number
+          minimum: 0.0
+          title: Reach
+          description: Estimated audience reach
+        performance:
+          anyOf:
+          - $ref: '#/components/schemas/PerformanceRating'
+          - type: 'null'
+          description: 'Expected performance rating: Excellent, Good, Average, or Poor'
+        reason:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Reason
+          description: Reason why this audience is suggested (from data team)
+        status:
+          $ref: '#/components/schemas/SuggestionStatus'
+          description: Current status of the suggestion
+          default: pending
+        suggested_at:
+          type: string
+          format: date-time
+          title: Suggested At
+          description: When this suggestion was created
+        suggested_by:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Suggested By
+          description: Data team member who suggested this audience
+      type: object
+      required:
+      - audience_code
+      - name
+      - reach
+      title: SmartCampaignSuggestion
+      description: Suggested audience for smart campaign
   securitySchemes:
     HTTPBearer:
       type: http

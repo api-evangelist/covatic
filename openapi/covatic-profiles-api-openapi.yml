@@ -715,66 +715,83 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    HTTPValidationError:
+    SharedProfile:
       properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    UpdateMetadata:
-      properties:
-        name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Name
-        update_every:
-          type: integer
-          title: Update Every
-        expires:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: Expires
-        cvcql_version:
-          type: string
-          title: Cvcql Version
-        flags:
-          anyOf:
-          - $ref: '#/components/schemas/Flags'
-          - type: 'null'
-        annotations:
+        metadata:
+          $ref: '#/components/schemas/Metadata'
+        nested_query:
           anyOf:
           - additionalProperties: true
             type: object
           - type: 'null'
-          title: Annotations
-        tags:
+          title: Nested Query
+        query:
           anyOf:
-          - items:
-              type: string
-            type: array
+          - additionalProperties: true
+            type: object
           - type: 'null'
-          title: Tags
-        client_id:
-          anyOf:
-          - type: string
-            example: 5eb7cf5a86d9755df3a6c593
-          - type: 'null'
-          title: Client Id
-        profile_version:
-          type: integer
-          title: Profile Version
+          title: Query
       type: object
       required:
-      - update_every
-      - cvcql_version
-      - profile_version
-      title: UpdateMetadata
+      - metadata
+      title: SharedProfile
+      example:
+        metadata:
+          annotations:
+            ad_campaign_estimator:
+              created_by: test@covatic.com
+              estimated_duration: 4
+              estimated_reach: 308000
+            insights/display-name: Audience builder version 2.0 record 1
+            insights/last-updated: '2020-11-01T14:15:57.253Z'
+          cvcql_version: 0.1.0
+          expires: '2200-12-31T00:00:00'
+          flags:
+            deleted: false
+            released: true
+          profile_version: 1
+          tags: []
+          update_every: 7
+        query:
+          exclusions:
+          - source: covatic
+            trait: Contextual|Connectivity|Vauxhall driver
+            trait_code: REL660824
+          locations:
+          - id: 64edd22c91e2cc2d5867f515
+            name: West Midlands, England
+          - id: 64edd22c91e2cc2d5867f516
+            name: East of England
+          - id: 64edd22c91e2cc2d5867f517
+            name: London, England
+          platforms:
+          - id: 64e707e43f77650a53a84e3d
+            name: Smart Speaker
+          - id: 64e707e43f77650a53a84e3b
+            name: Mobile
+          - id: 64e707e43f77650a53a84e3c
+            name: Browser
+          query:
+          - traits:
+            - source: acorn
+              trait: HOUSING|House Type|Detached house
+              trait_code: PROHOUSING|House Type|Detached house
+          - operator: AND
+            traits:
+            - source: covatic
+              trait: Contextual|Connectivity|Audi driver
+              trait_code: REL522705
+            - source: covatic
+              trait: Contextual|Connectivity|Toyota driver
+              trait_code: REL113563
+          - operator: AND
+            traits:
+            - source: acorn
+              trait: 'HOUSING|House Size|Number of Beds : 3'
+              trait_code: 'PROHOUSING|House Size|Number of Beds : 3'
+            - source: acorn
+              trait: 'HOUSING|House Size|Number of Beds : 4'
+              trait_code: 'PROHOUSING|House Size|Number of Beds : 4'
     UpdateProfile:
       properties:
         metadata:
@@ -853,83 +870,6 @@ components:
             - source: acorn
               trait: 'HOUSING|House Size|Number of Beds : 4'
               trait_code: 'PROHOUSING|House Size|Number of Beds : 4'
-    SharedProfile:
-      properties:
-        metadata:
-          $ref: '#/components/schemas/Metadata'
-        nested_query:
-          anyOf:
-          - additionalProperties: true
-            type: object
-          - type: 'null'
-          title: Nested Query
-        query:
-          anyOf:
-          - additionalProperties: true
-            type: object
-          - type: 'null'
-          title: Query
-      type: object
-      required:
-      - metadata
-      title: SharedProfile
-      example:
-        metadata:
-          annotations:
-            ad_campaign_estimator:
-              created_by: test@covatic.com
-              estimated_duration: 4
-              estimated_reach: 308000
-            insights/display-name: Audience builder version 2.0 record 1
-            insights/last-updated: '2020-11-01T14:15:57.253Z'
-          cvcql_version: 0.1.0
-          expires: '2200-12-31T00:00:00'
-          flags:
-            deleted: false
-            released: true
-          profile_version: 1
-          tags: []
-          update_every: 7
-        query:
-          exclusions:
-          - source: covatic
-            trait: Contextual|Connectivity|Vauxhall driver
-            trait_code: REL660824
-          locations:
-          - id: 64edd22c91e2cc2d5867f515
-            name: West Midlands, England
-          - id: 64edd22c91e2cc2d5867f516
-            name: East of England
-          - id: 64edd22c91e2cc2d5867f517
-            name: London, England
-          platforms:
-          - id: 64e707e43f77650a53a84e3d
-            name: Smart Speaker
-          - id: 64e707e43f77650a53a84e3b
-            name: Mobile
-          - id: 64e707e43f77650a53a84e3c
-            name: Browser
-          query:
-          - traits:
-            - source: acorn
-              trait: HOUSING|House Type|Detached house
-              trait_code: PROHOUSING|House Type|Detached house
-          - operator: AND
-            traits:
-            - source: covatic
-              trait: Contextual|Connectivity|Audi driver
-              trait_code: REL522705
-            - source: covatic
-              trait: Contextual|Connectivity|Toyota driver
-              trait_code: REL113563
-          - operator: AND
-            traits:
-            - source: acorn
-              trait: 'HOUSING|House Size|Number of Beds : 3'
-              trait_code: 'PROHOUSING|House Size|Number of Beds : 3'
-            - source: acorn
-              trait: 'HOUSING|House Size|Number of Beds : 4'
-              trait_code: 'PROHOUSING|House Size|Number of Beds : 4'
     ValidationError:
       properties:
         loc:
@@ -956,6 +896,15 @@ components:
       - msg
       - type
       title: ValidationError
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     Flags:
       properties:
         released:
@@ -999,34 +948,6 @@ components:
       - size
       - pages
       title: Page[Any]
-    models__profile__Response:
-      properties:
-        status_code:
-          type: integer
-          title: Status Code
-        response_type:
-          type: string
-          title: Response Type
-        description:
-          type: string
-          title: Description
-        data:
-          anyOf:
-          - {}
-          - type: 'null'
-          title: Data
-      type: object
-      required:
-      - status_code
-      - response_type
-      - description
-      - data
-      title: Response
-      example:
-        data: []
-        description: Operation successful
-        response_type: success
-        status_code: 200
     Metadata:
       properties:
         name:
@@ -1076,6 +997,85 @@ components:
       - cvcql_version
       - profile_version
       title: Metadata
+    UpdateMetadata:
+      properties:
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+        update_every:
+          type: integer
+          title: Update Every
+        expires:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Expires
+        cvcql_version:
+          type: string
+          title: Cvcql Version
+        flags:
+          anyOf:
+          - $ref: '#/components/schemas/Flags'
+          - type: 'null'
+        annotations:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Annotations
+        tags:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Tags
+        client_id:
+          anyOf:
+          - type: string
+            example: 5eb7cf5a86d9755df3a6c593
+          - type: 'null'
+          title: Client Id
+        profile_version:
+          type: integer
+          title: Profile Version
+      type: object
+      required:
+      - update_every
+      - cvcql_version
+      - profile_version
+      title: UpdateMetadata
+    models__profile__Response:
+      properties:
+        status_code:
+          type: integer
+          title: Status Code
+        response_type:
+          type: string
+          title: Response Type
+        description:
+          type: string
+          title: Description
+        data:
+          anyOf:
+          - {}
+          - type: 'null'
+          title: Data
+      type: object
+      required:
+      - status_code
+      - response_type
+      - description
+      - data
+      title: Response
+      example:
+        data: []
+        description: Operation successful
+        response_type: success
+        status_code: 200
   securitySchemes:
     HTTPBearer:
       type: http

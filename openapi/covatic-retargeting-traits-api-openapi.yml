@@ -361,15 +361,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
     ValidationError:
       properties:
         loc:
@@ -396,22 +387,15 @@ components:
       - msg
       - type
       title: ValidationError
-    RetargetingTraitCreate:
+    HTTPValidationError:
       properties:
-        campaign_name:
-          type: string
-          maxLength: 30
-          title: Campaign Name
-          description: Campaign name (max 30 characters)
-        campaign_id:
-          type: string
-          title: Campaign Id
-          description: Campaign ID
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
       type: object
-      required:
-      - campaign_name
-      - campaign_id
-      title: RetargetingTraitCreate
+      title: HTTPValidationError
     RetargetingTraitUpdate:
       properties:
         campaign_name:
@@ -429,6 +413,22 @@ components:
           description: Campaign ID
       type: object
       title: RetargetingTraitUpdate
+    RetargetingTraitCreate:
+      properties:
+        campaign_name:
+          type: string
+          maxLength: 30
+          title: Campaign Name
+          description: Campaign name (max 30 characters)
+        campaign_id:
+          type: string
+          title: Campaign Id
+          description: Campaign ID
+      type: object
+      required:
+      - campaign_name
+      - campaign_id
+      title: RetargetingTraitCreate
     models__trait__Response:
       properties:
         status_code:
