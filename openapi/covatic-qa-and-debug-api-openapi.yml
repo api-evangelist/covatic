@@ -61,15 +61,6 @@ components:
       - msg
       - type
       title: ValidationError
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
     QARequest:
       properties:
         parent_id:
@@ -87,6 +78,15 @@ components:
       - parent_type
       - audience_code
       title: QARequest
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
   securitySchemes:
     HTTPBearer:
       type: http

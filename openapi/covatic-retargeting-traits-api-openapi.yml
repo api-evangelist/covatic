@@ -361,6 +361,22 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    RetargetingTraitCreate:
+      properties:
+        campaign_name:
+          type: string
+          maxLength: 30
+          title: Campaign Name
+          description: Campaign name (max 30 characters)
+        campaign_id:
+          type: string
+          title: Campaign Id
+          description: Campaign ID
+      type: object
+      required:
+      - campaign_name
+      - campaign_id
+      title: RetargetingTraitCreate
     ValidationError:
       properties:
         loc:
@@ -387,48 +403,6 @@ components:
       - msg
       - type
       title: ValidationError
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    RetargetingTraitUpdate:
-      properties:
-        campaign_name:
-          anyOf:
-          - type: string
-            maxLength: 30
-          - type: 'null'
-          title: Campaign Name
-          description: Campaign name (max 30 characters)
-        campaign_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Campaign Id
-          description: Campaign ID
-      type: object
-      title: RetargetingTraitUpdate
-    RetargetingTraitCreate:
-      properties:
-        campaign_name:
-          type: string
-          maxLength: 30
-          title: Campaign Name
-          description: Campaign name (max 30 characters)
-        campaign_id:
-          type: string
-          title: Campaign Id
-          description: Campaign ID
-      type: object
-      required:
-      - campaign_name
-      - campaign_id
-      title: RetargetingTraitCreate
     models__trait__Response:
       properties:
         status_code:
@@ -457,6 +431,32 @@ components:
         description: Operation successful
         response_type: success
         status_code: 200
+    RetargetingTraitUpdate:
+      properties:
+        campaign_name:
+          anyOf:
+          - type: string
+            maxLength: 30
+          - type: 'null'
+          title: Campaign Name
+          description: Campaign name (max 30 characters)
+        campaign_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Campaign Id
+          description: Campaign ID
+      type: object
+      title: RetargetingTraitUpdate
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
   securitySchemes:
     HTTPBearer:
       type: http
