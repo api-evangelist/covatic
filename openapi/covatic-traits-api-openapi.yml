@@ -543,6 +543,15 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     ValidationError:
       properties:
         loc:
@@ -569,15 +578,34 @@ components:
       - msg
       - type
       title: ValidationError
-    HTTPValidationError:
+    models__trait__Response:
       properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
+        status_code:
+          type: integer
+          title: Status Code
+        response_type:
+          type: string
+          title: Response Type
+        description:
+          type: string
+          title: Description
+        data:
+          anyOf:
+          - {}
+          - type: 'null'
+          title: Data
       type: object
-      title: HTTPValidationError
+      required:
+      - status_code
+      - response_type
+      - description
+      - data
+      title: Response
+      example:
+        data: Sample data
+        description: Operation successful
+        response_type: success
+        status_code: 200
     NestedTraits:
       properties:
         nested_traits:
@@ -637,34 +665,6 @@ components:
         platforms:
         - name: Web
         - name: Mobile
-    models__trait__Response:
-      properties:
-        status_code:
-          type: integer
-          title: Status Code
-        response_type:
-          type: string
-          title: Response Type
-        description:
-          type: string
-          title: Description
-        data:
-          anyOf:
-          - {}
-          - type: 'null'
-          title: Data
-      type: object
-      required:
-      - status_code
-      - response_type
-      - description
-      - data
-      title: Response
-      example:
-        data: Sample data
-        description: Operation successful
-        response_type: success
-        status_code: 200
   securitySchemes:
     HTTPBearer:
       type: http

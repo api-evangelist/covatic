@@ -297,128 +297,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    models__common__Response:
-      properties:
-        status_code:
-          type: integer
-          title: Status Code
-        response_type:
-          type: string
-          title: Response Type
-        description:
-          type: string
-          title: Description
-        data:
-          anyOf:
-          - {}
-          - type: 'null'
-          title: Data
-      type: object
-      required:
-      - status_code
-      - response_type
-      - description
-      - data
-      title: Response
-      example:
-        data: Sample data
-        description: Operation successful
-        response_type: success
-        status_code: 200
-    SubCompany:
-      properties:
-        sub_company_name:
-          type: string
-          title: Sub Company Name
-        clients:
-          items:
-            $ref: '#/components/schemas/Client'
-          type: array
-          title: Clients
-        sub_company_permissions:
-          items:
-            type: string
-          type: array
-          title: Sub Company Permissions
-      type: object
-      required:
-      - sub_company_name
-      - clients
-      - sub_company_permissions
-      title: SubCompany
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    Client:
-      properties:
-        client_id:
-          type: string
-          title: Client Id
-          example: 5eb7cf5a86d9755df3a6c593
-        client_name:
-          type: string
-          title: Client Name
-        platform:
-          type: string
-          title: Platform
-        location:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Location
-        country:
-          type: string
-          title: Country
-        sec_type:
-          type: string
-          title: Sec Type
-        bucket_name:
-          type: string
-          title: Bucket Name
-        code_name:
-          type: string
-          title: Code Name
-        cluster_reference:
-          type: string
-          title: Cluster Reference
-        restricted_access:
-          type: boolean
-          title: Restricted Access
-      type: object
-      required:
-      - client_id
-      - client_name
-      - platform
-      - country
-      - sec_type
-      - bucket_name
-      - code_name
-      - cluster_reference
-      - restricted_access
-      title: Client
     Company:
       properties:
         _id:
@@ -491,13 +369,107 @@ components:
           sub_company_permissions:
           - insights
           - notifications
-    AudienceCodeFormat:
-      type: string
-      enum:
-      - numeric_6
-      - alphanumeric_3
-      title: AudienceCodeFormat
-      description: Audience code format enumeration
+    models__common__Response:
+      properties:
+        status_code:
+          type: integer
+          title: Status Code
+        response_type:
+          type: string
+          title: Response Type
+        description:
+          type: string
+          title: Description
+        data:
+          anyOf:
+          - {}
+          - type: 'null'
+          title: Data
+      type: object
+      required:
+      - status_code
+      - response_type
+      - description
+      - data
+      title: Response
+      example:
+        data: Sample data
+        description: Operation successful
+        response_type: success
+        status_code: 200
+    Client:
+      properties:
+        client_id:
+          type: string
+          title: Client Id
+          example: 5eb7cf5a86d9755df3a6c593
+        client_name:
+          type: string
+          title: Client Name
+        platform:
+          type: string
+          title: Platform
+        location:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Location
+        country:
+          type: string
+          title: Country
+        sec_type:
+          type: string
+          title: Sec Type
+        bucket_name:
+          type: string
+          title: Bucket Name
+        code_name:
+          type: string
+          title: Code Name
+        cluster_reference:
+          type: string
+          title: Cluster Reference
+        restricted_access:
+          type: boolean
+          title: Restricted Access
+      type: object
+      required:
+      - client_id
+      - client_name
+      - platform
+      - country
+      - sec_type
+      - bucket_name
+      - code_name
+      - cluster_reference
+      - restricted_access
+      title: Client
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
     HTTPValidationError:
       properties:
         detail:
@@ -507,6 +479,34 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
+    SubCompany:
+      properties:
+        sub_company_name:
+          type: string
+          title: Sub Company Name
+        clients:
+          items:
+            $ref: '#/components/schemas/Client'
+          type: array
+          title: Clients
+        sub_company_permissions:
+          items:
+            type: string
+          type: array
+          title: Sub Company Permissions
+      type: object
+      required:
+      - sub_company_name
+      - clients
+      - sub_company_permissions
+      title: SubCompany
+    AudienceCodeFormat:
+      type: string
+      enum:
+      - numeric_6
+      - alphanumeric_3
+      title: AudienceCodeFormat
+      description: Audience code format enumeration
   securitySchemes:
     HTTPBearer:
       type: http

@@ -715,190 +715,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    UpdateMetadata:
-      properties:
-        name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Name
-        update_every:
-          type: integer
-          title: Update Every
-        expires:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: Expires
-        cvcql_version:
-          type: string
-          title: Cvcql Version
-        flags:
-          anyOf:
-          - $ref: '#/components/schemas/Flags'
-          - type: 'null'
-        annotations:
-          anyOf:
-          - additionalProperties: true
-            type: object
-          - type: 'null'
-          title: Annotations
-        tags:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          title: Tags
-        client_id:
-          anyOf:
-          - type: string
-            example: 5eb7cf5a86d9755df3a6c593
-          - type: 'null'
-          title: Client Id
-        profile_version:
-          type: integer
-          title: Profile Version
-      type: object
-      required:
-      - update_every
-      - cvcql_version
-      - profile_version
-      title: UpdateMetadata
-    Metadata:
-      properties:
-        name:
-          type: string
-          title: Name
-        update_every:
-          type: integer
-          title: Update Every
-        expires:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: Expires
-        cvcql_version:
-          type: string
-          title: Cvcql Version
-        flags:
-          anyOf:
-          - $ref: '#/components/schemas/Flags'
-          - type: 'null'
-        annotations:
-          anyOf:
-          - additionalProperties: true
-            type: object
-          - type: 'null'
-          title: Annotations
-        tags:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          title: Tags
-        client_id:
-          anyOf:
-          - type: string
-            example: 5eb7cf5a86d9755df3a6c593
-          - type: 'null'
-          title: Client Id
-        profile_version:
-          type: integer
-          title: Profile Version
-      type: object
-      required:
-      - update_every
-      - cvcql_version
-      - profile_version
-      title: Metadata
-    Page_Any_:
-      properties:
-        items:
-          items: {}
-          type: array
-          title: Items
-        total:
-          type: integer
-          minimum: 0.0
-          title: Total
-        page:
-          type: integer
-          minimum: 1.0
-          title: Page
-        size:
-          type: integer
-          minimum: 1.0
-          title: Size
-        pages:
-          type: integer
-          minimum: 0.0
-          title: Pages
-      type: object
-      required:
-      - items
-      - total
-      - page
-      - size
-      - pages
-      title: Page[Any]
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    models__profile__Response:
-      properties:
-        status_code:
-          type: integer
-          title: Status Code
-        response_type:
-          type: string
-          title: Response Type
-        description:
-          type: string
-          title: Description
-        data:
-          anyOf:
-          - {}
-          - type: 'null'
-          title: Data
-      type: object
-      required:
-      - status_code
-      - response_type
-      - description
-      - data
-      title: Response
-      example:
-        data: []
-        description: Operation successful
-        response_type: success
-        status_code: 200
     SharedProfile:
       properties:
         metadata:
@@ -976,6 +792,36 @@ components:
             - source: acorn
               trait: 'HOUSING|House Size|Number of Beds : 4'
               trait_code: 'PROHOUSING|House Size|Number of Beds : 4'
+    Page_Any_:
+      properties:
+        items:
+          items: {}
+          type: array
+          title: Items
+        total:
+          type: integer
+          minimum: 0.0
+          title: Total
+        page:
+          type: integer
+          minimum: 1.0
+          title: Page
+        size:
+          type: integer
+          minimum: 1.0
+          title: Size
+        pages:
+          type: integer
+          minimum: 0.0
+          title: Pages
+      type: object
+      required:
+      - items
+      - total
+      - page
+      - size
+      - pages
+      title: Page[Any]
     UpdateProfile:
       properties:
         metadata:
@@ -1054,15 +900,111 @@ components:
             - source: acorn
               trait: 'HOUSING|House Size|Number of Beds : 4'
               trait_code: 'PROHOUSING|House Size|Number of Beds : 4'
-    HTTPValidationError:
+    models__profile__Response:
       properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
+        status_code:
+          type: integer
+          title: Status Code
+        response_type:
+          type: string
+          title: Response Type
+        description:
+          type: string
+          title: Description
+        data:
+          anyOf:
+          - {}
+          - type: 'null'
+          title: Data
       type: object
-      title: HTTPValidationError
+      required:
+      - status_code
+      - response_type
+      - description
+      - data
+      title: Response
+      example:
+        data: []
+        description: Operation successful
+        response_type: success
+        status_code: 200
+    UpdateMetadata:
+      properties:
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+        update_every:
+          type: integer
+          title: Update Every
+        expires:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Expires
+        cvcql_version:
+          type: string
+          title: Cvcql Version
+        flags:
+          anyOf:
+          - $ref: '#/components/schemas/Flags'
+          - type: 'null'
+        annotations:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Annotations
+        tags:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Tags
+        client_id:
+          anyOf:
+          - type: string
+            example: 5eb7cf5a86d9755df3a6c593
+          - type: 'null'
+          title: Client Id
+        profile_version:
+          type: integer
+          title: Profile Version
+      type: object
+      required:
+      - update_every
+      - cvcql_version
+      - profile_version
+      title: UpdateMetadata
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
     Flags:
       properties:
         released:
@@ -1076,6 +1018,64 @@ components:
       - released
       - deleted
       title: Flags
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    Metadata:
+      properties:
+        name:
+          type: string
+          title: Name
+        update_every:
+          type: integer
+          title: Update Every
+        expires:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Expires
+        cvcql_version:
+          type: string
+          title: Cvcql Version
+        flags:
+          anyOf:
+          - $ref: '#/components/schemas/Flags'
+          - type: 'null'
+        annotations:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Annotations
+        tags:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Tags
+        client_id:
+          anyOf:
+          - type: string
+            example: 5eb7cf5a86d9755df3a6c593
+          - type: 'null'
+          title: Client Id
+        profile_version:
+          type: integer
+          title: Profile Version
+      type: object
+      required:
+      - update_every
+      - cvcql_version
+      - profile_version
+      title: Metadata
   securitySchemes:
     HTTPBearer:
       type: http

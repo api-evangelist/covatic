@@ -684,76 +684,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    MediaPropertyOptionsUpdate:
-      properties:
-        domains:
-          anyOf:
-          - items:
-              type: string
-            type: array
-            maxItems: 110
-            minItems: 1
-          - type: 'null'
-          title: Domains
-        platform:
-          anyOf:
-          - items:
-              type: string
-            type: array
-            minItems: 1
-          - type: 'null'
-          title: Platform
-        display_name:
-          anyOf:
-          - type: string
-            maxLength: 200
-          - type: 'null'
-          title: Display Name
-      type: object
-      title: MediaPropertyOptionsUpdate
-    EventTraitCreate:
-      properties:
-        smart_match:
-          anyOf:
-          - type: string
-            maxLength: 500
-          - type: 'null'
-          title: Smart Match
-          description: Smart match description (max 500 characters)
-        keywords:
-          items:
-            type: string
-          type: array
-          title: Keywords
-          default: []
-        url:
-          items:
-            type: string
-          type: array
-          title: Url
-          default: []
-        media_properties:
-          items:
-            type: string
-          type: array
-          title: Media Properties
-          default: []
-        media_properties_display_names:
-          items:
-            type: string
-          type: array
-          title: Media Properties Display Names
-          default: []
-        frequency:
-          anyOf:
-          - $ref: '#/components/schemas/Frequency'
-          - type: 'null'
-        event_types:
-          anyOf:
-          - $ref: '#/components/schemas/EventTypes'
-          - type: 'null'
-      type: object
-      title: EventTraitCreate
     MediaPropertyOptions:
       properties:
         _id:
@@ -809,57 +739,6 @@ components:
         parent_id: News UK
         platform:
         - web
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    MediaPropertyOptionsCreate:
-      properties:
-        domains:
-          items:
-            type: string
-          type: array
-          maxItems: 110
-          minItems: 1
-          title: Domains
-        platform:
-          items:
-            type: string
-          type: array
-          minItems: 1
-          title: Platform
-        display_name:
-          type: string
-          maxLength: 200
-          title: Display Name
-      type: object
-      required:
-      - domains
-      - platform
-      - display_name
-      title: MediaPropertyOptionsCreate
     EventTraitUpdate:
       properties:
         smart_match:
@@ -907,6 +786,48 @@ components:
           - type: 'null'
       type: object
       title: EventTraitUpdate
+    Frequency:
+      properties:
+        count:
+          type: integer
+          title: Count
+        time:
+          type: integer
+          title: Time
+        period:
+          type: string
+          title: Period
+      type: object
+      required:
+      - count
+      - time
+      - period
+      title: Frequency
+    MediaPropertyOptionsCreate:
+      properties:
+        domains:
+          items:
+            type: string
+          type: array
+          maxItems: 110
+          minItems: 1
+          title: Domains
+        platform:
+          items:
+            type: string
+          type: array
+          minItems: 1
+          title: Platform
+        display_name:
+          type: string
+          maxLength: 200
+          title: Display Name
+      type: object
+      required:
+      - domains
+      - platform
+      - display_name
+      title: MediaPropertyOptionsCreate
     EventTypes:
       properties:
         audioContent:
@@ -927,51 +848,59 @@ components:
           default: false
       type: object
       title: EventTypes
-    models__trait__Response:
+    ValidationError:
       properties:
-        status_code:
-          type: integer
-          title: Status Code
-        response_type:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
           type: string
-          title: Response Type
-        description:
+          title: Message
+        type:
           type: string
-          title: Description
-        data:
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    MediaPropertyOptionsUpdate:
+      properties:
+        domains:
           anyOf:
-          - {}
+          - items:
+              type: string
+            type: array
+            maxItems: 110
+            minItems: 1
           - type: 'null'
-          title: Data
+          title: Domains
+        platform:
+          anyOf:
+          - items:
+              type: string
+            type: array
+            minItems: 1
+          - type: 'null'
+          title: Platform
+        display_name:
+          anyOf:
+          - type: string
+            maxLength: 200
+          - type: 'null'
+          title: Display Name
       type: object
-      required:
-      - status_code
-      - response_type
-      - description
-      - data
-      title: Response
-      example:
-        data: Sample data
-        description: Operation successful
-        response_type: success
-        status_code: 200
-    Frequency:
-      properties:
-        count:
-          type: integer
-          title: Count
-        time:
-          type: integer
-          title: Time
-        period:
-          type: string
-          title: Period
-      type: object
-      required:
-      - count
-      - time
-      - period
-      title: Frequency
+      title: MediaPropertyOptionsUpdate
     Page_MediaPropertyOptions_:
       properties:
         items:
@@ -1012,6 +941,77 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
+    EventTraitCreate:
+      properties:
+        smart_match:
+          anyOf:
+          - type: string
+            maxLength: 500
+          - type: 'null'
+          title: Smart Match
+          description: Smart match description (max 500 characters)
+        keywords:
+          items:
+            type: string
+          type: array
+          title: Keywords
+          default: []
+        url:
+          items:
+            type: string
+          type: array
+          title: Url
+          default: []
+        media_properties:
+          items:
+            type: string
+          type: array
+          title: Media Properties
+          default: []
+        media_properties_display_names:
+          items:
+            type: string
+          type: array
+          title: Media Properties Display Names
+          default: []
+        frequency:
+          anyOf:
+          - $ref: '#/components/schemas/Frequency'
+          - type: 'null'
+        event_types:
+          anyOf:
+          - $ref: '#/components/schemas/EventTypes'
+          - type: 'null'
+      type: object
+      title: EventTraitCreate
+    models__trait__Response:
+      properties:
+        status_code:
+          type: integer
+          title: Status Code
+        response_type:
+          type: string
+          title: Response Type
+        description:
+          type: string
+          title: Description
+        data:
+          anyOf:
+          - {}
+          - type: 'null'
+          title: Data
+      type: object
+      required:
+      - status_code
+      - response_type
+      - description
+      - data
+      title: Response
+      example:
+        data: Sample data
+        description: Operation successful
+        response_type: success
+        status_code: 200
   securitySchemes:
     HTTPBearer:
       type: http

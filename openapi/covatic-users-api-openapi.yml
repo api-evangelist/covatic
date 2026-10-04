@@ -511,153 +511,21 @@ paths:
       - HTTPBearer: []
 components:
   schemas:
-    AudienceCodeFormat:
-      type: string
-      enum:
-      - numeric_6
-      - alphanumeric_3
-      title: AudienceCodeFormat
-      description: Audience code format enumeration
-    UserEmailRequestModel:
+    CreateCompanyUsersRequest:
       properties:
-        email:
-          type: string
-          format: email
-          title: Email
-      type: object
-      required:
-      - email
-      title: UserEmailRequestModel
-    CompanyAccess:
-      properties:
-        parent_type:
-          type: string
-          title: Parent Type
-        parent_id:
-          type: string
-          title: Parent Id
-        is_default:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Is Default
-          default: false
-        permissions:
+        emails:
           items:
             type: string
+            format: email
           type: array
-          title: Permissions
+          title: Emails
+        company:
+          $ref: '#/components/schemas/CompanyCreateUsersRequest'
       type: object
       required:
-      - parent_type
-      - parent_id
-      - permissions
-      title: CompanyAccess
-    SubCompany:
-      properties:
-        sub_company_name:
-          type: string
-          title: Sub Company Name
-        clients:
-          items:
-            $ref: '#/components/schemas/Client'
-          type: array
-          title: Clients
-        sub_company_permissions:
-          items:
-            type: string
-          type: array
-          title: Sub Company Permissions
-      type: object
-      required:
-      - sub_company_name
-      - clients
-      - sub_company_permissions
-      title: SubCompany
-    Page_Any_:
-      properties:
-        items:
-          items: {}
-          type: array
-          title: Items
-        total:
-          type: integer
-          minimum: 0.0
-          title: Total
-        page:
-          type: integer
-          minimum: 1.0
-          title: Page
-        size:
-          type: integer
-          minimum: 1.0
-          title: Size
-        pages:
-          type: integer
-          minimum: 0.0
-          title: Pages
-      type: object
-      required:
-      - items
-      - total
-      - page
-      - size
-      - pages
-      title: Page[Any]
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    models__profile__Response:
-      properties:
-        status_code:
-          type: integer
-          title: Status Code
-        response_type:
-          type: string
-          title: Response Type
-        description:
-          type: string
-          title: Description
-        data:
-          anyOf:
-          - {}
-          - type: 'null'
-          title: Data
-      type: object
-      required:
-      - status_code
-      - response_type
-      - description
-      - data
-      title: Response
-      example:
-        data: []
-        description: Operation successful
-        response_type: success
-        status_code: 200
+      - emails
+      - company
+      title: CreateCompanyUsersRequest
     CompanyCreateUsersRequest:
       properties:
         parent_id:
@@ -671,53 +539,33 @@ components:
       - parent_id
       - parent_type
       title: CompanyCreateUsersRequest
-    Client:
+    CreateUsersWithRolesRequest:
       properties:
-        client_id:
-          type: string
-          title: Client Id
-          example: 5eb7cf5a86d9755df3a6c593
-        client_name:
-          type: string
-          title: Client Name
-        platform:
-          type: string
-          title: Platform
-        location:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Location
-        country:
-          type: string
-          title: Country
-        sec_type:
-          type: string
-          title: Sec Type
-        bucket_name:
-          type: string
-          title: Bucket Name
-        code_name:
-          type: string
-          title: Code Name
-        cluster_reference:
-          type: string
-          title: Cluster Reference
-        restricted_access:
-          type: boolean
-          title: Restricted Access
+        emails:
+          items:
+            type: string
+            format: email
+          type: array
+          title: Emails
+        roles:
+          items:
+            type: string
+          type: array
+          title: Roles
+        associated_companies:
+          items:
+            $ref: '#/components/schemas/CompanyAccess'
+          type: array
+          title: Associated Companies
+        company:
+          $ref: '#/components/schemas/CompanyCreateUsersRequest'
       type: object
       required:
-      - client_id
-      - client_name
-      - platform
-      - country
-      - sec_type
-      - bucket_name
-      - code_name
-      - cluster_reference
-      - restricted_access
-      title: Client
+      - emails
+      - roles
+      - associated_companies
+      - company
+      title: CreateUsersWithRolesRequest
     Company:
       properties:
         _id:
@@ -790,21 +638,193 @@ components:
           sub_company_permissions:
           - insights
           - notifications
-    CreateCompanyUsersRequest:
+    Page_Any_:
       properties:
-        emails:
-          items:
-            type: string
-            format: email
+        items:
+          items: {}
           type: array
-          title: Emails
-        company:
-          $ref: '#/components/schemas/CompanyCreateUsersRequest'
+          title: Items
+        total:
+          type: integer
+          minimum: 0.0
+          title: Total
+        page:
+          type: integer
+          minimum: 1.0
+          title: Page
+        size:
+          type: integer
+          minimum: 1.0
+          title: Size
+        pages:
+          type: integer
+          minimum: 0.0
+          title: Pages
       type: object
       required:
-      - emails
-      - company
-      title: CreateCompanyUsersRequest
+      - items
+      - total
+      - page
+      - size
+      - pages
+      title: Page[Any]
+    CompanyAccess:
+      properties:
+        parent_type:
+          type: string
+          title: Parent Type
+        parent_id:
+          type: string
+          title: Parent Id
+        is_default:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Is Default
+          default: false
+        permissions:
+          items:
+            type: string
+          type: array
+          title: Permissions
+      type: object
+      required:
+      - parent_type
+      - parent_id
+      - permissions
+      title: CompanyAccess
+    models__profile__Response:
+      properties:
+        status_code:
+          type: integer
+          title: Status Code
+        response_type:
+          type: string
+          title: Response Type
+        description:
+          type: string
+          title: Description
+        data:
+          anyOf:
+          - {}
+          - type: 'null'
+          title: Data
+      type: object
+      required:
+      - status_code
+      - response_type
+      - description
+      - data
+      title: Response
+      example:
+        data: []
+        description: Operation successful
+        response_type: success
+        status_code: 200
+    UpdateUserRequestModel:
+      properties:
+        user_cognito_id:
+          type: string
+          title: User Cognito Id
+        associated_companies:
+          items:
+            $ref: '#/components/schemas/CompanyAccess'
+          type: array
+          title: Associated Companies
+        roles:
+          items:
+            type: string
+          type: array
+          title: Roles
+      type: object
+      required:
+      - user_cognito_id
+      - associated_companies
+      - roles
+      title: UpdateUserRequestModel
+    Client:
+      properties:
+        client_id:
+          type: string
+          title: Client Id
+          example: 5eb7cf5a86d9755df3a6c593
+        client_name:
+          type: string
+          title: Client Name
+        platform:
+          type: string
+          title: Platform
+        location:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Location
+        country:
+          type: string
+          title: Country
+        sec_type:
+          type: string
+          title: Sec Type
+        bucket_name:
+          type: string
+          title: Bucket Name
+        code_name:
+          type: string
+          title: Code Name
+        cluster_reference:
+          type: string
+          title: Cluster Reference
+        restricted_access:
+          type: boolean
+          title: Restricted Access
+      type: object
+      required:
+      - client_id
+      - client_name
+      - platform
+      - country
+      - sec_type
+      - bucket_name
+      - code_name
+      - cluster_reference
+      - restricted_access
+      title: Client
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    UserEmailRequestModel:
+      properties:
+        email:
+          type: string
+          format: email
+          title: Email
+      type: object
+      required:
+      - email
+      title: UserEmailRequestModel
     CompanyRequest:
       properties:
         parent_id:
@@ -818,6 +838,36 @@ components:
       - parent_id
       - parent_type
       title: CompanyRequest
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    SubCompany:
+      properties:
+        sub_company_name:
+          type: string
+          title: Sub Company Name
+        clients:
+          items:
+            $ref: '#/components/schemas/Client'
+          type: array
+          title: Clients
+        sub_company_permissions:
+          items:
+            type: string
+          type: array
+          title: Sub Company Permissions
+      type: object
+      required:
+      - sub_company_name
+      - clients
+      - sub_company_permissions
+      title: SubCompany
     Page_Company_:
       properties:
         items:
@@ -849,63 +899,13 @@ components:
       - size
       - pages
       title: Page[Company]
-    CreateUsersWithRolesRequest:
-      properties:
-        emails:
-          items:
-            type: string
-            format: email
-          type: array
-          title: Emails
-        roles:
-          items:
-            type: string
-          type: array
-          title: Roles
-        associated_companies:
-          items:
-            $ref: '#/components/schemas/CompanyAccess'
-          type: array
-          title: Associated Companies
-        company:
-          $ref: '#/components/schemas/CompanyCreateUsersRequest'
-      type: object
-      required:
-      - emails
-      - roles
-      - associated_companies
-      - company
-      title: CreateUsersWithRolesRequest
-    UpdateUserRequestModel:
-      properties:
-        user_cognito_id:
-          type: string
-          title: User Cognito Id
-        associated_companies:
-          items:
-            $ref: '#/components/schemas/CompanyAccess'
-          type: array
-          title: Associated Companies
-        roles:
-          items:
-            type: string
-          type: array
-          title: Roles
-      type: object
-      required:
-      - user_cognito_id
-      - associated_companies
-      - roles
-      title: UpdateUserRequestModel
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
+    AudienceCodeFormat:
+      type: string
+      enum:
+      - numeric_6
+      - alphanumeric_3
+      title: AudienceCodeFormat
+      description: Audience code format enumeration
   securitySchemes:
     HTTPBearer:
       type: http
