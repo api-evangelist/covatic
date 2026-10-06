@@ -58,7 +58,7 @@ accessModel:
 image: https://covatic.com/wp-content/uploads/2025/07/covatic_favicon-1-300x300.png
 specificationVersion: '0.23'
 created: '2026-07-17'
-modified: '2026-08-12'
+modified: '2026-10-06'
 tags:
 - Company
 - AdTech
@@ -537,6 +537,8 @@ maintainers:
 - FN: APIs.json
   email: info@apis.io
 common:
+- url: https://covatic.com/insights/feed/
+  type: BlogRSS
 - type: CapabilityMap
   url: capabilities/covatic-capability-edges.yml
   name: Covatic Business Capability Map
