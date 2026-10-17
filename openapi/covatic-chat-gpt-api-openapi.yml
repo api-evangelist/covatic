@@ -64,25 +64,19 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    ChatCompletionRequest:
+    routes__chat_gpt__ChatMessage:
       properties:
-        model:
+        role:
           type: string
-          title: Model
-          default: gpt-3.5-turbo
-        stream:
-          type: boolean
-          title: Stream
-          default: true
-        messages:
-          items:
-            $ref: '#/components/schemas/routes__chat_gpt__ChatMessage'
-          type: array
-          title: Messages
+          title: Role
+        content:
+          type: string
+          title: Content
       type: object
       required:
-      - messages
-      title: ChatCompletionRequest
+      - role
+      - content
+      title: ChatMessage
     HTTPValidationError:
       properties:
         detail:
@@ -118,19 +112,25 @@ components:
       - msg
       - type
       title: ValidationError
-    routes__chat_gpt__ChatMessage:
+    ChatCompletionRequest:
       properties:
-        role:
+        model:
           type: string
-          title: Role
-        content:
-          type: string
-          title: Content
+          title: Model
+          default: gpt-3.5-turbo
+        stream:
+          type: boolean
+          title: Stream
+          default: true
+        messages:
+          items:
+            $ref: '#/components/schemas/routes__chat_gpt__ChatMessage'
+          type: array
+          title: Messages
       type: object
       required:
-      - role
-      - content
-      title: ChatMessage
+      - messages
+      title: ChatCompletionRequest
   securitySchemes:
     HTTPBearer:
       type: http
