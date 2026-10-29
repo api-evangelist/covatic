@@ -64,6 +64,144 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Covatic is a company surfaced as a portfolio company of techstars and added to the API Evangelist network as a stub for enrichment. This profile is a lead awaiting the enrichment pipeline.
+Covatic is a UK-based, B Corp certified advertising technology company providing privacy-preserving audience intelligence and addressability for media owners, broadcasters, publishers, and advertisers. Its platform uses on-device (edge) processing to build audience segments and demographic cohorts without third-party cookies, shared user IDs, or personal data leaving the device. Products include Covatic Sense for individual-level connected TV (CTV) addressability and attribution, a next-generation audience DMP for enrichment, clean-room data sharing, retargeting and attribution, plus audio, podcast, and smart-speaker targeting. Covatic integrates via the Covatic Tag (no-code tag manager), the Covatic SDK (on-device processing), and a server-to-server Covatic API, with a Google Ad Manager publishing path and client data stored in EU, AU, or US regions to meet local requirements.
 
-Backed by: techstars — https://covatic.com/
+**Areas:** Company · AdTech · Audience Intelligence · Data Management Platform · Connected TV · Privacy · On-Device Processing · Attribution · Audio · Campaigns · Retargeting · Publishing
+
+## Covatic on APIs.io
+
+Everything profiled for Covatic is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/covatic/](https://apis.io/providers/covatic/)** — or go straight to one of the APIs or properties below.
+
+### APIs (18)
+
+- [Covatic Audience Builder Agent API](https://apis.io/apis/covatic/covatic-audience-builder-agent-api/) — The Audience Builder Agent API from Covatic — 1 operation(s) for audience builder agent.
+- [Covatic Audience Builder API](https://apis.io/apis/covatic/covatic-audience-builder-api/) — The Audience Builder API from Covatic — 1 operation(s) for audience builder.
+- [Covatic Auth API](https://apis.io/apis/covatic/covatic-auth-api/) — The Auth API from Covatic — 2 operation(s) for auth.
+- [Covatic Campaigns API](https://apis.io/apis/covatic/covatic-campaigns-api/) — The Campaigns API from Covatic — 16 operation(s) for campaigns.
+- [Covatic Commons API](https://apis.io/apis/covatic/covatic-commons-api/) — The Commons API from Covatic — 4 operation(s) for commons.
+- [Covatic Company API](https://apis.io/apis/covatic/covatic-company-api/) — The Company API from Covatic — 2 operation(s) for company.
+- [Covatic Event Traits API](https://apis.io/apis/covatic/covatic-event-traits-api/) — The Event Traits API from Covatic — 5 operation(s) for event traits.
+- [Covatic Insights API](https://apis.io/apis/covatic/covatic-insights-api/) — The Insights API from Covatic — 2 operation(s) for insights.
+- [Covatic Notes API](https://apis.io/apis/covatic/covatic-notes-api/) — The Notes API from Covatic — 2 operation(s) for notes.
+- [Covatic Profiles API](https://apis.io/apis/covatic/covatic-profiles-api/) — The Profiles API from Covatic — 6 operation(s) for profiles.
+- [Covatic QA and Debug API](https://apis.io/apis/covatic/covatic-qa-and-debug-api/) — The QA and Debug API from Covatic — 1 operation(s) for qa and debug.
+- [Covatic Retargeting Traits API](https://apis.io/apis/covatic/covatic-retargeting-traits-api/) — The Retargeting Traits API from Covatic — 3 operation(s) for retargeting traits.
+- [Covatic Root API](https://apis.io/apis/covatic/covatic-root-api/) — The Root API from Covatic — 1 operation(s) for root.
+- [Covatic Seeders API](https://apis.io/apis/covatic/covatic-seeders-api/) — The Seeders API from Covatic — 6 operation(s) for seeders.
+- [Covatic Tags API](https://apis.io/apis/covatic/covatic-tags-api/) — The Tags API from Covatic — 2 operation(s) for tags.
+- [Covatic Traits API](https://apis.io/apis/covatic/covatic-traits-api/) — The Traits API from Covatic — 7 operation(s) for traits.
+- [Covatic Users API](https://apis.io/apis/covatic/covatic-users-api/) — The Users API from Covatic — 9 operation(s) for users.
+- [Covatic Chat GPT API](https://apis.io/apis/covatic/covatic-chat-gpt-api/) — The Chat GPT API from Covatic — 1 operation(s) for chat gpt.
+
+### Published properties
+
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
+
+#### MCP servers (1)
+
+Model Context Protocol servers that expose the API to agents.
+
+- [covatic-mcp.yml](https://apis.io/servers/covatic/covatic-mcp-yml/)
+
+#### Collections (1)
+
+Postman and Open Collection request collections.
+
+- [Audience builder](https://apis.io/collections/covatic/open-covatic-audience-builder/)
+
+#### Overlays (1)
+
+OpenAPI overlays, including conversational phrasing for each operation.
+
+- [Covatic Audience Builder Overlay](https://apis.io/overlays/covatic/covatic-audience-builder-overlay/)
+
+#### Security (2)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Covatic Authentication](https://apis.io/security/covatic/covatic-authentication/)
+- [Covatic Domain Security](https://apis.io/security/covatic/covatic-domain-security/)
+
+#### OAuth scopes (1)
+
+The permissions the API asks for.
+
+- [Covatic Scopes](https://apis.io/scopes/covatic/covatic-scopes/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Covatic Plans Pricing](https://apis.io/plans/covatic/covatic-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Covatic Rate Limits](https://apis.io/rate-limits/covatic/covatic-rate-limits/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://covatic.com/)
+- [Documentation](https://covatic.com/technical/)
+- [API reference](https://prodaudiencebuilderapi.covatic.io/docs)
+- [Support](https://covatic.com/help-faq/)
+- [Blog](https://covatic.com/insights/)
+- [Terms of service](https://covatic.com/terms-and-conditions/)
+- [Privacy policy](https://covatic.com/privacy-policy/)
+- [GitHub](https://github.com/Covatic)
+
+## API Evangelist rating
+
+**Kin Score 38.2** — thin · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
+|---|---|
+| Discoverability | 66.1 |
+| Contract quality | 46.4 |
+| Contract governance | 18.2 |
+| Operational transparency | 2.6 |
+| Developer ergonomics | 37.5 |
+| Access clarity | 35.5 |
+
+**Agent readiness 29.7** — agent-ready
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | — |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | verified |
+| OpenAPI Examples | verified |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | derived (partial credit) |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 39.2** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/covatic/](https://apis.io/providers/covatic/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Covatic: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/covatic/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
